@@ -1,0 +1,79 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261027180426
+Username: SPRIGATITO\debap
+RunAs User: SPRIGATITO\debap
+Configuration Name: 
+Machine: SPRIGATITO (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+& '.\part2_architecture_protocols\execution\create_lab_windows.ps1' -Create; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & 'C:\Program Files\Oracle\VirtualBox\VBoxManage.exe' startvm opnsense --type headless
+Process ID: 21464
+PSVersion: 5.1.26100.9711
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9711
+BuildVersion: 10.0.26100.9711
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Virtual machine 'opnsense' is created and registered.
+UUID: e53a1b94-fdb1-4168-afdd-7a59d2ef8438
+Settings file: 'C:\Users\debap\VirtualBox VMs\CS07\opnsense\opnsense.vbox'
+VBoxManage.exe : 0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+At D:\SecureNetworks_CaseStudy\part2_architecture_protocols\execution\create_lab_windows.ps1:40 char:19
++         $output = & $vbox @ArgumentList 2>&1
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0%...10%...20%....0%...90%...100%:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Medium created. UUID: ca011027-49a6-457d-9b35-5653034be961
+Virtual machine 'his-vm' is created and registered.
+UUID: 0d19e00a-768a-4450-a967-3587d5a434ae
+Settings file: 'C:\Users\debap\VirtualBox VMs\CS07\his-vm\his-vm.vbox'
+VBoxManage.exe : 0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+At D:\SecureNetworks_CaseStudy\part2_architecture_protocols\execution\create_lab_windows.ps1:40 char:19
++         $output = & $vbox @ArgumentList 2>&1
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0%...10%...20%....0%...90%...100%:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Medium created. UUID: bfcd7791-1fcc-49eb-ac8c-14570a36f8cb
+Virtual machine 'pump-vm' is created and registered.
+UUID: 667eb2fc-a038-41c6-9255-fcbb23e4c88e
+Settings file: 'C:\Users\debap\VirtualBox VMs\CS07\pump-vm\pump-vm.vbox'
+VBoxManage.exe : 0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+At D:\SecureNetworks_CaseStudy\part2_architecture_protocols\execution\create_lab_windows.ps1:40 char:19
++         $output = & $vbox @ArgumentList 2>&1
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0%...10%...20%....0%...90%...100%:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Medium created. UUID: 188c744b-f39f-4d79-85de-5d93808abcf1
+Virtual machine 'rad-vm' is created and registered.
+UUID: 3522166d-3fb9-4387-87d9-47596b289fa3
+Settings file: 'C:\Users\debap\VirtualBox VMs\CS07\rad-vm\rad-vm.vbox'
+VBoxManage.exe : 0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+At D:\SecureNetworks_CaseStudy\part2_architecture_protocols\execution\create_lab_windows.ps1:40 char:19
++         $output = & $vbox @ArgumentList 2>&1
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0%...10%...20%....0%...90%...100%:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Medium created. UUID: 0c08e405-a20c-4de4-837d-0e99bcc122ee
+Virtual machine 'vendor-vm' is created and registered.
+UUID: 426fee11-509f-453f-8ac1-98d0145be884
+Settings file: 'C:\Users\debap\VirtualBox VMs\CS07\vendor-vm\vendor-vm.vbox'
+VBoxManage.exe : 0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+At D:\SecureNetworks_CaseStudy\part2_architecture_protocols\execution\create_lab_windows.ps1:40 char:19
++         $output = & $vbox @ArgumentList 2>&1
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0%...10%...20%....0%...90%...100%:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Medium created. UUID: b5c57204-66e1-440b-8c4b-c8418ce1ba9d
+VM hardware created. Operating systems and services still require installation.
+**********************
+Windows PowerShell transcript end
+End time: 20261027180450
+**********************

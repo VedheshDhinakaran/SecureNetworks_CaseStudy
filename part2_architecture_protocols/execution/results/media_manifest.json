@@ -1,0 +1,27 @@
+{
+  "virtualbox": {
+    "filename": "VirtualBox-7.2.22-175245-Win.exe",
+    "url": "https://download.virtualbox.org/virtualbox/7.2.22/VirtualBox-7.2.22-175245-Win.exe",
+    "checksum_url": "https://download.virtualbox.org/virtualbox/7.2.22/SHA256SUMS",
+    "sha256": "afd0ff1656cbe04ed88ce619594ae021419d97cce89fa9bdc443e9a963f1713f",
+    "bytes": 178101352,
+    "verified_at": "2026-10-27T12:21:21.344857+00:00"
+  },
+  "opnsense": {
+    "filename": "OPNsense-25.7-dvd-amd64.iso.bz2",
+    "url": "https://pkg.opnsense.org/releases/25.7/OPNsense-25.7-dvd-amd64.iso.bz2",
+    "checksum_url": "https://pkg.opnsense.org/releases/25.7/OPNsense-25.7-checksums-amd64.sha256",
+    "sha256": "fa4b30df3f5fd7a2b1a1b2bdfaecfe02337ee42f77e2d0ae8a60753ea7eb153e",
+    "bytes": 514593783,
+    "verified_at": "2026-10-27T12:30:16.519455+00:00",
+    "iso_sha256": "36ec856ad34d1a497e9edd19183ac2b63aa3f9bb9ff7e7ff7cdc93d319a3ec2c"
+  },
+  "alpine": {
+    "filename": "alpine-virt-3.20.10-x86_64.iso",
+    "url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-virt-3.20.10-x86_64.iso",
+    "checksum_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-virt-3.20.10-x86_64.iso.sha256",
+    "sha256": "d9714f52be6fd14d21cc6ec857bd4aca3875e15931513240d1279c175cfb4dd3",
+    "bytes": 63963136,
+    "verified_at": "2026-10-27T12:33:36.759492+00:00"
+  }
+}

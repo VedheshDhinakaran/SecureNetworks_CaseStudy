@@ -1,0 +1,94 @@
+{
+  "role": "rad-vm",
+  "recorded_at": "2026-10-27T16:58:36.235962+00:00",
+  "scope": "Part II lab readiness; not E1-E8 completion",
+  "checks": [
+    {
+      "name": "Installed guest, planned addresses and lab tools",
+      "passed": true,
+      "observed": {
+        "root": "/dev/sda3",
+        "addresses": [
+          "192.168.40.100",
+          "192.168.40.12"
+        ],
+        "alpine": "3.20.10",
+        "kernel": "6.6.142-0-virt"
+      },
+      "seconds": 0.037
+    },
+    {
+      "name": "Internal DNS over UDP",
+      "passed": true,
+      "observed": {
+        "server": "192.168.10.53",
+        "transport": "UDP",
+        "answers": 1,
+        "name": "emr.sjv.local"
+      },
+      "seconds": 0.109
+    },
+    {
+      "name": "Internal DNS over TCP",
+      "passed": true,
+      "observed": {
+        "server": "192.168.10.53",
+        "transport": "TCP",
+        "answers": 1,
+        "name": "emr.sjv.local"
+      },
+      "seconds": 0.16
+    },
+    {
+      "name": "Internal NTP response",
+      "passed": true,
+      "observed": {
+        "server": "192.168.10.57",
+        "stratum": 3,
+        "leap": 0,
+        "scope": "NTP service response; external synchronization and NTS are separate"
+      },
+      "seconds": 0.058
+    },
+    {
+      "name": "Radiology EMR access permitted",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "transport": "intentional plain HTTP on lab port 443"
+      },
+      "seconds": 0.056
+    },
+    {
+      "name": "Radiology DB access blocked",
+      "passed": true,
+      "observed": {
+        "source": "192.168.40.100",
+        "destination": "192.168.10.20",
+        "port": 1433,
+        "expected_block": true,
+        "result": "connection timed out; correlate with firewall log"
+      },
+      "seconds": 2.006
+    },
+    {
+      "name": "Broker HL7 permitted",
+      "passed": true,
+      "observed": "sent PART2-READINESS-000001 -> AA",
+      "seconds": 0.291
+    },
+    {
+      "name": "Reading workstation HL7 blocked",
+      "passed": true,
+      "observed": {
+        "source": "192.168.40.100",
+        "destination": "192.168.10.40",
+        "port": 2575,
+        "expected_block": true,
+        "result": "connection timed out; correlate with firewall log"
+      },
+      "seconds": 2.005
+    }
+  ],
+  "passed": true
+}

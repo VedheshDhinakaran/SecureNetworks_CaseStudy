@@ -1,0 +1,31 @@
+﻿{
+    "recorded_at":  "2026-10-27T14:02:29.1314930+00:00",
+    "persistent":  false,
+    "default_route_changed":  false,
+    "routes":  [
+                   {
+                       "prefix":  "192.168.10.0/24",
+                       "gateway":  "192.168.90.1",
+                       "interface_index":  61,
+                       "status":  "added to ActiveStore; removed by Windows reboot"
+                   },
+                   {
+                       "prefix":  "192.168.30.0/24",
+                       "gateway":  "192.168.90.1",
+                       "interface_index":  61,
+                       "status":  "added to ActiveStore; removed by Windows reboot"
+                   },
+                   {
+                       "prefix":  "192.168.40.0/24",
+                       "gateway":  "192.168.90.1",
+                       "interface_index":  61,
+                       "status":  "added to ActiveStore; removed by Windows reboot"
+                   },
+                   {
+                       "prefix":  "10.61.0.0/24",
+                       "gateway":  "192.168.90.1",
+                       "interface_index":  61,
+                       "status":  "added to ActiveStore; removed by Windows reboot"
+                   }
+               ]
+}

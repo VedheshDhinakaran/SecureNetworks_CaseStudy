@@ -1,0 +1,72 @@
+{
+  "role": "bastion",
+  "recorded_at": "2026-10-27T16:58:18.729955+00:00",
+  "scope": "Part II lab readiness; not E1-E8 completion",
+  "checks": [
+    {
+      "name": "MGMT reaches live DB listener (control for blocked tests)",
+      "passed": true,
+      "observed": {
+        "source": "192.168.90.5",
+        "destination": "192.168.10.20",
+        "port": 1433,
+        "result": "connected"
+      },
+      "seconds": 0.023
+    },
+    {
+      "name": "MGMT reaches EMR service",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "transport": "intentional plain HTTP on lab port 443"
+      },
+      "seconds": 0.284
+    },
+    {
+      "name": "MGMT SSH to his-vm",
+      "passed": true,
+      "observed": {
+        "source": "192.168.90.5",
+        "destination": "192.168.10.20",
+        "port": 22,
+        "result": "connected"
+      },
+      "seconds": 0.02
+    },
+    {
+      "name": "MGMT SSH to pump-vm",
+      "passed": true,
+      "observed": {
+        "source": "192.168.90.5",
+        "destination": "192.168.30.10",
+        "port": 22,
+        "result": "connected"
+      },
+      "seconds": 0.018
+    },
+    {
+      "name": "MGMT SSH to rad-vm",
+      "passed": true,
+      "observed": {
+        "source": "192.168.90.5",
+        "destination": "192.168.40.100",
+        "port": 22,
+        "result": "connected"
+      },
+      "seconds": 0.013
+    },
+    {
+      "name": "MGMT SSH to vendor-vm",
+      "passed": true,
+      "observed": {
+        "source": "192.168.90.5",
+        "destination": "10.61.0.50",
+        "port": 22,
+        "result": "connected"
+      },
+      "seconds": 0.017
+    }
+  ],
+  "passed": true
+}

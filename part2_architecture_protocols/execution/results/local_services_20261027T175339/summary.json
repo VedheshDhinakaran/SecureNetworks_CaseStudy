@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-10-27T17:53:39.370267+05:30",
+  "kind": "local_service_integration_only",
+  "firewall_lab_verified": false,
+  "bind_address": "127.0.0.1",
+  "checks": [
+    {
+      "name": "emr_http_health",
+      "passed": true,
+      "http_status": 200,
+      "body": "<html><head><title>ok</title></head><body><h1>ok</h1><p>ok</p></body></html>"
+    },
+    {
+      "name": "emr_http_portal_test",
+      "passed": true,
+      "http_status": 200,
+      "body": "<html><head><title>Sanjivani patient portal</title></head><body><h1>Sanjivani patient portal</h1><p>Synthetic test page. No real patient data.</p></body></html>"
+    },
+    {
+      "name": "mssql_tcp_listener",
+      "passed": true,
+      "limitation": "TCP listener only; no real SQL database or TDS protocol"
+    },
+    {
+      "name": "hl7_valid_observation_ack",
+      "passed": true,
+      "request": "MSH|^~\\&|LOCAL-SERVICE-CHECK|SJV-ICU|SJV-IFENGINE|SJV|20261027175340||ORU^R01|LOCAL-SERVICE-CHECK-000001|P|2.5.1\rPID|1||MRN000123^^^SJV^MR||TEST^PATIENT\rOBR|1|||INFUSION^Infusion status|||20261027175340\rOBX|1|NM|RATE^Infusion rate||25.0|mL/h|||||F",
+      "reply": "MSH|^~\\&|SJV-IFENGINE|SJV|LOCAL-SERVICE-CHECK|SJV-ICU|20261027175340||ACK|ACKLOCAL-SERVICE-CHECK-000001|P|2.5.1\rMSA|AA|LOCAL-SERVICE-CHECK-000001|"
+    },
+    {
+      "name": "hl7_malformed_message_rejected",
+      "passed": true,
+      "reply": "MSH|^~\\&|SJV-IFENGINE|SJV|||||ACK||P|2.5.1\rMSA|AR||message does not start with an MSH segment"
+    },
+    {
+      "name": "original_mllp_client",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "sent LOCAL-CLIENT-CHECK-000001 -> AA\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+VM: rad-vm
+Exit code: 0
+
+Connecting to 192.168.40.1:8081 (192.168.40.1:8081)
+saving to '/tmp/original_lab.tar.gz'
+original_lab.tar.gz  100% |********************************|  9186  0:00:00 ETA
+'/tmp/original_lab.tar.gz' saved
+[+] installing tools (needs temporary internet access, see README 'setup mode')
+fetch http://192.168.40.1:8081/apk/main/x86_64/APKINDEX.tar.gz
+fetch http://192.168.40.1:8081/apk/community/x86_64/APKINDEX.tar.gz
+v3.20.10-118-gcb3382a0eb8 [http://192.168.40.1:8081/apk/main]
+v3.20.10-106-gcfb1a4769c3 [http://192.168.40.1:8081/apk/community]
+OK: 24171 distinct packages available
+(1/65) Installing fstrm (0.6.1-r4)
+(2/65) Installing krb5-conf (1.0-r2)
+(3/65) Installing keyutils-libs (1.6.3-r3)
+(4/65) Installing libverto (0.3.2-r2)
+(5/65) Installing krb5-libs (1.21.3-r0)
+(6/65) Installing nghttp2-libs (1.62.1-r0)
+(7/65) Installing protobuf-c (1.5.0-r0)
+(8/65) Installing libuv (1.48.0-r0)
+(9/65) Installing libxml2 (2.12.10-r0)
+(10/65) Installing bind-libs (9.18.49-r0)
+(11/65) Installing bind-tools (9.18.49-r0)
+(12/65) Installing ca-certificates (20261020-r0)
+(13/65) Installing brotli-libs (1.1.0-r2)
+(14/65) Installing c-ares (1.33.1-r0)
+(15/65) Installing libpsl (0.21.5-r1)
+(16/65) Installing libcurl (8.14.1-r2)
+(17/65) Installing curl (8.14.1-r2)
+(18/65) Installing libelf (0.191-r0)
+(19/65) Installing libmnl (1.0.5-r2)
+(20/65) Installing iproute2-minimal (6.9.0-r0)
+(21/65) Installing ifupdown-ng-iproute2 (0.12.1-r5)
+(22/65) Installing libxtables (1.8.10-r3)
+(23/65) Installing iproute2-tc (6.9.0-r0)
+(24/65) Installing iproute2-ss (6.9.0-r0)
+(25/65) Installing iproute2 (6.9.0-r0)
+Executing iproute2-6.9.0-r0.post-install
+(26/65) Installing oniguruma (6.9.9-r0)
+(27/65) Installing jq (1.7.1-r0)
+(28/65) Installing libmd (1.1.0-r0)
+(29/65) Installing libbsd (0.12.2-r0)
+(30/65) Installing netcat-openbsd (1.226-r0)
+(31/65) Installing libgcc (13.2.1_git20240309-r1)
+(32/65) Installing lua5.4-libs (5.4.6-r1)
+(33/65) Installing libpcap (1.10.4-r1)
+(34/65) Installing libssh2 (1.11.0-r3)
+(35/65) Installing libstdc++ (13.2.1_git20240309-r1)
+(36/65) Installing nmap (7.95-r0)
+(37/65) Installing nmap-nselibs (7.95-r0)
+(38/65) Installing nmap-scripts (7.95-r0)
+(39/65) Installing libbz2 (1.0.8-r6)
+(40/65) Installing libexpat (2.8.1-r0)
+(41/65) Installing gdbm (1.23-r1)
+(42/65) Installing mpdecimal (4.0.0-r0)
+(43/65) Installing libpanelw (6.4_p20240420-r2)
+(44/65) Installing readline (8.2.10-r0)
+(45/65) Installing sqlite-libs (3.45.3-r3)
+(46/65) Installing python3 (3.12.13-r0)
+(47/65) Installing python3-pycache-pyc0 (3.12.13-r0)
+(48/65) Installing pyc (3.12.13-r0)
+(49/65) Installing python3-pyc (3.12.13-r0)
+(50/65) Installing tcpdump (4.99.4-r1)
+(51/65) Installing libintl (0.22.5-r0)
+(52/65) Installing libmount (2.40.1-r1)
+(53/65) Installing pcre2 (10.43-r0)
+(54/65) Installing glib (2.80.5-r0)
+(55/65) Installing libgpg-error (1.49-r0)
+(56/65) Installing libgcrypt (1.10.3-r0)
+(57/65) Installing lua5.2-libs (5.2.4-r13)
+(58/65) Installing lz4-libs (1.9.4-r5)
+(59/65) Installing libmaxminddb-libs (1.9.1-r0)
+(60/65) Installing libnl3 (3.9.0-r1)
+(61/65) Installing libsmi (0.5.0-r3)
+(62/65) Installing speexdsp (1.2.1-r2)
+(63/65) Installing libssh (0.10.6-r0)
+(64/65) Installing wireshark-common (4.2.5-r0)
+Executing wireshark-common-4.2.5-r0.pre-install
+Executing wireshark-common-4.2.5-r0.post-install
+*
+* If you want to run wireshark as an unprivileged user
+* then you must add that user to the group "wireshark".
+*
+(65/65) Installing tshark (4.2.5-r0)
+Executing busybox-1.36.1-r31.trigger
+Executing ca-certificates-20261020-r0.trigger
+Executing glib-2.80.5-r0.trigger
+OK: 275 MiB in 135 packages
+ * WARNING: sshd has already been started
+ * WARNING: you are stopping a boot service
+ * Stopping chronyd ... [ ok ]
+ * Stopping networking ...
+ *   lo ... [ ok ]
+ *   eth0 ... [ ok ]
+ * Starting networking ...
+ *   lo ... [ ok ]
+ *   eth0 ... [ ok ]
+[+] rad-vm ready. For experiment E4 start a listener when asked: nc -lk -p 8080
+CS07_ZONE_SETUP_EXIT rad-vm 0
+ * Starting chronyd ... [ ok ]
+0
+http://dl-cdn.alpinelinux.org/alpine/v3.20/main
+http://dl-cdn.alpinelinux.org/alpine/v3.20/community

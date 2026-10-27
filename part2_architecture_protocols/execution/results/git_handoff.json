@@ -1,0 +1,68 @@
+{
+  "recorded_at": "2026-10-27T17:46:11.796381+00:00",
+  "original_source_files_checked": 129,
+  "original_source_files_changed": [],
+  "eligible_new_files": 87,
+  "eligible_new_bytes": 1297022,
+  "largest_new_files": [
+    {
+      "path": "SecureNetworks_CaseStudy_Report.pdf",
+      "bytes": 754776
+    },
+    {
+      "path": "part2_architecture_protocols/execution/results/firewall_policy/deduplicate_20261027T192840.json",
+      "bytes": 44866
+    },
+    {
+      "path": "part2_architecture_protocols/execution/report/part2_implementation_record.docx",
+      "bytes": 41274
+    },
+    {
+      "path": "part2_architecture_protocols/execution/results/firewall_policy/audit_20261027T222348.json",
+      "bytes": 36380
+    },
+    {
+      "path": "part2_architecture_protocols/execution/results/readiness_20261027T222816/firewall_rules.json",
+      "bytes": 33442
+    },
+    {
+      "path": "part2_architecture_protocols/execution/results/alpine_cache_manifest.json",
+      "bytes": 29022
+    },
+    {
+      "path": "part2_architecture_protocols/execution/build_part2_report.py",
+      "bytes": 27795
+    },
+    {
+      "path": "part2_architecture_protocols/execution/results/readiness_20261027T222816/firewall_packet_log.txt",
+      "bytes": 25118
+    },
+    {
+      "path": "part2_architecture_protocols/execution/results/vm_installation/vendor-vm_vendor_dhcp_20261027T193326.png",
+      "bytes": 23764
+    },
+    {
+      "path": "part2_architecture_protocols/execution/results/readiness_20261027T222816/firewall.pcap",
+      "bytes": 22523
+    }
+  ],
+  "files_over_10_mib": [],
+  "files_outside_authorized_part2_scope": [],
+  "private_exclusions": [
+    {
+      "path": "part2_architecture_protocols/execution/.local/api/apikey.txt",
+      "ignored": true
+    },
+    {
+      "path": "part2_architecture_protocols/execution/.local/ssh/lab_admin",
+      "ignored": true
+    },
+    {
+      "path": "part2_architecture_protocols/execution/.local/media/OPNsense-25.7-dvd-amd64.iso",
+      "ignored": true
+    }
+  ],
+  "secret_values_found_in_eligible_files": [],
+  "debug_files_moved_to_ignored_storage": [],
+  "passed": true
+}

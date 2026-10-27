@@ -1,0 +1,7 @@
+Exit code: 0
+PASS Installed guest, planned addresses and lab tools: {'root': '/dev/sda3', 'addresses': ['10.61.0.50'], 'alpine': '3.20.10', 'kernel': '6.6.142-0-virt'}
+PASS Vendor uses firewall DNS: {'server': '10.61.0.1', 'transport': 'UDP', 'answers': 2, 'name': 'example.com'}
+PASS Vendor EMR access blocked: {'source': '10.61.0.50', 'destination': '192.168.10.21', 'port': 443, 'expected_block': True, 'result': 'connection timed out; correlate with firewall log'}
+PASS Vendor DB access blocked: {'source': '10.61.0.50', 'destination': '192.168.10.20', 'port': 1433, 'expected_block': True, 'result': 'connection timed out; correlate with firewall log'}
+PASS Vendor public HTTP permitted: {'host': 'dl-cdn.alpinelinux.org', 'port': 80, 'status': 200}
+PASS Vendor public HTTPS permitted: {'host': 'dl-cdn.alpinelinux.org', 'port': 443, 'status': 200}

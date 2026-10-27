@@ -1,0 +1,46 @@
+{
+  "purpose": "Windows CRLF converted to Unix LF in deployed shell copies only; source contents otherwise unchanged",
+  "repository_sources_modified": false,
+  "files": [
+    {
+      "path": "lab/hosts/common.sh",
+      "source_sha256": "669f353fb652f9c019b56fe26be576eb61991af1822d63399cc702589ef1cb0a",
+      "guest_copy_sha256": "2ef057b5a942f478d81c71943f23ec47c71128afccf2158d5855a5a191c85982"
+    },
+    {
+      "path": "lab/hosts/setup_his.sh",
+      "source_sha256": "e038d863f419ebc90b5b8b640e43b2f388de32427177dbeb1e7eb2c207f405d8",
+      "guest_copy_sha256": "06be9d185ae60110656e84a9805c385f7eecb772ef5855370364ed275c8c372d"
+    },
+    {
+      "path": "lab/hosts/setup_pump.sh",
+      "source_sha256": "190f91ab009ecf1c540494eb6a6ea46c081b6621900d87e443cb58ec5b11d5d6",
+      "guest_copy_sha256": "8067301e5d73ceaadf0f67e4abc981cc635eddd3f62f914e90a9447f56442d2b"
+    },
+    {
+      "path": "lab/hosts/setup_rad.sh",
+      "source_sha256": "c8d45d578182b0b9cf37ded9104e04cf48c008c0dbaa348226c6d8fbadf1762a",
+      "guest_copy_sha256": "0a4c5270c8f44887af3faebab088aabaa47dde24f49e17eaf6ccbfe131bebe78"
+    },
+    {
+      "path": "lab/hosts/setup_vendor.sh",
+      "source_sha256": "437910d9b08758b83c14e60d9db4f555a14880144bf76ea8dee0d0d7488f9ffa",
+      "guest_copy_sha256": "d07951f8c709c2bbc4c457ac826064c1722a8ded10d10bd744ba56b84ba5559c"
+    },
+    {
+      "path": "lab/virtualbox/create_lab.sh",
+      "source_sha256": "09cf67aaff8acf8a4da03888270358aac18ef1042bb056a8c2aab16091a5760a",
+      "guest_copy_sha256": "802555fcbb92afd00ce82ae2b9601a6e648ec86388cc81f78956642eb5e0ef46"
+    },
+    {
+      "path": "lab/virtualbox/destroy_lab.sh",
+      "source_sha256": "f1a742ea1e878ed2829f5737eb3f7de950a2d8ea34fb468301d87d41ce4633ba",
+      "guest_copy_sha256": "fab5b99072bd7dcefe66b16406e908a07db0248acdc24173d600576b6c959c21"
+    },
+    {
+      "path": "lab/virtualbox/snapshot_lab.sh",
+      "source_sha256": "91013b481bd762ba8b30768e9f78aecf0d7ea812ec155dc0303e5a93a10eeb2c",
+      "guest_copy_sha256": "fe1f655ec2fd5ea0ecdc3d695864abf63db7dcb2d6cadde169ffd4e560982e21"
+    }
+  ]
+}

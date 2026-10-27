@@ -1,0 +1,7 @@
+Exit code: 0
+PASS MGMT reaches live DB listener (control for blocked tests): {'source': '192.168.90.5', 'destination': '192.168.10.20', 'port': 1433, 'result': 'connected'}
+PASS MGMT reaches EMR service: {'status': 200, 'transport': 'intentional plain HTTP on lab port 443'}
+PASS MGMT SSH to his-vm: {'source': '192.168.90.5', 'destination': '192.168.10.20', 'port': 22, 'result': 'connected'}
+PASS MGMT SSH to pump-vm: {'source': '192.168.90.5', 'destination': '192.168.30.10', 'port': 22, 'result': 'connected'}
+PASS MGMT SSH to rad-vm: {'source': '192.168.90.5', 'destination': '192.168.40.100', 'port': 22, 'result': 'connected'}
+PASS MGMT SSH to vendor-vm: {'source': '192.168.90.5', 'destination': '10.61.0.50', 'port': 22, 'result': 'connected'}

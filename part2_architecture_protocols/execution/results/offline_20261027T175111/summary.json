@@ -1,0 +1,46 @@
+{
+  "recorded_at": "2026-10-27T17:51:18.383470+05:30",
+  "kind": "offline_only",
+  "firewall_lab_verified": false,
+  "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "git_commit": "8ec9f4657003269f628e8225696b7d65f2834837",
+  "checks": [
+    {
+      "name": "part2_unit_tests",
+      "exit_code": 0,
+      "transcript": "part2_unit_tests.txt",
+      "started_at": "2026-10-27T17:51:11.576619+05:30"
+    },
+    {
+      "name": "object_validation",
+      "exit_code": 0,
+      "transcript": "object_validation.txt",
+      "started_at": "2026-10-27T17:51:13.132415+05:30"
+    },
+    {
+      "name": "policy_lint",
+      "exit_code": 0,
+      "transcript": "policy_lint.txt",
+      "started_at": "2026-10-27T17:51:13.611635+05:30"
+    },
+    {
+      "name": "policy_probes",
+      "exit_code": 0,
+      "transcript": "policy_probes.txt",
+      "started_at": "2026-10-27T17:51:14.073373+05:30"
+    },
+    {
+      "name": "lab_subset",
+      "exit_code": 0,
+      "transcript": "lab_subset.txt",
+      "started_at": "2026-10-27T17:51:14.570517+05:30"
+    },
+    {
+      "name": "all_existing_tests",
+      "exit_code": 0,
+      "transcript": "all_existing_tests.txt",
+      "started_at": "2026-10-27T17:51:15.028343+05:30"
+    }
+  ],
+  "existing_source_files_changed": []
+}

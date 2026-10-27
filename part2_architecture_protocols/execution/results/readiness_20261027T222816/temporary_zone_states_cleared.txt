@@ -1,0 +1,5 @@
+Exit code: 0
+killed 1 states from 1 sources and 0 destinations
+killed 2 states from 1 sources and 0 destinations
+killed 0 states from 1 sources and 0 destinations
+killed 0 states from 1 sources and 0 destinations

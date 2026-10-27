@@ -1,0 +1,47 @@
+{
+  "reason": "Missing alias UUID is [] on OPNsense 25.7; original loader expects a mapping",
+  "original_loader_modified": false,
+  "original_policy_modified": false,
+  "aliases": [
+    {
+      "name": "H_EMR_DB",
+      "status": "already exists"
+    },
+    {
+      "name": "H_EMR_APP",
+      "status": "already exists"
+    },
+    {
+      "name": "H_IFENGINE",
+      "status": "already exists"
+    },
+    {
+      "name": "H_DNS",
+      "status": "already exists"
+    },
+    {
+      "name": "H_NTP",
+      "status": "already exists"
+    },
+    {
+      "name": "H_PACS_BROKER",
+      "status": "already exists"
+    },
+    {
+      "name": "N_RFC1918",
+      "status": "already exists"
+    },
+    {
+      "name": "S_MLLP",
+      "status": "already exists"
+    }
+  ],
+  "equivalent_port_representations": [
+    {
+      "rule": "VW-02 internet only",
+      "original_ports": "80,443",
+      "equivalent_alias": "CS07_PORTS_80_443"
+    }
+  ],
+  "generated_loader_input": ".local/bootstrap/runtime_lab_rules.yaml"
+}

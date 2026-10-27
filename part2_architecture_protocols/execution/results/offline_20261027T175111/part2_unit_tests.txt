@@ -1,0 +1,9 @@
+command: C:\Users\debap\AppData\Local\Programs\Python\Python313\python.exe -B -m pytest -q -p no:cacheprovider tests/test_model.py tests/test_hl7.py
+started: 2026-10-27T17:51:11.576619+05:30
+exit_code: 0
+
+STDOUT
+.........                                                                [100%]
+9 passed in 0.35s
+
+STDERR

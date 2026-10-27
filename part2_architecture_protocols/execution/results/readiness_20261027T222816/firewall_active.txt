@@ -1,0 +1,134 @@
+Exit code: 0
+Status: Enabled for 0 days 00:01:32           Debug: Urgent
+
+Interface Stats for em1               IPv4             IPv6
+  Bytes In                            9928                0
+  Bytes Out                          43355                0
+  Packets In
+    Passed                              57                0
+    Blocked                              0                0
+  Packets Out
+    Passed                              83                0
+    Blocked                              0                0
+
+State Table                          Total             Rate
+  current entries                       24               
+  searches                             571            6.2/s
+  inserts                              174            1.9/s
+  removals                             150            1.6/s
+Counters
+  match                                189            2.1/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                              0            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  map-failed                             0            0.0/s
+scrub in all fragment reassemble
+block drop in log on ! em3 inet from 192.168.30.0/24 to any
+block drop in log inet from <__automatic_35fee7f7_0> to any
+block drop in log on ! em2 inet from 192.168.10.0/24 to any
+block drop in log on ! em1 inet from 192.168.90.0/24 to any
+block drop in log on ! em4 inet from 192.168.40.0/24 to any
+block drop in log on ! em5 inet from 10.61.0.0/24 to any
+block drop in log on ! em0 inet from 10.0.2.0/24 to any
+block drop in log inet all label "02f4bab031b57d1e30553ce08e0ec131"
+block drop in log inet6 all label "02f4bab031b57d1e30553ce08e0ec131"
+pass in log quick inet6 proto ipv6-icmp all icmp6-type unreach keep state label "09af71b030142498e74912f2a9231e00"
+pass in log quick inet6 proto ipv6-icmp all icmp6-type toobig keep state label "09af71b030142498e74912f2a9231e00"
+pass in log quick inet6 proto ipv6-icmp all icmp6-type neighbrsol keep state label "09af71b030142498e74912f2a9231e00"
+pass in log quick inet6 proto ipv6-icmp all icmp6-type neighbradv keep state label "09af71b030142498e74912f2a9231e00"
+pass out log quick inet6 proto ipv6-icmp from (self) to fe80::/10 icmp6-type echoreq keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to fe80::/10 icmp6-type echorep keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to fe80::/10 icmp6-type routersol keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to fe80::/10 icmp6-type routeradv keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to fe80::/10 icmp6-type neighbrsol keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to fe80::/10 icmp6-type neighbradv keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to ff02::/16 icmp6-type echoreq keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to ff02::/16 icmp6-type echorep keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to ff02::/16 icmp6-type routersol keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to ff02::/16 icmp6-type routeradv keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to ff02::/16 icmp6-type neighbrsol keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass out log quick inet6 proto ipv6-icmp from (self) to ff02::/16 icmp6-type neighbradv keep state label "247d6ba2cf9b0caa4e483f8f98f7a480"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to fe80::/10 icmp6-type echoreq keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to fe80::/10 icmp6-type routersol keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to fe80::/10 icmp6-type routeradv keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to fe80::/10 icmp6-type neighbrsol keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to fe80::/10 icmp6-type neighbradv keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to ff02::/16 icmp6-type echoreq keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to ff02::/16 icmp6-type routersol keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to ff02::/16 icmp6-type routeradv keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to ff02::/16 icmp6-type neighbrsol keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from fe80::/10 to ff02::/16 icmp6-type neighbradv keep state label "27d6e2944dd9de7c2bc048c4d1e9ad96"
+pass in log quick inet6 proto ipv6-icmp from ff02::/16 to fe80::/10 icmp6-type echoreq keep state label "9d29c2425a82c03746ea76b6cbdaa92e"
+pass in log quick inet6 proto ipv6-icmp from ff02::/16 to fe80::/10 icmp6-type routersol keep state label "9d29c2425a82c03746ea76b6cbdaa92e"
+pass in log quick inet6 proto ipv6-icmp from ff02::/16 to fe80::/10 icmp6-type routeradv keep state label "9d29c2425a82c03746ea76b6cbdaa92e"
+pass in log quick inet6 proto ipv6-icmp from ff02::/16 to fe80::/10 icmp6-type neighbrsol keep state label "9d29c2425a82c03746ea76b6cbdaa92e"
+pass in log quick inet6 proto ipv6-icmp from ff02::/16 to fe80::/10 icmp6-type neighbradv keep state label "9d29c2425a82c03746ea76b6cbdaa92e"
+pass in log quick inet6 proto ipv6-icmp from :: to ff02::/16 icmp6-type echoreq keep state label "8f5ab8e9f0470eb9496ed94ec777ecf6"
+pass in log quick inet6 proto ipv6-icmp from :: to ff02::/16 icmp6-type routersol keep state label "8f5ab8e9f0470eb9496ed94ec777ecf6"
+pass in log quick inet6 proto ipv6-icmp from :: to ff02::/16 icmp6-type routeradv keep state label "8f5ab8e9f0470eb9496ed94ec777ecf6"
+pass in log quick inet6 proto ipv6-icmp from :: to ff02::/16 icmp6-type neighbrsol keep state label "8f5ab8e9f0470eb9496ed94ec777ecf6"
+pass in log quick inet6 proto ipv6-icmp from :: to ff02::/16 icmp6-type neighbradv keep state label "8f5ab8e9f0470eb9496ed94ec777ecf6"
+block drop in log quick inet proto tcp from any port = 0 to any label "7b5bdc64d7ae74be1932f6764a591da5"
+block drop in log quick inet proto udp from any port = 0 to any label "7b5bdc64d7ae74be1932f6764a591da5"
+block drop in log quick inet6 proto tcp from any port = 0 to any label "7b5bdc64d7ae74be1932f6764a591da5"
+block drop in log quick inet6 proto udp from any port = 0 to any label "7b5bdc64d7ae74be1932f6764a591da5"
+block drop in log quick inet proto tcp from any to any port = 0 label "ae69f581dc429e3484a65f8ecd63baa5"
+block drop in log quick inet proto udp from any to any port = 0 label "ae69f581dc429e3484a65f8ecd63baa5"
+block drop in log quick inet6 proto tcp from any to any port = 0 label "ae69f581dc429e3484a65f8ecd63baa5"
+block drop in log quick inet6 proto udp from any to any port = 0 label "ae69f581dc429e3484a65f8ecd63baa5"
+block drop in log quick proto tcp from <sshlockout> to (self) port = ssh label "669143f420c3ab4118bcb0bf4b5fd823"
+block drop in log quick proto tcp from <sshlockout> to (self) port = https label "6baefc2a9cf2536834c092a51134a45c"
+block drop in log quick from <virusprot> to any label "8e367e2f9944d93137ae56d788c5d5e1"
+pass in log quick on em5 inet proto udp from any port = bootpc to 255.255.255.255 port = bootps keep state label "5abb7d88958c4e6df293f4bdf4663c7b"
+pass in log quick on em5 proto udp from any port = bootpc to (self) port = bootps keep state label "033633dc5b7d01a4ed8a7ee32de9e4f6"
+pass out log quick on em5 proto udp from (self) port = bootps to any port = bootpc keep state label "d0acc14b6054e272353f9b9147abb923"
+pass in log quick on em0 proto udp from any port = bootps to any port = bootpc keep state label "f994f615e00b8be0042263f86c79913f"
+pass out log quick on em0 proto udp from any port = bootpc to any port = bootps keep state label "5cf7ab808da1fcbca1ddb9ba9b46b669"
+pass in log quick on em1 inet proto udp from any port = bootpc to 255.255.255.255 port = bootps keep state label "56d97e04b8ce723a8524bdda932fe056"
+pass in log quick on em1 proto udp from any port = bootpc to (self) port = bootps keep state label "ac5d6855f1bc6d537c949fd7ce458587"
+pass out log quick on em1 proto udp from (self) port = bootps to any port = bootpc keep state label "4071f735e7cf9dcad8b9305970c17911"
+pass in log quick on em1 inet6 proto udp from fe80::/10 to fe80::/10 port = dhcpv6-client keep state label "600d48bc4d9a060084eea027fa54cfdc"
+pass in log quick on em1 inet6 proto udp from fe80::/10 to ff02::/16 port = dhcpv6-client keep state label "600d48bc4d9a060084eea027fa54cfdc"
+pass in log quick on em1 inet6 proto udp from fe80::/10 to ff02::/16 port = dhcpv6-server keep state label "0e8cdb22b7059277a934591353ae2214"
+pass in log quick on em1 inet6 proto udp from ff02::/16 to fe80::/10 port = dhcpv6-server keep state label "06e2b143a84862bc38acb6bac5090d14"
+pass in log quick on em1 inet6 proto udp from fe80::/10 to (self) port = dhcpv6-client keep state label "04bd2bc40ab1391b8ce89ff0fafd1e67"
+pass out log quick on em1 inet6 proto udp from (self) port = dhcpv6-server to fe80::/10 keep state label "0926e497e454bfe83d715b0d85fdfe3a"
+pass out log all flags S/SA keep state allow-opts label "fae559338f65e11c53669fc3642c93c2"
+pass in log quick on em1 proto tcp from any to (self) port = ssh flags S/SA keep state label "60533d555322b9f6a009f71c1c471480"
+pass in log quick on em1 proto tcp from any to (self) port = http flags S/SA keep state label "01e83daa25c4483dee217a7ecd7c9a88"
+pass in log quick on em1 proto tcp from any to (self) port = https flags S/SA keep state label "3345e04986bd5750d23b77cbbb21271f"
+pass out log route-to (em0 10.0.2.2) inet from (em0) to ! (em0:network) flags S/SA keep state allow-opts label "49484b4b90e87d327015604798f010e9"
+pass in log quick on em3 inet proto tcp from (em3:network) to <H_DNS> port = domain flags S/SA keep state label "5dd4b487-2180-4bea-9272-177f8d932a7e"
+pass in log quick on em3 inet proto udp from (em3:network) to <H_DNS> port = domain keep state label "5dd4b487-2180-4bea-9272-177f8d932a7e"
+pass in log quick on em3 inet proto udp from (em3:network) to <H_NTP> port = ntp keep state label "4951c523-71b0-4f75-810b-43b289ee5827"
+pass in log quick on em3 inet proto tcp from (em3:network) to <H_IFENGINE> port = 2575 flags S/SA keep state label "5000a4e2-07bb-4c0d-9738-ce60c030013e"
+block drop in log quick on em3 inet from (em3:network) to any label "d9315327-16db-487d-a115-efb5aea78b1e"
+block drop in log quick on em4 inet from (em4:network) to <H_EMR_DB> label "b0fff2a4-0ef6-47d3-aa33-b3eb721cae04"
+pass in log quick on em4 inet proto tcp from <H_PACS_BROKER> to <H_IFENGINE> port = 2575 flags S/SA keep state label "21588027-d387-4569-8447-610fbcef0692"
+pass in log quick on em4 inet proto tcp from (em4:network) to <H_EMR_APP> port = https flags S/SA keep state label "cbf4a682-ca29-46a5-bc74-269952696e3e"
+pass in log quick on em4 inet proto tcp from (em4:network) to <H_DNS> port = domain flags S/SA keep state label "234f4100-d070-4b9d-b810-840db481bf1a"
+pass in log quick on em4 inet proto udp from (em4:network) to <H_DNS> port = domain keep state label "234f4100-d070-4b9d-b810-840db481bf1a"
+pass in log quick on em4 inet proto udp from (em4:network) to <H_NTP> port = ntp keep state label "b9eda7d8-9e7c-4d74-a9c8-5089ef6e6ef0"
+block drop in log quick on em4 inet from (em4:network) to any label "06661b95-925c-46cf-a46c-d44e80991244"
+pass in log quick on em5 inet proto tcp from (em5:network) to (self) port = domain flags S/SA keep state label "052c2f87-616b-48e9-9362-02725b9e8733"
+pass in log quick on em5 inet proto udp from (em5:network) to (self) port = domain keep state label "052c2f87-616b-48e9-9362-02725b9e8733"
+block drop in log quick on em5 inet from (em5:network) to <N_RFC1918> label "13d7c856-82a1-48c8-9374-aeb046e40293"
+pass in log quick on em5 inet proto tcp from (em5:network) to ! <N_RFC1918> port = http flags S/SA keep state label "ca225ecc-81e3-49a2-b2b6-38bbc786c121"
+pass in log quick on em5 inet proto tcp from (em5:network) to ! <N_RFC1918> port = https flags S/SA keep state label "ca225ecc-81e3-49a2-b2b6-38bbc786c121"
+block drop in log quick on em5 inet from (em5:network) to any label "5749982e-b76e-4ee6-8674-b3d083632228"
+pass in log quick on em2 inet proto tcp from <H_DNS> to any port = domain flags S/SA keep state label "78e3a18f-eec7-482b-bb1f-0780374ebe4f"
+pass in log quick on em2 inet proto udp from <H_DNS> to any port = domain keep state label "78e3a18f-eec7-482b-bb1f-0780374ebe4f"
+pass in log quick on em2 inet proto udp from <H_NTP> to any port = ntp keep state label "9b47b164-11b0-45b0-aae4-6fa7c3d24c77"
+block drop in log quick on em2 inet from (em2:network) to any label "16d29858-884c-46d9-9fde-25f51020350f"
+pass in log quick on em1 inet from 192.168.90.5 to any flags S/SA keep state label "3ffc3d9e-ee84-4cc8-b303-b545256b201e"

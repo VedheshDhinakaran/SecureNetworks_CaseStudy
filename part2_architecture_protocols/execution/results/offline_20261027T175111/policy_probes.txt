@@ -1,0 +1,22 @@
+command: C:\Users\debap\AppData\Local\Programs\Python\Python313\python.exe -B part3_rulebase_policy/tools/verify_matrix.py -q
+started: 2026-10-27T17:51:14.073373+05:30
+exit_code: 0
+
+STDOUT
+
+Test  probes  result
+T1         4  PASS
+T2         2  PASS
+T3         1  PASS
+T4         6  PASS
+T5         1  PASS
+T7         1  PASS
+T8         2  PASS
+T10        2  PASS
+T11        5  PASS
+T12        2  PASS
+T13        4  PASS
+
+30 probes, 0 failure(s). Simulator result only; lab evidence is in Part IV.
+
+STDERR

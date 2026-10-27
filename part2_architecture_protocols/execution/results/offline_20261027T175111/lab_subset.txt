@@ -1,0 +1,28 @@
+command: C:\Users\debap\AppData\Local\Programs\Python\Python313\python.exe -B part3_rulebase_policy/tools/check_lab_subset.py
+started: 2026-10-27T17:51:14.570517+05:30
+exit_code: 0
+
+STDOUT
+lab rule                     probe                                            lab    prod   prod rule result
+DV-01 DNS                    tcp 192.168.30.100:50000 -> 192.168.10.53:53 [S] permit permit DV-01     OK
+DV-02 NTP                    udp 192.168.30.100:50000 -> 192.168.10.57:123 [S permit permit DV-02     OK
+DV-03 HL7 MLLP               tcp 192.168.30.100:50000 -> 192.168.10.40:2575 [ permit permit DV-03     OK
+DV-05 strict egress          tcp 192.168.30.100:50000 -> 8.8.8.8:445 [S]      deny   deny   DV-05     OK
+G-03 no EMR DB               tcp 192.168.40.100:50000 -> 192.168.10.20:445 [S deny   deny   G-03      OK
+R-02 broker HL7              tcp 192.168.40.12:50000 -> 192.168.10.40:2575 [S permit permit R-02      OK
+R-03 EMR app                 tcp 192.168.40.100:50000 -> 192.168.10.21:443 [S permit deny   R-06      BROAD (lab has no user identity; production also requires GRP_RADIOLOGISTS and App-ID emr-web)
+R-01 core DNS                tcp 192.168.40.100:50000 -> 192.168.10.53:53 [S] permit permit R-01      OK
+R-01 core NTP                udp 192.168.40.100:50000 -> 192.168.10.57:123 [S permit permit R-01      OK
+R-06 default deny            tcp 192.168.40.100:50000 -> 8.8.8.8:445 [S]      deny   deny   R-06      OK
+Local resolver               (not compared)                                   pass   -      -         LAB
+VW-01 no internal            tcp 10.61.0.100:50000 -> 192.168.10.21:445 [S]   deny   deny   VW-01     OK
+VW-02 internet only          tcp 10.61.0.100:50000 -> 8.8.8.8:443 [S]         permit permit VW-02     OK
+VW-03 default deny           tcp 10.61.0.100:50000 -> 8.8.8.8:445 [S]         deny   deny   VW-03     OK
+H-07 recursion               tcp 192.168.10.53:50000 -> 8.8.8.8:53 [S]        permit permit H-07      OK
+H-06 upstream time           udp 192.168.10.57:50000 -> 8.8.8.8:123 [S]       permit deny   H-08      BROAD (lab allows any NTP server; production pins F_NTP_UPSTREAM)
+H-08 default deny            tcp 192.168.10.100:50000 -> 8.8.8.8:445 [S]      deny   deny   H-08      OK
+M-01/02 bastion (lab only)   (not compared)                                   pass   -      -         LAB
+
+18 lab rules checked, 0 failure(s)
+
+STDERR

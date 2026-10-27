@@ -1,0 +1,16 @@
+[
+  {
+    "file": "linux-virt-6.6.142-r0.apk",
+    "url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/main/x86_64/linux-virt-6.6.142-r0.apk",
+    "bytes": 38546857,
+    "sha256": "0d84e30c04c52426b0bf10b01616c45f7d0c5384a59552e4c4a6caeb13a3f6e7",
+    "signature_check": "Required by guest apk at installation; not bypassed"
+  },
+  {
+    "file": "fstrm-0.6.1-r4.apk",
+    "url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/main/x86_64/fstrm-0.6.1-r4.apk",
+    "bytes": 16977,
+    "sha256": "a0e31bfe6f13ce1de0d2326f7974395d6ace76af44f65a0e163647aea12798e4",
+    "signature_check": "Required by guest apk at installation; not bypassed"
+  }
+]

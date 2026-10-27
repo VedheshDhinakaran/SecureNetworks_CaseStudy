@@ -1,0 +1,9 @@
+command: C:\Users\debap\AppData\Local\Programs\Python\Python313\python.exe -B part2_architecture_protocols/tools/validate_objects.py
+started: 2026-10-27T17:51:13.132415+05:30
+exit_code: 0
+
+STDOUT
+10 zones, 23 hosts, 3 groups, 21 services
+object model OK
+
+STDERR

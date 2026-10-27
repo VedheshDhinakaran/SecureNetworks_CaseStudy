@@ -1,0 +1,150 @@
+Exit code: 0
+2026-10-27 22:28:18.138855 rule 97/0(match): pass in on em1: 192.168.90.5.52101 > 192.168.10.20.1433: Flags [S], seq 2050801949, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.138963 rule 70/0(match): pass out on em2: 192.168.90.5.52101 > 192.168.10.20.1433: Flags [S], seq 2050801949, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.174101 rule 97/0(match): pass in on em1: 192.168.90.5.51531 > 192.168.10.21.443: Flags [S], seq 3366595522, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.174220 rule 70/0(match): pass out on em2: 192.168.90.5.51531 > 192.168.10.21.443: Flags [S], seq 3366595522, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.444381 rule 97/0(match): pass in on em1: 192.168.90.5.51532 > 192.168.10.20.22: Flags [S], seq 3298139050, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.444473 rule 70/0(match): pass out on em2: 192.168.90.5.51532 > 192.168.10.20.22: Flags [S], seq 3298139050, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.463656 rule 97/0(match): pass in on em1: 192.168.90.5.51533 > 192.168.30.10.22: Flags [S], seq 3446880273, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.463752 rule 70/0(match): pass out on em3: 192.168.90.5.51533 > 192.168.30.10.22: Flags [S], seq 3446880273, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.482888 rule 97/0(match): pass in on em1: 192.168.90.5.51534 > 192.168.40.100.22: Flags [S], seq 3140249782, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.482979 rule 70/0(match): pass out on em4: 192.168.90.5.51534 > 192.168.40.100.22: Flags [S], seq 3140249782, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.496128 rule 97/0(match): pass in on em1: 192.168.90.5.51535 > 10.61.0.50.22: Flags [S], seq 880770225, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.497243 rule 70/0(match): pass out on em5: 192.168.90.5.51535 > 10.61.0.50.22: Flags [S], seq 880770225, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.669631 rule 97/0(match): pass in on em1: 192.168.90.5.51536 > 192.168.10.20.22: Flags [S], seq 886549410, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:18.669748 rule 70/0(match): pass out on em2: 192.168.90.5.51536 > 192.168.10.20.22: Flags [S], seq 886549410, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:19.103831 rule 97/0(match): pass in on em1: 192.168.90.5.51537 > 192.168.10.20.22: Flags [S], seq 3751250943, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:19.103920 rule 70/0(match): pass out on em2: 192.168.90.5.51537 > 192.168.10.20.22: Flags [S], seq 3751250943, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:20.570053 rule 94/0(match): pass in on em2: 192.168.10.53.54061 > 1.1.1.1.53: 4504+ A? example.com. (29)
+2026-10-27 22:28:20.570153 rule 74/0(match): pass out on em0: 10.0.2.15.50113 > 1.1.1.1.53: 4504+ A? example.com. (29)
+2026-10-27 22:28:20.707925 rule 97/0(match): pass in on em1: 192.168.90.5.52632 > 192.168.10.20.22: Flags [S], seq 1152450386, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:20.708017 rule 70/0(match): pass out on em2: 192.168.90.5.52632 > 192.168.10.20.22: Flags [S], seq 1152450386, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:21.043578 rule 97/0(match): pass in on em1: 192.168.90.5.52633 > 192.168.30.10.22: Flags [S], seq 3641343769, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:21.043673 rule 70/0(match): pass out on em3: 192.168.90.5.52633 > 192.168.30.10.22: Flags [S], seq 3641343769, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:21.424872 rule 97/0(match): pass in on em1: 192.168.90.5.65189 > 192.168.30.10.22: Flags [S], seq 301044458, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:21.424982 rule 70/0(match): pass out on em3: 192.168.90.5.65189 > 192.168.30.10.22: Flags [S], seq 301044458, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:22.362528 rule 76/0(match): pass in on em3: 192.168.30.10.49746 > 192.168.10.53.53: 65056+ A? emr.sjv.local. (31)
+2026-10-27 22:28:22.362615 rule 70/0(match): pass out on em2: 192.168.30.10.49746 > 192.168.10.53.53: 65056+ A? emr.sjv.local. (31)
+2026-10-27 22:28:22.371374 rule 75/0(match): pass in on em3: 192.168.30.10.53756 > 192.168.10.53.53: Flags [S], seq 1549410633, win 64240, options [mss 1460,sackOK,TS val 3187331432 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:22.371461 rule 70/0(match): pass out on em2: 192.168.30.10.53756 > 192.168.10.53.53: Flags [S], seq 1549410633, win 64240, options [mss 1460,sackOK,TS val 3187331432 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:22.393290 rule 77/0(match): pass in on em3: 192.168.30.10.41200 > 192.168.10.57.123: NTPv4, Client, length 48
+2026-10-27 22:28:22.393387 rule 70/0(match): pass out on em2: 192.168.30.10.41200 > 192.168.10.57.123: NTPv4, Client, length 48
+2026-10-27 22:28:22.634535 rule 78/0(match): pass in on em3: 192.168.30.10.47198 > 192.168.10.40.2575: Flags [S], seq 3676974050, win 64240, options [mss 1460,sackOK,TS val 2560499950 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:22.634624 rule 70/0(match): pass out on em2: 192.168.30.10.47198 > 192.168.10.40.2575: Flags [S], seq 3676974050, win 64240, options [mss 1460,sackOK,TS val 2560499950 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:22.679801 rule 79/0(match): block in on em3: 192.168.30.10.38994 > 192.168.10.21.443: Flags [S], seq 3475864136, win 64240, options [mss 1460,sackOK,TS val 182061472 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:23.700249 rule 79/0(match): block in on em3: 192.168.30.10.38994 > 192.168.10.21.443: Flags [S], seq 3475864136, win 64240, options [mss 1460,sackOK,TS val 182062488 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:24.687757 rule 79/0(match): block in on em3: 192.168.30.10.51650 > 192.168.10.20.1433: Flags [S], seq 3902694056, win 64240, options [mss 1460,sackOK,TS val 3394484387 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:24.888318 rule 95/0(match): pass in on em2: 192.168.10.57.44237 > 162.159.200.1.123: NTPv4, Client, length 48
+2026-10-27 22:28:24.888418 rule 74/0(match): pass out on em0: 10.0.2.15.29162 > 162.159.200.1.123: NTPv4, Client, length 48
+2026-10-27 22:28:25.711900 rule 79/0(match): block in on em3: 192.168.30.10.51650 > 192.168.10.20.1433: Flags [S], seq 3902694056, win 64240, options [mss 1460,sackOK,TS val 3394485404 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:26.118707 rule 95/0(match): pass in on em2: 192.168.10.57.35361 > 192.46.215.60.123: NTPv4, Client, length 48
+2026-10-27 22:28:26.118894 rule 74/0(match): pass out on em0: 10.0.2.15.52752 > 192.46.215.60.123: NTPv4, Client, length 48
+2026-10-27 22:28:26.705367 rule 76/0(match): pass in on em3: 192.168.30.10.58009 > 192.168.10.53.53: 37380+ A? dl-cdn.alpinelinux.org. (40)
+2026-10-27 22:28:26.705495 rule 70/0(match): pass out on em2: 192.168.30.10.58009 > 192.168.10.53.53: 37380+ A? dl-cdn.alpinelinux.org. (40)
+2026-10-27 22:28:26.711818 rule 94/0(match): pass in on em2: 192.168.10.53.47091 > 1.1.1.1.53: 5995+ A? dl-cdn.alpinelinux.org. (40)
+2026-10-27 22:28:26.711981 rule 74/0(match): pass out on em0: 10.0.2.15.20692 > 1.1.1.1.53: 5995+ A? dl-cdn.alpinelinux.org. (40)
+2026-10-27 22:28:26.747837 rule 79/0(match): block in on em3: 192.168.30.10.41924 > 151.101.66.132.443: Flags [S], seq 1707726598, win 64240, options [mss 1460,sackOK,TS val 130108495 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:27.778257 rule 79/0(match): block in on em3: 192.168.30.10.41924 > 151.101.66.132.443: Flags [S], seq 1707726598, win 64240, options [mss 1460,sackOK,TS val 130109526 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:28.897931 rule 97/0(match): pass in on em1: 192.168.90.5.50194 > 192.168.30.10.22: Flags [S], seq 1003807522, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:28.898053 rule 70/0(match): pass out on em3: 192.168.90.5.50194 > 192.168.30.10.22: Flags [S], seq 1003807522, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:29.335802 rule 97/0(match): pass in on em1: 192.168.90.5.57717 > 192.168.40.100.22: Flags [S], seq 3604145149, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:29.335856 rule 70/0(match): pass out on em4: 192.168.90.5.57717 > 192.168.40.100.22: Flags [S], seq 3604145149, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:29.922948 rule 97/0(match): pass in on em1: 192.168.90.5.54587 > 192.168.40.100.22: Flags [S], seq 2144707280, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:29.923115 rule 70/0(match): pass out on em4: 192.168.90.5.54587 > 192.168.40.100.22: Flags [S], seq 2144707280, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:31.286823 rule 84/0(match): pass in on em4: 192.168.40.100.45711 > 192.168.10.53.53: 47545+ A? emr.sjv.local. (31)
+2026-10-27 22:28:31.286997 rule 70/0(match): pass out on em2: 192.168.40.100.45711 > 192.168.10.53.53: 47545+ A? emr.sjv.local. (31)
+2026-10-27 22:28:31.362403 rule 83/0(match): pass in on em4: 192.168.40.100.38242 > 192.168.10.53.53: Flags [S], seq 1444210768, win 64240, options [mss 1460,sackOK,TS val 4063092327 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:31.372528 rule 70/0(match): pass out on em2: 192.168.40.100.38242 > 192.168.10.53.53: Flags [S], seq 1444210768, win 64240, options [mss 1460,sackOK,TS val 4063092327 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:31.510440 rule 85/0(match): pass in on em4: 192.168.40.100.42783 > 192.168.10.57.123: NTPv4, Client, length 48
+2026-10-27 22:28:31.510528 rule 70/0(match): pass out on em2: 192.168.40.100.42783 > 192.168.10.57.123: NTPv4, Client, length 48
+2026-10-27 22:28:31.598436 rule 82/0(match): pass in on em4: 192.168.40.100.33536 > 192.168.10.21.443: Flags [S], seq 3660240099, win 64240, options [mss 1460,sackOK,TS val 1548679981 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:31.598535 rule 70/0(match): pass out on em2: 192.168.40.100.33536 > 192.168.10.21.443: Flags [S], seq 3660240099, win 64240, options [mss 1460,sackOK,TS val 1548679981 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:31.628053 rule 80/0(match): block in on em4: 192.168.40.100.56646 > 192.168.10.20.1433: Flags [S], seq 2429932205, win 64240, options [mss 1460,sackOK,TS val 447031993 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:31.755068 rule 86/0(match): block in on em4: 192.168.40.100.41236 > 192.46.210.39.123: NTPv4, Client, length 48
+2026-10-27 22:28:32.705235 rule 80/0(match): block in on em4: 192.168.40.100.56646 > 192.168.10.20.1433: Flags [S], seq 2429932205, win 64240, options [mss 1460,sackOK,TS val 447033069 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:33.847515 rule 81/0(match): pass in on em4: 192.168.40.12.45923 > 192.168.10.40.2575: Flags [S], seq 2663281585, win 64240, options [mss 1460,sackOK,TS val 3830517554 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:33.847650 rule 70/0(match): pass out on em2: 192.168.40.12.45923 > 192.168.10.40.2575: Flags [S], seq 2663281585, win 64240, options [mss 1460,sackOK,TS val 3830517554 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:33.929976 rule 86/0(match): block in on em4: 192.168.40.100.58582 > 192.168.10.40.2575: Flags [S], seq 2870440898, win 64240, options [mss 1460,sackOK,TS val 3474439176 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:34.945307 rule 86/0(match): block in on em4: 192.168.40.100.58582 > 192.168.10.40.2575: Flags [S], seq 2870440898, win 64240, options [mss 1460,sackOK,TS val 3474440193 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:36.116012 rule 97/0(match): pass in on em1: 192.168.90.5.60142 > 192.168.40.100.22: Flags [S], seq 2156645553, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:36.116126 rule 70/0(match): pass out on em4: 192.168.90.5.60142 > 192.168.40.100.22: Flags [S], seq 2156645553, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:36.557179 rule 97/0(match): pass in on em1: 192.168.90.5.60143 > 10.61.0.50.22: Flags [S], seq 3712449290, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:36.557179 rule 70/0(match): pass out on em5: 192.168.90.5.60143 > 10.61.0.50.22: Flags [S], seq 3712449290, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:36.969147 rule 97/0(match): pass in on em1: 192.168.90.5.65037 > 10.61.0.50.22: Flags [S], seq 2261393555, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:36.969237 rule 70/0(match): pass out on em5: 192.168.90.5.65037 > 10.61.0.50.22: Flags [S], seq 2261393555, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:38.617256 rule 88/0(match): pass in on em5: 10.61.0.50.44202 > 10.61.0.1.53: 21616+ A? example.com. (29)
+2026-10-27 22:28:38.621054 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.58247 > 192.42.93.30.53: 50017% [1au] A? example.com. (40)
+2026-10-27 22:28:38.778428 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.13580 > 108.162.195.228.53: 50250% [1au] A? example.com. (40)
+2026-10-27 22:28:38.804754 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.17766 > 162.159.44.228.53: 57894% [1au] A? example.com. (40)
+2026-10-27 22:28:38.956996 rule 89/0(match): block in on em5: 10.61.0.50.38372 > 192.168.10.21.443: Flags [S], seq 4138362189, win 64240, options [mss 1460,sackOK,TS val 2195545070 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:40.009269 rule 89/0(match): block in on em5: 10.61.0.50.38372 > 192.168.10.21.443: Flags [S], seq 4138362189, win 64240, options [mss 1460,sackOK,TS val 2195546123 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:40.098880 rule 86/0(match): block in on em4: 192.168.40.100.46281 > 162.159.200.123.123: NTPv4, Client, length 48
+2026-10-27 22:28:40.960314 rule 89/0(match): block in on em5: 10.61.0.50.53974 > 192.168.10.20.1433: Flags [S], seq 3249600338, win 64240, options [mss 1460,sackOK,TS val 2724877304 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:42.010779 rule 89/0(match): block in on em5: 10.61.0.50.53974 > 192.168.10.20.1433: Flags [S], seq 3249600338, win 64240, options [mss 1460,sackOK,TS val 2724878354 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:43.017461 rule 88/0(match): pass in on em5: 10.61.0.50.60773 > 10.61.0.1.53: 48948+ A? dl-cdn.alpinelinux.org. (40)
+2026-10-27 22:28:43.027885 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.25454 > 199.249.120.1.53: 29058% [1au] A? alpinelinux.org. (44)
+2026-10-27 22:28:43.038655 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.62310 > 199.19.56.1.53: 54592% [1au] A? alpinelinux.org. (44)
+2026-10-27 22:28:43.059282 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.16451 > 192.31.80.30.53: 15000% [1au] A? linode.com. (39)
+2026-10-27 22:28:43.060228 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.50205 > 192.48.79.30.53: 40050% [1au] A? linode.com. (39)
+2026-10-27 22:28:43.064404 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.58977 > 192.26.92.30.53: 58895% [1au] A? linode.com. (39)
+2026-10-27 22:28:43.071115 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.42646 > 192.33.14.30.53: 27685% [1au] AAAA? ns1.linode.com. (43)
+2026-10-27 22:28:43.079405 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.45201 > 192.12.94.30.53: 56252% [1au] A? linode.com. (39)
+2026-10-27 22:28:43.080262 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.42917 > 192.52.178.30.53: 40100% [1au] A? linode.com. (39)
+2026-10-27 22:28:43.083403 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.27889 > 192.54.112.30.53: 13610% [1au] A? linode.com. (39)
+2026-10-27 22:28:43.091609 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.17428 > 192.33.14.30.53: 30616% [1au] A? akam.net. (37)
+2026-10-27 22:28:43.094595 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.18973 > 192.52.178.30.53: 43032% [1au] A? akam.net. (37)
+2026-10-27 22:28:43.096293 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.16078 > 192.54.112.30.53: 18010% [1au] A? akam.net. (37)
+2026-10-27 22:28:43.116759 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.22470 > 23.211.133.67.53: 37288% [1au] A? a12-65.akam.net. (44)
+2026-10-27 22:28:43.117899 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.18331 > 23.211.61.67.53: 2378% [1au] A? a3-67.akam.net. (43)
+2026-10-27 22:28:43.127236 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.19413 > 23.211.133.67.53: 6829% [1au] A? a7-65.akam.net. (43)
+2026-10-27 22:28:43.128089 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.23609 > 72.246.46.67.53: 60224% [1au] A? a1-249.akam.net. (44)
+2026-10-27 22:28:43.130377 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.30632 > 184.26.160.67.53: 46779% [1au] A? a16-64.akam.net. (44)
+2026-10-27 22:28:43.130918 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.50142 > 23.211.133.67.53: 64675% [1au] A? a1-249.akam.net. (44)
+2026-10-27 22:28:43.135566 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.8260 > 193.108.91.67.53: 18971% [1au] A? a16-64.akam.net. (44)
+2026-10-27 22:28:43.137805 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.29670 > 72.246.46.67.53: 25021% [1au] A? a4-64.akam.net. (43)
+2026-10-27 22:28:43.143890 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.27966 > 23.211.133.67.53: 13225% [1au] A? a4-64.akam.net. (43)
+2026-10-27 22:28:43.145415 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.54969 > 72.246.46.67.53: 9928% [1au] A? a7-65.akam.net. (43)
+2026-10-27 22:28:43.166262 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.9016 > 184.26.160.65.53: 19415% [1au] A? ns3.linode.com. (43)
+2026-10-27 22:28:43.167502 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.4813 > 184.26.160.65.53: 16608% [1au] A? ns5.linode.com. (43)
+2026-10-27 22:28:43.169973 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.48845 > 184.26.160.65.53: 14076% [1au] AAAA? ns1.linode.com. (43)
+2026-10-27 22:28:43.264768 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.8782 > 23.211.61.67.53: 8908% [1au] AAAA? a3-67.akam.net. (43)
+2026-10-27 22:28:43.395902 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.51574 > 96.7.49.67.53: 28833% [1au] A? ns5.linode.com. (43)
+2026-10-27 22:28:43.397390 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.11885 > 23.61.199.65.53: 4241% [1au] A? ns2.linode.com. (43)
+2026-10-27 22:28:43.400107 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.33072 > 96.7.49.67.53: 34607% [1au] A? ns2.linode.com. (43)
+2026-10-27 22:28:43.401507 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.4830 > 193.108.91.249.53: 32722% [1au] A? ns1.linode.com. (43)
+2026-10-27 22:28:43.405975 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.35221 > 193.108.91.249.53: 4813% [1au] A? ns3.linode.com. (43)
+2026-10-27 22:28:43.407035 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.11030 > 72.246.46.64.53: 47682% [1au] A? ns4.linode.com. (43)
+2026-10-27 22:28:43.410399 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.28055 > 184.26.160.65.53: 63493% [1au] AAAA? ns3.linode.com. (43)
+2026-10-27 22:28:43.411132 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.60018 > 23.61.199.65.53: 32502% [1au] A? ns4.linode.com. (43)
+2026-10-27 22:28:43.414621 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.12436 > 84.53.139.67.53: 43576% [1au] AAAA? a12-65.akam.net. (44)
+2026-10-27 22:28:43.415812 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.13025 > 95.101.36.67.53: 24510% [1au] A? a16-64.akam.net. (44)
+2026-10-27 22:28:43.419114 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.23280 > 95.101.36.67.53: 20643% [1au] AAAA? a16-64.akam.net. (44)
+2026-10-27 22:28:43.420394 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.5736 > 184.26.160.65.53: 21269% [1au] AAAA? ns5.linode.com. (43)
+2026-10-27 22:28:43.424515 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.28472 > 72.246.46.67.53: 56507% [1au] A? a3-67.akam.net. (43)
+2026-10-27 22:28:43.426392 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.51714 > 84.53.139.67.53: 32367% [1au] AAAA? a1-249.akam.net. (44)
+2026-10-27 22:28:43.429294 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.21730 > 72.246.46.67.53: 52207% [1au] AAAA? a4-64.akam.net. (43)
+2026-10-27 22:28:43.430608 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.55398 > 23.211.133.67.53: 18846% [1au] AAAA? a7-65.akam.net. (43)
+2026-10-27 22:28:43.441453 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.51530 > 92.123.94.3.53: 6411% [1au] A? dl-cdn.alpinelinux.org. (51)
+2026-10-27 22:28:43.449227 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.25740 > 184.26.160.65.53: 49068% [1au] AAAA? ns2.linode.com. (43)
+2026-10-27 22:28:43.457830 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.64267 > 92.123.94.2.53: 48329% [1au] AAAA? dl-cdn.alpinelinux.org. (51)
+2026-10-27 22:28:43.459720 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.18775 > 23.211.132.64.53: 36768% [1au] AAAA? ns4.linode.com. (43)
+2026-10-27 22:28:43.480228 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.41508 > 192.26.92.30.53: 58453% [1au] AAAA? dualstack.j.sni.global.fastly.net. (62)
+2026-10-27 22:28:43.483745 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.36048 > 95.100.173.67.53: 62914% [1au] A? a3-67.akam.net. (43)
+2026-10-27 22:28:43.485271 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.25645 > 95.101.36.67.53: 29129% [1au] AAAA? a4-64.akam.net. (43)
+2026-10-27 22:28:43.487536 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.13504 > 23.211.133.67.53: 24375% [1au] AAAA? a1-249.akam.net. (44)
+2026-10-27 22:28:43.488938 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.9177 > 95.100.173.67.53: 36389% [1au] AAAA? a7-65.akam.net. (43)
+2026-10-27 22:28:43.537397 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.36036 > 23.211.61.67.53: 47945% [1au] A? a3-67.akam.net. (43)
+2026-10-27 22:28:43.541914 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.24106 > 23.235.36.32.53: 12392% [1au] AAAA? dualstack.j.sni.global.fastly.net. (62)
+2026-10-27 22:28:43.549885 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.22949 > 184.26.160.67.53: 50221% [1au] AAAA? a1-249.akam.net. (44)
+2026-10-27 22:28:43.585681 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.38401 > 95.101.36.67.53: 11990% [1au] A? a3-67.akam.net. (43)
+2026-10-27 22:28:43.613346 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.64956 > 184.26.160.67.53: 27535% [1au] AAAA? a1-249.akam.net. (44)
+2026-10-27 22:28:43.676546 rule 74/0(match) [uid 59]: pass out on em0: 10.0.2.15.53509 > 23.235.36.32.53: 29558% [1au] A? dualstack.j.sni.global.fastly.net. (62)
+2026-10-27 22:28:43.699003 rule 90/0(match): pass in on em5: 10.61.0.50.51098 > 151.101.158.132.80: Flags [S], seq 474502105, win 64240, options [mss 1460,sackOK,TS val 1049308425 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:43.699127 rule 74/0(match): pass out on em0: 10.0.2.15.61631 > 151.101.158.132.80: Flags [S], seq 474502105, win 64240, options [mss 1460,sackOK,TS val 1049308425 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:44.047893 rule 88/0(match): pass in on em5: 10.61.0.50.54685 > 10.61.0.1.53: 3948+ A? dl-cdn.alpinelinux.org. (40)
+2026-10-27 22:28:44.061323 rule 91/0(match): pass in on em5: 10.61.0.50.58066 > 151.101.158.132.443: Flags [S], seq 3039311301, win 64240, options [mss 1460,sackOK,TS val 1049308786 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:44.061457 rule 74/0(match): pass out on em0: 10.0.2.15.21903 > 151.101.158.132.443: Flags [S], seq 3039311301, win 64240, options [mss 1460,sackOK,TS val 1049308786 ecr 0,nop,wscale 6], length 0
+2026-10-27 22:28:44.555719 rule 97/0(match): pass in on em1: 192.168.90.5.65167 > 10.61.0.50.22: Flags [S], seq 3256208568, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:44.556010 rule 70/0(match): pass out on em5: 192.168.90.5.65167 > 10.61.0.50.22: Flags [S], seq 3256208568, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+2026-10-27 22:28:44.933566 rule 71/0(match): pass in on em1: 192.168.90.5.65168 > 192.168.90.1.22: Flags [S], seq 2418345557, win 65535, options [mss 1460,nop,wscale 8,nop,nop,sackOK], length 0
+reading from file /tmp/cs07-readiness.pcap, link-type PFLOG (OpenBSD pflog file), snapshot length 256

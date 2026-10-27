@@ -1,0 +1,84 @@
+{
+  "role": "his-vm",
+  "recorded_at": "2026-10-27T16:58:20.907729+00:00",
+  "scope": "Part II lab readiness; not E1-E8 completion",
+  "checks": [
+    {
+      "name": "Installed guest, planned addresses and lab tools",
+      "passed": true,
+      "observed": {
+        "root": "/dev/sda3",
+        "addresses": [
+          "192.168.10.20",
+          "192.168.10.21",
+          "192.168.10.40",
+          "192.168.10.53",
+          "192.168.10.57"
+        ],
+        "alpine": "3.20.10",
+        "kernel": "6.6.142-0-virt"
+      },
+      "seconds": 0.044
+    },
+    {
+      "name": "Internal DNS over UDP",
+      "passed": true,
+      "observed": {
+        "server": "192.168.10.53",
+        "transport": "UDP",
+        "answers": 1,
+        "name": "emr.sjv.local"
+      },
+      "seconds": 0.002
+    },
+    {
+      "name": "Internal DNS over TCP",
+      "passed": true,
+      "observed": {
+        "server": "192.168.10.53",
+        "transport": "TCP",
+        "answers": 1,
+        "name": "emr.sjv.local"
+      },
+      "seconds": 0.014
+    },
+    {
+      "name": "EMR HTTP health",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "transport": "intentional plain HTTP on lab port 443"
+      },
+      "seconds": 0.016
+    },
+    {
+      "name": "DB TCP listener",
+      "passed": true,
+      "observed": {
+        "source": "192.168.10.20",
+        "destination": "192.168.10.20",
+        "port": 1433,
+        "result": "connected"
+      },
+      "seconds": 0.002
+    },
+    {
+      "name": "HL7 stand-in accepts observation and sends AA",
+      "passed": true,
+      "observed": "sent PART2-READINESS-000001 -> AA",
+      "seconds": 0.303
+    },
+    {
+      "name": "HIS resolver forwards an external name",
+      "passed": true,
+      "observed": {
+        "server": "192.168.10.53",
+        "transport": "UDP",
+        "answers": 2,
+        "name": "example.com"
+      },
+      "seconds": 0.038
+    }
+  ],
+  "passed": true
+}

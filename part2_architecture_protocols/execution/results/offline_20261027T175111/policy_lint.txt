@@ -1,0 +1,9 @@
+command: C:\Users\debap\AppData\Local\Programs\Python\Python313\python.exe -B part3_rulebase_policy/tools/lint_policy.py
+started: 2026-10-27T17:51:13.611635+05:30
+exit_code: 0
+
+STDOUT
+Linted 60 rules from D:\SecureNetworks_CaseStudy\part3_rulebase_policy\rulebase\policy.yaml
+0 error(s), 0 warning(s)
+
+STDERR

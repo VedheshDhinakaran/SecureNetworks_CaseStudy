@@ -1,0 +1,9 @@
+Exit code: 0
+PASS Installed guest, planned addresses and lab tools: {'root': '/dev/sda3', 'addresses': ['192.168.30.10'], 'alpine': '3.20.10', 'kernel': '6.6.142-0-virt'}
+PASS Internal DNS over UDP: {'server': '192.168.10.53', 'transport': 'UDP', 'answers': 1, 'name': 'emr.sjv.local'}
+PASS Internal DNS over TCP: {'server': '192.168.10.53', 'transport': 'TCP', 'answers': 1, 'name': 'emr.sjv.local'}
+PASS Internal NTP response: {'server': '192.168.10.57', 'stratum': 3, 'leap': 0, 'scope': 'NTP service response; external synchronization and NTS are separate'}
+PASS Pump HL7 permitted: sent PART2-READINESS-000001 -> AA
+PASS Pump EMR access blocked: {'source': '192.168.30.10', 'destination': '192.168.10.21', 'port': 443, 'expected_block': True, 'result': 'connection timed out; correlate with firewall log'}
+PASS Pump DB access blocked: {'source': '192.168.30.10', 'destination': '192.168.10.20', 'port': 1433, 'expected_block': True, 'result': 'connection timed out; correlate with firewall log'}
+PASS Pump public web egress blocked: {'source': '192.168.30.10', 'destination': '151.101.66.132', 'port': 443, 'expected_block': True, 'result': 'connection timed out; correlate with firewall log'}

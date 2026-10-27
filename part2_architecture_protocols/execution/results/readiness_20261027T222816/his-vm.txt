@@ -1,0 +1,8 @@
+Exit code: 0
+PASS Installed guest, planned addresses and lab tools: {'root': '/dev/sda3', 'addresses': ['192.168.10.20', '192.168.10.21', '192.168.10.40', '192.168.10.53', '192.168.10.57'], 'alpine': '3.20.10', 'kernel': '6.6.142-0-virt'}
+PASS Internal DNS over UDP: {'server': '192.168.10.53', 'transport': 'UDP', 'answers': 1, 'name': 'emr.sjv.local'}
+PASS Internal DNS over TCP: {'server': '192.168.10.53', 'transport': 'TCP', 'answers': 1, 'name': 'emr.sjv.local'}
+PASS EMR HTTP health: {'status': 200, 'transport': 'intentional plain HTTP on lab port 443'}
+PASS DB TCP listener: {'source': '192.168.10.20', 'destination': '192.168.10.20', 'port': 1433, 'result': 'connected'}
+PASS HL7 stand-in accepts observation and sends AA: sent PART2-READINESS-000001 -> AA
+PASS HIS resolver forwards an external name: {'server': '192.168.10.53', 'transport': 'UDP', 'answers': 2, 'name': 'example.com'}

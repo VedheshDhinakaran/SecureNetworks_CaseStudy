@@ -1,0 +1,34 @@
+VM: his-vm
+Exit code: 0
+
+Connecting to 192.168.10.1:8081 (192.168.10.1:8081)
+saving to '/tmp/original_lab.tar.gz'
+original_lab.tar.gz  100% |********************************|  9186  0:00:00 ETA
+'/tmp/original_lab.tar.gz' saved
+ * Stopping dnsmasq ... [ ok ]
+ * WARNING: chronyd is already stopped
+[+] installing tools (needs temporary internet access, see README 'setup mode')
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.20/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.20/community/x86_64/APKINDEX.tar.gz
+v3.20.10-118-gcb3382a0eb8 [http://dl-cdn.alpinelinux.org/alpine/v3.20/main]
+v3.20.10-106-gcfb1a4769c3 [http://dl-cdn.alpinelinux.org/alpine/v3.20/community]
+OK: 24171 distinct packages available
+OK: 275 MiB in 135 packages
+ * WARNING: sshd has already been started
+ * WARNING: you are stopping a boot service
+ * Stopping networking ...
+ *   lo ... [ ok ]
+ *   eth0 ... [ ok ]
+ * Starting networking ...
+ *   lo ... [ ok ]
+ *   eth0 ... [ ok ]
+ * rc-update: dnsmasq already installed in runlevel `default'; skipping
+ * Starting dnsmasq ... [ ok ]
+ * rc-update: chronyd already installed in runlevel `default'; skipping
+ * Starting chronyd ... [ ok ]
+[+] his-vm ready. Check: ss -ltnp | grep -E '443|2575|1433'
+CS07_ZONE_SETUP_EXIT his-vm 0
+0
+#/media/cdrom/apks
+http://dl-cdn.alpinelinux.org/alpine/v3.20/main
+http://dl-cdn.alpinelinux.org/alpine/v3.20/community

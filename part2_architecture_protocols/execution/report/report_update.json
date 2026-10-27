@@ -1,0 +1,246 @@
+{
+  "recorded_at": "2026-10-27T23:15:57+05:30",
+  "offline_results": "offline_20261027T175111",
+  "local_results": "local_services_20261027T175339",
+  "lab_status": {
+    "recorded_at": "2026-10-27T22:32:52.4292741+05:30",
+    "stage": "Part II lab ready: five disk-booted VMs; original zone scripts completed; 18 policy rules; zero temporary setup rules; 35 readiness checks and seven PF-log block correlations passed after reboot",
+    "firewall_lab_verified": true,
+    "verification_scope": "Part II lab readiness; not completion of joint E1-E8, IPS/App-ID, HA or physical-switch controls",
+    "readiness_evidence": "results/readiness_20261027T222816/summary.json",
+    "host": {
+      "manufacturer": "ASUSTeK COMPUTER INC.",
+      "model": "Vivobook_ASUSLaptop K3605VC_K3605VC",
+      "ram_bytes": 16825847808,
+      "cpu": "13th Gen Intel(R) Core(TM) i5-13420H",
+      "os": "Microsoft Windows 11 Home Single Language",
+      "os_version": "10.0.26200"
+    },
+    "virtualbox_version": "7.2.22r175245",
+    "machines": [
+      {
+        "name": "opnsense",
+        "registered": true,
+        "ostype": "FreeBSD (64-bit)",
+        "CfgFile": "C:\\\\Users\\\\debap\\\\VirtualBox VMs\\\\CS07\\\\opnsense\\\\opnsense.vbox",
+        "memory": "4096",
+        "firmware": "BIOS",
+        "cpus": "2",
+        "VMState": "running",
+        "nic1": "nat",
+        "hostonlyadapter2": "VirtualBox Host-Only Ethernet Adapter #2",
+        "nic2": "hostonly",
+        "intnet3": "sjv-his",
+        "nic3": "intnet",
+        "intnet4": "sjv-devices",
+        "nic4": "intnet",
+        "intnet5": "sjv-radiology",
+        "nic5": "intnet",
+        "intnet6": "sjv-vendor",
+        "nic6": "intnet",
+        "nic7": "none",
+        "nic8": "none"
+      },
+      {
+        "name": "his-vm",
+        "registered": true,
+        "ostype": "Other Linux (64-bit)",
+        "CfgFile": "C:\\\\Users\\\\debap\\\\VirtualBox VMs\\\\CS07\\\\his-vm\\\\his-vm.vbox",
+        "memory": "512",
+        "firmware": "BIOS",
+        "cpus": "1",
+        "VMState": "running",
+        "intnet1": "sjv-his",
+        "nic1": "intnet",
+        "nic2": "none",
+        "nic3": "none",
+        "nic4": "none",
+        "nic5": "none",
+        "nic6": "none",
+        "nic7": "none",
+        "nic8": "none"
+      },
+      {
+        "name": "pump-vm",
+        "registered": true,
+        "ostype": "Other Linux (64-bit)",
+        "CfgFile": "C:\\\\Users\\\\debap\\\\VirtualBox VMs\\\\CS07\\\\pump-vm\\\\pump-vm.vbox",
+        "memory": "512",
+        "firmware": "BIOS",
+        "cpus": "1",
+        "VMState": "running",
+        "intnet1": "sjv-devices",
+        "nic1": "intnet",
+        "nic2": "none",
+        "nic3": "none",
+        "nic4": "none",
+        "nic5": "none",
+        "nic6": "none",
+        "nic7": "none",
+        "nic8": "none"
+      },
+      {
+        "name": "rad-vm",
+        "registered": true,
+        "ostype": "Other Linux (64-bit)",
+        "CfgFile": "C:\\\\Users\\\\debap\\\\VirtualBox VMs\\\\CS07\\\\rad-vm\\\\rad-vm.vbox",
+        "memory": "512",
+        "firmware": "BIOS",
+        "cpus": "1",
+        "VMState": "running",
+        "intnet1": "sjv-radiology",
+        "nic1": "intnet",
+        "nic2": "none",
+        "nic3": "none",
+        "nic4": "none",
+        "nic5": "none",
+        "nic6": "none",
+        "nic7": "none",
+        "nic8": "none"
+      },
+      {
+        "name": "vendor-vm",
+        "registered": true,
+        "ostype": "Other Linux (64-bit)",
+        "CfgFile": "C:\\\\Users\\\\debap\\\\VirtualBox VMs\\\\CS07\\\\vendor-vm\\\\vendor-vm.vbox",
+        "memory": "512",
+        "firmware": "BIOS",
+        "cpus": "1",
+        "VMState": "running",
+        "intnet1": "sjv-vendor",
+        "nic1": "intnet",
+        "nic2": "none",
+        "nic3": "none",
+        "nic4": "none",
+        "nic5": "none",
+        "nic6": "none",
+        "nic7": "none",
+        "nic8": "none"
+      }
+    ],
+    "interpretation": "Registered/running VMs do not establish installed operating systems, loaded firewall rules or successful experiment results."
+  },
+  "readiness_results": "readiness_20261027T222816",
+  "readiness": {
+    "recorded_at": "2026-10-27T16:58:47.146393+00:00",
+    "scope": "Part II readiness; E1-E8 remain separate",
+    "policy_rule_count": 18,
+    "temporary_setup_rule_count": 0,
+    "roles": [
+      {
+        "role": "bastion",
+        "passed": true,
+        "checks": 6
+      },
+      {
+        "role": "his-vm",
+        "passed": true,
+        "checks": 7
+      },
+      {
+        "role": "pump-vm",
+        "passed": true,
+        "checks": 8
+      },
+      {
+        "role": "rad-vm",
+        "passed": true,
+        "checks": 8
+      },
+      {
+        "role": "vendor-vm",
+        "passed": true,
+        "checks": 6
+      }
+    ],
+    "check_count": 35,
+    "blocked_flow_log_correlations": [
+      {
+        "role": "pump-vm",
+        "check": "Pump EMR access blocked",
+        "passed": true,
+        "log_lines": [
+          "2026-10-27 22:28:22.679801 rule 79/0(match): block in on em3: 192.168.30.10.38994 > 192.168.10.21.443: Flags [S], seq 3475864136, win 64240, options [mss 1460,sackOK,TS val 182061472 ecr 0,nop,wscale 6], length 0",
+          "2026-10-27 22:28:23.700249 rule 79/0(match): block in on em3: 192.168.30.10.38994 > 192.168.10.21.443: Flags [S], seq 3475864136, win 64240, options [mss 1460,sackOK,TS val 182062488 ecr 0,nop,wscale 6], length 0"
+        ]
+      },
+      {
+        "role": "pump-vm",
+        "check": "Pump DB access blocked",
+        "passed": true,
+        "log_lines": [
+          "2026-10-27 22:28:24.687757 rule 79/0(match): block in on em3: 192.168.30.10.51650 > 192.168.10.20.1433: Flags [S], seq 3902694056, win 64240, options [mss 1460,sackOK,TS val 3394484387 ecr 0,nop,wscale 6], length 0",
+          "2026-10-27 22:28:25.711900 rule 79/0(match): block in on em3: 192.168.30.10.51650 > 192.168.10.20.1433: Flags [S], seq 3902694056, win 64240, options [mss 1460,sackOK,TS val 3394485404 ecr 0,nop,wscale 6], length 0"
+        ]
+      },
+      {
+        "role": "pump-vm",
+        "check": "Pump public web egress blocked",
+        "passed": true,
+        "log_lines": [
+          "2026-10-27 22:28:26.747837 rule 79/0(match): block in on em3: 192.168.30.10.41924 > 151.101.66.132.443: Flags [S], seq 1707726598, win 64240, options [mss 1460,sackOK,TS val 130108495 ecr 0,nop,wscale 6], length 0",
+          "2026-10-27 22:28:27.778257 rule 79/0(match): block in on em3: 192.168.30.10.41924 > 151.101.66.132.443: Flags [S], seq 1707726598, win 64240, options [mss 1460,sackOK,TS val 130109526 ecr 0,nop,wscale 6], length 0"
+        ]
+      },
+      {
+        "role": "rad-vm",
+        "check": "Radiology DB access blocked",
+        "passed": true,
+        "log_lines": [
+          "2026-10-27 22:28:31.628053 rule 80/0(match): block in on em4: 192.168.40.100.56646 > 192.168.10.20.1433: Flags [S], seq 2429932205, win 64240, options [mss 1460,sackOK,TS val 447031993 ecr 0,nop,wscale 6], length 0",
+          "2026-10-27 22:28:32.705235 rule 80/0(match): block in on em4: 192.168.40.100.56646 > 192.168.10.20.1433: Flags [S], seq 2429932205, win 64240, options [mss 1460,sackOK,TS val 447033069 ecr 0,nop,wscale 6], length 0"
+        ]
+      },
+      {
+        "role": "rad-vm",
+        "check": "Reading workstation HL7 blocked",
+        "passed": true,
+        "log_lines": [
+          "2026-10-27 22:28:33.929976 rule 86/0(match): block in on em4: 192.168.40.100.58582 > 192.168.10.40.2575: Flags [S], seq 2870440898, win 64240, options [mss 1460,sackOK,TS val 3474439176 ecr 0,nop,wscale 6], length 0",
+          "2026-10-27 22:28:34.945307 rule 86/0(match): block in on em4: 192.168.40.100.58582 > 192.168.10.40.2575: Flags [S], seq 2870440898, win 64240, options [mss 1460,sackOK,TS val 3474440193 ecr 0,nop,wscale 6], length 0"
+        ]
+      },
+      {
+        "role": "vendor-vm",
+        "check": "Vendor EMR access blocked",
+        "passed": true,
+        "log_lines": [
+          "2026-10-27 22:28:38.956996 rule 89/0(match): block in on em5: 10.61.0.50.38372 > 192.168.10.21.443: Flags [S], seq 4138362189, win 64240, options [mss 1460,sackOK,TS val 2195545070 ecr 0,nop,wscale 6], length 0",
+          "2026-10-27 22:28:40.009269 rule 89/0(match): block in on em5: 10.61.0.50.38372 > 192.168.10.21.443: Flags [S], seq 4138362189, win 64240, options [mss 1460,sackOK,TS val 2195546123 ecr 0,nop,wscale 6], length 0"
+        ]
+      },
+      {
+        "role": "vendor-vm",
+        "check": "Vendor DB access blocked",
+        "passed": true,
+        "log_lines": [
+          "2026-10-27 22:28:40.960314 rule 89/0(match): block in on em5: 10.61.0.50.53974 > 192.168.10.20.1433: Flags [S], seq 3249600338, win 64240, options [mss 1460,sackOK,TS val 2724877304 ecr 0,nop,wscale 6], length 0",
+          "2026-10-27 22:28:42.010779 rule 89/0(match): block in on em5: 10.61.0.50.53974 > 192.168.10.20.1433: Flags [S], seq 3249600338, win 64240, options [mss 1460,sackOK,TS val 2724878354 ecr 0,nop,wscale 6], length 0"
+        ]
+      }
+    ],
+    "passed": true
+  },
+  "pdf_pages": 3,
+  "report_libraries": {
+    "pypdf": "6.21.3",
+    "reportlab": "4.5.1",
+    "python-docx": "1.2.0"
+  },
+  "original_report_sha256": "900db9626824d7ed1928a77f423821bed2f55dcad2c44a8c2438f5425983376c",
+  "original_pages_preserved": 39,
+  "original_text_preserved_on_all_pages": true,
+  "modified_original_pdf_pages": [
+    20
+  ],
+  "section": "7.5 Implementation and readiness validation",
+  "section_pdf_page": 20,
+  "section_printed_page": "17",
+  "section_tables": [
+    "7.2 Software and policy checks",
+    "7.3 VM readiness checks"
+  ],
+  "placement": "Below Table 7.1 within Part II; no end appendix",
+  "updated_report_sha256": "9b3d93015581a2d4471b517985d0bdf2520d399e94b069a1b8a541178a94335c",
+  "total_pages": 40
+}
