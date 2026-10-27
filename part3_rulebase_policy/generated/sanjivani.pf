@@ -1,0 +1,271 @@
+# =================================================================
+#  Sanjivani NGFW rule base rendered as pf.conf (GENERATED - do not edit)
+#  Source: part3_rulebase_policy/rulebase/policy.yaml
+#  Regenerate with: python3 part3_rulebase_policy/tools/gen_acl.py --format pf
+#  This is a reading aid. OPNsense rules are loaded through its API
+#  (opnsense_load.py), not by pasting this file.
+# =================================================================
+
+table <G_THREAT_FEEDS> persist  # resolved at run time (FQDN or dynamic alias)
+table <NOT_MGMT> const { 0.0.0.0/0 !192.168.90.0/24 }
+table <Z_MGMT_EXCEPT> const { 192.168.90.0/24 !192.168.90.10/32 !192.168.90.20/32 }
+table <NOT_HIS_BASTION_NMS> const { 0.0.0.0/0 !192.168.10.0/24 !192.168.90.5/32 !192.168.90.30/32 }
+table <H_EMR_DB> const { 192.168.10.20/32 }
+table <NOT_DNS_PROXY_GUEST_VENDOR_WIFI> const { 0.0.0.0/0 !192.168.10.53/32 !192.168.20.40/32 !10.60.0.0/22 !10.61.0.0/24 }
+table <internet> const { 0.0.0.0/0 !10.0.0.0/8 !172.16.0.0/12 !192.168.0.0/16 }
+table <H_BASTION> const { 192.168.90.5/32 }
+table <G_MGMT_TARGETS> const { 192.168.90.1/32 192.168.90.64/26 }
+table <T_HIS_DMZ_RESEARCH> const { 192.168.10.0/24 192.168.20.0/24 192.168.70.0/24 }
+table <H_NMS> const { 192.168.90.30/32 }
+table <T_HIS_DMZ> const { 192.168.10.0/24 192.168.20.0/24 }
+table <T_HIS_DMZ_RESEARCH_JUMP> const { 192.168.10.0/24 192.168.20.0/24 192.168.70.0/24 192.168.80.10/32 }
+table <H_SIEM> const { 192.168.90.10/32 }
+table <H_BACKUP> const { 192.168.90.20/32 }
+table <H_DR_BACKUP> const { 10.200.0.10/32 }
+table <T_BASTION_SIEM> const { 192.168.90.5/32 192.168.90.10/32 }
+table <Z_MGMT> const { 192.168.90.0/24 }
+table <G_HIS_SERVERS> const { 192.168.10.20/32 192.168.10.21/32 192.168.10.30/32 192.168.10.35/32 192.168.10.40/32 192.168.10.53/32 192.168.10.57/32 192.168.10.60/32 192.168.10.70/32 }
+table <T_EMR_APP_IFENGINE> const { 192.168.10.21/32 192.168.10.40/32 }
+table <T_F_EPRESCRIBE_F_LABPARTNER> persist  # resolved at run time (FQDN or dynamic alias)
+table <H_MAILRELAY> const { 192.168.20.25/32 }
+table <H_DEID> const { 192.168.10.70/32 }
+table <H_SFTP_DROP> const { 192.168.70.250/32 }
+table <H_IFENGINE> const { 192.168.10.40/32 }
+table <H_PACS_BROKER> const { 192.168.40.12/32 }
+table <H_NTP> const { 192.168.10.57/32 }
+table <F_NTP_UPSTREAM> persist  # resolved at run time (FQDN or dynamic alias)
+table <H_DNS> const { 192.168.10.53/32 }
+table <Z_HIS> const { 192.168.10.0/24 }
+table <H_PORTAL> const { 192.168.20.10/32 }
+table <H_EMR_APP> const { 192.168.10.21/32 }
+table <H_PROXY> const { 192.168.20.40/32 }
+table <EDGE_IPSEC> persist  # resolved at run time (FQDN or dynamic alias)
+table <Z_DMZ> const { 192.168.20.0/24 }
+table <Z_DEVICES> const { 192.168.30.0/24 }
+table <Z_RADIOLOGY> const { 192.168.40.0/24 }
+table <G_CORE> const { 192.168.10.53/32 192.168.10.57/32 192.168.10.60/32 }
+table <H_PACS_ARCH> const { 192.168.40.11/32 }
+table <H_PACS> const { 192.168.40.10/32 }
+table <F_TELERAD> persist  # resolved at run time (FQDN or dynamic alias)
+table <Z_CLINICAL> const { 192.168.50.0/23 }
+table <H_PHARMACY> const { 192.168.10.30/32 }
+table <H_BILLING> const { 192.168.10.35/32 }
+table <H_JUMP> const { 192.168.80.10/32 }
+table <Z_GUEST> const { 10.60.0.0/22 }
+table <N_RFC1918> const { 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 }
+table <Z_VENDOR_WIFI> const { 10.61.0.0/24 }
+table <Z_RESEARCH> const { 192.168.70.0/24 }
+table <T_DNS_NTP> const { 192.168.10.53/32 192.168.10.57/32 }
+table <N_VPN_POOL> const { 192.168.80.128/25 }
+table <TICKET_DEVICE> persist  # resolved at run time (FQDN or dynamic alias)
+table <Z_VENDOR_MAINT> const { 192.168.80.0/24 }
+
+# G-01  Drop known-bad sources and destinations before any permit  [owner SEC, review Q]
+block in quick log from <G_THREAT_FEEDS> to any label "G-01"
+
+# G-02  Management plane unreachable from user zones  [owner SEC, review Q]
+block in quick log from <NOT_MGMT> to <Z_MGMT_EXCEPT> label "G-02"
+
+# G-03  No zone outside HIS ever reaches the EMR database (incident F2)  [owner IT, review Q]
+block in quick log from <NOT_HIS_BASTION_NMS> to <H_EMR_DB> label "G-03"
+
+# G-04  Stop DNS bypass and DNS tunnelling  [owner SEC, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=dns-over-https
+block in quick log proto tcp from <NOT_DNS_PROXY_GUEST_VENDOR_WIFI> to <internet> port { 53 853 } label "G-04"
+block in quick log proto udp from <NOT_DNS_PROXY_GUEST_VENDOR_WIFI> to <internet> port 53 label "G-04"
+
+# M-01  Administration only from the bastion  [owner SEC, review Q]
+pass in quick log proto tcp from <H_BASTION> to <G_MGMT_TARGETS> port { 22 443 } keep state label "M-01"
+
+# M-02  Server administration  [owner IT, review Q]
+pass in quick log proto tcp from <H_BASTION> to <T_HIS_DMZ_RESEARCH> port { 22 3389 } keep state label "M-02"
+
+# M-03  Health monitoring with SNMPv3  [owner IT, review Q]
+pass in quick log proto udp from <H_NMS> to <T_HIS_DMZ> port 161 keep state label "M-03"
+
+# M-04  Central logging  [owner SEC, review Q]
+pass in quick log proto tcp from <T_HIS_DMZ_RESEARCH_JUMP> to <H_SIEM> port 6514 keep state label "M-04"
+
+# M-05  Off-site backup copy over the DR IPsec tunnel  [owner IT, review Q]
+pass in quick log proto tcp from <H_BACKUP> to <H_DR_BACKUP> port 8400 keep state label "M-05"
+
+# M-06  Patches and signature updates  [owner SEC, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): url_category=software-updates
+pass in quick log proto tcp from <T_BASTION_SIEM> to <internet> port 443 keep state label "M-06"
+
+# M-07  MGMT default deny  [owner SEC, review Q]
+block in quick log from <Z_MGMT> to any label "M-07"
+
+# H-01  Backup out (brief)  [owner IT, review Q]
+pass in quick log proto tcp from <G_HIS_SERVERS> to <H_BACKUP> port 8400 keep state label "H-01"
+
+# H-02  E-prescribing and external lab results  [owner IT, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=ssl
+pass in quick log proto tcp from <T_EMR_APP_IFENGINE> to <T_F_EPRESCRIBE_F_LABPARTNER> port 443 keep state label "H-02"
+
+# H-03  Application notifications  [owner IT, review Q]
+pass in quick log proto tcp from <G_HIS_SERVERS> to <H_MAILRELAY> port 25 keep state label "H-03"
+
+# H-04  De-identified extracts pushed to research  [owner RES, review Q]
+pass in quick log proto tcp from <H_DEID> to <H_SFTP_DROP> port 22 keep state label "H-04"
+
+# H-05  Orders sent to radiology  [owner RAD, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=hl7
+pass in quick log proto tcp from <H_IFENGINE> to <H_PACS_BROKER> port 2575 keep state label "H-05"
+
+# H-06  Upstream time traceable to IST (CERT-In)  [owner IT, review Q]
+pass in quick log proto udp from <H_NTP> to <F_NTP_UPSTREAM> port 123 keep state label "H-06"
+
+# H-07  Recursive resolution  [owner IT, review Q]
+pass in quick log proto tcp from <H_DNS> to <internet> port 53 keep state label "H-07"
+pass in quick log proto udp from <H_DNS> to <internet> port 53 keep state label "H-07"
+
+# H-08  HIS default deny  [owner IT, review Q]
+block in quick log from <Z_HIS> to any label "H-08"
+
+# D-01  Admin path never public  [owner IT, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): url_path=/admin/*
+block in quick log proto tcp from <internet> to <H_PORTAL> port 443 label "D-01"
+
+# D-02  Patient portal  [owner IT, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): url_path=/portal/*; ips=strict
+pass in quick log proto tcp from <internet> to <H_PORTAL> port 443 keep state label "D-02"
+
+# D-03  Portal back end  [owner IT, review Q]
+pass in quick log proto tcp from <H_PORTAL> to <H_EMR_APP> port 443 keep state label "D-03"
+
+# D-04  Outbound mail  [owner IT, review Q]
+pass in quick log proto tcp from <H_MAILRELAY> to <internet> port 25 keep state label "D-04"
+
+# D-05  Research inspected egress  [owner RES, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): profiles=file,dlp; tls_inspect=True
+pass in quick log proto tcp from <H_PROXY> to <internet> port { 80 443 } keep state label "D-05"
+pass in quick log proto udp from <H_PROXY> to <internet> port 443 keep state label "D-05"
+
+# D-06  Vendor and DR tunnels  [owner SEC, review Q]
+pass in quick log proto udp from <internet> to <EDGE_IPSEC> port { 500 4500 } keep state label "D-06"
+
+# D-07  DMZ default deny  [owner IT, review Q]
+block in quick log from <Z_DMZ> to any label "D-07"
+
+# D-08  Inbound default deny  [owner SEC, review Q]
+block in quick log from <internet> to any label "D-08"
+
+# DV-01  Name resolution  [owner BIO, review M]
+pass in quick log proto tcp from <Z_DEVICES> to <H_DNS> port 53 keep state label "DV-01"
+pass in quick log proto udp from <Z_DEVICES> to <H_DNS> port 53 keep state label "DV-01"
+
+# DV-02  Time  [owner BIO, review M]
+pass in quick log proto udp from <Z_DEVICES> to <H_NTP> port 123 keep state label "DV-02"
+
+# DV-03  Device data to EMR  [owner BIO, review M]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=hl7; ips=medical
+pass in quick log proto tcp from <Z_DEVICES> to <H_IFENGINE> port 2575 keep state label "DV-03"
+
+# DV-04  No peer traffic (with PVLAN)  [owner BIO, review M]
+block in quick log from <Z_DEVICES> to <Z_DEVICES> label "DV-04"
+
+# DV-05  Strict egress default  [owner BIO, review M]
+block in quick log from <Z_DEVICES> to any label "DV-05"
+
+# R-01  DNS, time, logon  [owner RAD, review Q]
+pass in quick log proto tcp from <Z_RADIOLOGY> to <G_CORE> port { 53 88 636 } keep state label "R-01"
+pass in quick log proto udp from <Z_RADIOLOGY> to <G_CORE> port { 53 88 123 } keep state label "R-01"
+
+# R-02  Results and status to EMR  [owner RAD, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=hl7
+pass in quick log proto tcp from <H_PACS_BROKER> to <H_IFENGINE> port 2575 keep state label "R-02"
+
+# R-03  Clinical context while reporting  [owner RAD, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=emr-web; user=GRP_RADIOLOGISTS
+pass in quick log proto tcp from <Z_RADIOLOGY> to <H_EMR_APP> port 443 keep state label "R-03"
+
+# R-04  Off-site image copy  [owner RAD, review Q]
+pass in quick log proto tcp from <H_PACS_ARCH> to <H_DR_BACKUP> port 2762 keep state label "R-04"
+
+# R-05  Teleradiology  [owner RAD, review Q]
+pass in quick log proto tcp from <H_PACS> to <F_TELERAD> port { 443 2762 } keep state label "R-05"
+
+# R-06  Radiology default deny (incl. internet)  [owner RAD, review Q]
+block in quick log from <Z_RADIOLOGY> to any label "R-06"
+
+# C-01  DNS, time, logon  [owner NUR, review Q]
+pass in quick log proto tcp from <Z_CLINICAL> to <G_CORE> port { 53 88 636 } keep state label "C-01"
+pass in quick log proto udp from <Z_CLINICAL> to <G_CORE> port { 53 88 123 } keep state label "C-01"
+
+# C-02  EMR access  [owner NUR, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=emr-web; user=GRP_CLINICIANS; ips=strict
+pass in quick log proto tcp from <Z_CLINICAL> to <H_EMR_APP> port 443 keep state label "C-02"
+
+# C-03  Pharmacy system  [owner NUR, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): user=GRP_PHARMACISTS
+pass in quick log proto tcp from <Z_CLINICAL> to <H_PHARMACY> port 443 keep state label "C-03"
+
+# C-04  Billing (PCI scope)  [owner FIN, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): user=GRP_BILLING
+pass in quick log proto tcp from <Z_CLINICAL> to <H_BILLING> port 443 keep state label "C-04"
+
+# C-05  Images at the bedside  [owner RAD, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app=dicomweb; user=GRP_CLINICIANS
+pass in quick log proto tcp from <Z_CLINICAL> to <H_PACS> port 443 keep state label "C-05"
+
+# C-06  Device maintenance via jump host  [owner BIO, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): user=GRP_BIOMED
+pass in quick log proto tcp from <Z_CLINICAL> to <H_JUMP> port 3389 keep state label "C-06"
+
+# C-07  Internet (brief)  [owner NUR, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app_block=ssh,openvpn,tor,remote-access; profiles=url,file,ips; tls_inspect=True
+pass in quick log proto tcp from <Z_CLINICAL> to <internet> port { 80 443 } keep state label "C-07"
+pass in quick log proto udp from <Z_CLINICAL> to <internet> port 443 keep state label "C-07"
+
+# C-08  Clinical default deny  [owner NUR, review Q]
+block in quick log from <Z_CLINICAL> to any label "C-08"
+
+# GW-01  No internal reach  [owner FAC, review Q]
+block in quick log from <Z_GUEST> to <N_RFC1918> label "GW-01"
+
+# GW-02  Internet only (brief)  [owner FAC, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): app_block=tor; profiles=url; shaper=5Mbit/client
+pass in quick log proto tcp from <Z_GUEST> to <internet> port { 53 80 443 } keep state label "GW-02"
+pass in quick log proto udp from <Z_GUEST> to <internet> port { 53 443 } keep state label "GW-02"
+
+# GW-03  Guest default deny  [owner FAC, review Q]
+block in quick log from <Z_GUEST> to any label "GW-03"
+
+# VW-01  Replaces the old any-any (incident F3)  [owner SEC, review Q]
+block in quick log from <Z_VENDOR_WIFI> to <N_RFC1918> label "VW-01"
+
+# VW-02  Internet only (brief)  [owner SEC, review Q]
+#   NGFW layer (Suricata/Zenarmor, not pf): profiles=url
+pass in quick log proto tcp from <Z_VENDOR_WIFI> to <internet> port { 53 80 443 } keep state label "VW-02"
+pass in quick log proto udp from <Z_VENDOR_WIFI> to <internet> port { 53 443 500 4500 } keep state label "VW-02"
+
+# VW-03  Vendor Wi-Fi default deny  [owner SEC, review Q]
+block in quick log from <Z_VENDOR_WIFI> to any label "VW-03"
+
+# RS-01  DNS and time  [owner RES, review Q]
+pass in quick log proto tcp from <Z_RESEARCH> to <T_DNS_NTP> port 53 keep state label "RS-01"
+pass in quick log proto udp from <Z_RESEARCH> to <T_DNS_NTP> port { 53 123 } keep state label "RS-01"
+
+# RS-02  Inspected egress via proxy (brief)  [owner RES, review Q]
+pass in quick log proto tcp from <Z_RESEARCH> to <H_PROXY> port 3128 keep state label "RS-02"
+
+# RS-03  Research never reaches clinical data  [owner RES, review Q]
+block in quick log from <Z_RESEARCH> to <Z_HIS> label "RS-03"
+
+# RS-04  Research default deny  [owner RES, review Q]
+block in quick log from <Z_RESEARCH> to any label "RS-04"
+
+# VM-01  Vendor reaches jump host only during ticket window  [owner BIO, review T]
+#   NGFW layer (Suricata/Zenarmor, not pf): schedule=per-ticket
+pass in quick log proto tcp from <N_VPN_POOL> to <H_JUMP> port { 22 3389 } keep state label "VM-01"
+
+# VM-02  Template: created per ticket, disabled otherwise  [owner BIO, review T]
+#   NGFW layer (Suricata/Zenarmor, not pf): schedule=per-ticket
+# DISABLED (template) pass in quick log from <H_JUMP> to <TICKET_DEVICE> port <set per ticket> label "VM-02"
+
+# VM-03  Vendor default deny  [owner BIO, review Q]
+block in quick log from <Z_VENDOR_MAINT> to any label "VM-03"
+
+# X-99  Global default deny; any hit means a zone section is incomplete  [owner SEC, review Q]
+block in quick log from any to any label "X-99"

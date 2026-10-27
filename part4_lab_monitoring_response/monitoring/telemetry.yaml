@@ -1,0 +1,51 @@
+# =====================================================================
+#  Required telemetry and alert thresholds (report Table 12.1)
+#  Machine-readable so the SIEM build and the monthly metrics report can
+#  read the same thresholds the report states.
+# =====================================================================
+telemetry:
+  - name: denied_flow_rate_by_rule
+    source: firewall logs (filterlog)
+    alert: {metric: denies_per_rule_per_10m, condition: "> 3 x 7-day baseline", for: 10m}
+    why: A new source hammering a zone
+  - name: any_any_detection
+    source: policy export (lint_policy.py E2)
+    alert: {condition: "any enabled permit with src any and dst any (X-99 excepted)"}
+    why: Drift back to the old design
+  - name: per_rule_hit_counters
+    source: firewall API / pfctl -vvsr (hit_counter_review.py)
+    alert: {condition: "zero for 90 days OR > 5 x weekly baseline"}
+    baseline: weekly
+    why: Dead, obsolete, mis-scoped or over-used rules
+  - name: bandwidth_per_zone
+    source: flow export (IPFIX / NetFlow v9)
+    alert: {condition: "upload > 2 GB per host per hour", zones: [Z_CLINICAL, Z_RESEARCH]}
+    why: Exfiltration; state-table pressure
+  - name: concurrent_sessions_per_source
+    source: firewall state table (pfctl -ss)
+    alert: {condition: "> 2000 sessions from one host"}
+    why: Scanning; DoS; worm
+  - name: tls_inspection_health
+    source: NGFW
+    alert: {condition: "decryption failures > 5% of sessions"}
+    why: Clients bypassing inspection or distrusting the CA
+  - name: configuration_changes
+    source: firewall audit log
+    alert: {usecase: UC-06, condition: "change without CHG<n> ticket reference"}
+    why: Unauthorised change
+  - name: ips_alerts
+    source: NGFW / Suricata EVE
+    alert: {condition: "any severity 1; any alert from Z_DEVICES"}
+    why: Attacks on permitted ports
+  - name: new_mac_on_device_port
+    source: switch / NAC
+    alert: {condition: any}
+    why: Rogue device (F1)
+  - name: dns_anomalies
+    source: H_DNS query log
+    alert: {condition: "query name > 60 chars or high entropy; NXDOMAIN burst from Z_DEVICES"}
+    why: Tunnelling; DGA malware
+
+use_cases: [UC-01, UC-02, UC-03, UC-04, UC-05, UC-06]   # see ../siem/sigma/
+retention_days: 180                                      # CERT-In 2022
+time_source: H_NTP -> F_NTP_UPSTREAM (rule H-06)

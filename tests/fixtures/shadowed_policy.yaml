@@ -1,0 +1,12 @@
+# Deliberately BROKEN rule base for test_policy.py. Do not deploy.
+# - P-02 is fully shadowed by P-01 (conflicting)
+# - P-03 is the old vendor any-any permit
+# - P-04 has no owner
+# - the radiology section does not end in a default deny
+defaults: {log: yes, review: Q}
+rules:
+  - {id: P-01, section: radiology, src: Z_RADIOLOGY, dst: Z_HIS, svc: any, action: deny, owner: RAD, req: "broad deny"}
+  - {id: P-02, section: radiology, src: Z_RADIOLOGY, dst: H_EMR_APP, svc: S_HTTPS, action: permit, owner: RAD, req: "never matches"}
+  - {id: P-03, section: vendor_wifi, src: any, dst: any, svc: any, action: permit, owner: SEC, req: "old vendor rule"}
+  - {id: P-04, section: vendor_wifi, src: Z_VENDOR_WIFI, dst: any, svc: any, action: deny, owner: "", req: "no owner"}
+  - {id: X-99, section: final, src: any, dst: any, svc: any, action: deny, owner: SEC, req: "final"}

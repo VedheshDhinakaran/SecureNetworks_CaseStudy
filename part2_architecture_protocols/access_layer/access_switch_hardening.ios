@@ -1,0 +1,105 @@
+! =====================================================================
+!  Access-switch hardening standard -- reference configuration
+!  Report Section 5.6 (Table 5.4). Cisco IOS / IOS-XE style syntax.
+!
+!  This is a DESIGN REFERENCE for the controls a firewall cannot provide
+!  (rogue laptop F1, device-to-device traffic R7). It was not tested in
+!  our VirtualBox lab, which cannot emulate 802.1X or private VLANs.
+!  Exact commands differ between switch models and IOS versions.
+! =====================================================================
+
+! ---------- AAA / RADIUS for 802.1X and MAB ----------
+aaa new-model
+aaa authentication dot1x default group radius
+aaa authorization network default group radius
+aaa accounting dot1x default start-stop group radius
+radius server SJV-NAC
+ address ipv4 192.168.90.50 auth-port 1812 acct-port 1813
+ key 0 <RADIUS-SHARED-SECRET>
+dot1x system-auth-control
+
+! ---------- VLANs ----------
+vlan 30
+ name DEVICES
+ private-vlan primary
+ private-vlan association 31
+vlan 31
+ name DEVICES-ISOLATED
+ private-vlan isolated
+vlan 50
+ name CLINICAL
+vlan 999
+ name QUARANTINE
+! VLAN 999 has no SVI anywhere and is not allowed on the trunk to the firewall.
+
+! ---------- DHCP snooping, DAI, storm control ----------
+ip dhcp snooping
+ip dhcp snooping vlan 30,31,40,50
+no ip dhcp snooping information option
+ip arp inspection vlan 30,31,40,50
+errdisable recovery cause psecure-violation
+errdisable recovery interval 600
+
+! ---------- Uplink to the internal segmentation firewall ----------
+interface TenGigabitEthernet1/1/1
+ description Trunk to ISFW (promiscuous for device PVLAN)
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,40,50,60,61,70,80
+ ip dhcp snooping trust
+ ip arp inspection trust
+
+! ---------- Medical-device port (MAB, isolated, one MAC) ----------
+interface GigabitEthernet1/0/10
+ description ICU bed 10 infusion pump
+ switchport mode private-vlan host
+ switchport private-vlan host-association 30 31
+ authentication port-control auto
+ authentication order mab
+ authentication priority mab
+ authentication event fail action authorize vlan 999
+ authentication event no-response action authorize vlan 999
+ mab
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+ ip verify source
+ storm-control broadcast level 1.00
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+
+! ---------- Clinical PC port (802.1X EAP-TLS, VLAN from RADIUS) ----------
+interface GigabitEthernet1/0/20
+ description Ward 3 nurses' station
+ switchport mode access
+ switchport access vlan 50
+ authentication port-control auto
+ authentication order dot1x mab
+ authentication event fail action authorize vlan 999
+ authentication host-mode single-host
+ dot1x pae authenticator
+ ip verify source
+ storm-control broadcast level 1.00
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+
+! ---------- Unused ports ----------
+interface range GigabitEthernet1/0/40 - 48
+ description UNUSED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+
+! ---------- Management plane ----------
+no ip http server
+no ip http secure-server
+ip ssh version 2
+line vty 0 15
+ transport input ssh
+ access-class MGMT-ONLY in
+ip access-list standard MGMT-ONLY
+ permit host 192.168.90.5
+ deny any log
+snmp-server group SJV-RO v3 priv
+snmp-server user nms SJV-RO v3 auth sha <AUTH-PASS> priv aes 128 <PRIV-PASS>
+logging host 192.168.90.10 transport tcp port 6514
+ntp server 192.168.10.57

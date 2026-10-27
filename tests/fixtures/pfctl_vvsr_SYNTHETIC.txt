@@ -1,0 +1,30 @@
+# =====================================================================
+#  SYNTHETIC TEST FIXTURE - hand-written for unit tests.
+#  This is NOT output from our lab. Real counters go in
+#  part4_lab_monitoring_response/evidence/E3/.
+#  Shape follows `pfctl -vvsr` on FreeBSD 14 / OPNsense 25.x.
+# =====================================================================
+@0 scrub on em3 all fragment reassemble
+  [ Evaluations: 10        Packets: 10        Bytes: 600         States: 0     ]
+  [ Inserted: uid 0 pid 1 State Creations: 0     ]
+@41 pass in log quick on em3 inet proto tcp from 192.168.30.0/24 to 192.168.10.53 port = domain flags S/SA keep state label "aaaa0001"
+  [ Evaluations: 100       Packets: 4         Bytes: 300         States: 0     ]
+  [ Inserted: uid 0 pid 1 State Creations: 1     ]
+@42 pass in log quick on em3 inet proto udp from 192.168.30.0/24 to 192.168.10.53 port = domain keep state label "aaaa0001"
+  [ Evaluations: 96        Packets: 6         Bytes: 420         States: 0     ]
+  [ Inserted: uid 0 pid 1 State Creations: 3     ]
+@43 pass in log quick on em3 inet proto udp from 192.168.30.0/24 to 192.168.10.57 port = ntp keep state label "aaaa0002"
+  [ Evaluations: 90        Packets: 2         Bytes: 152         States: 0     ]
+  [ Inserted: uid 0 pid 1 State Creations: 1     ]
+@44 pass in log quick on em3 inet proto tcp from 192.168.30.0/24 to 192.168.10.40 port = 2575 flags S/SA keep state label "aaaa0003"
+  [ Evaluations: 88        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 1 State Creations: 0     ]
+@45 block drop in log quick on em3 inet from 192.168.30.0/24 to any label "aaaa0005"
+  [ Evaluations: 88        Packets: 12        Bytes: 720         States: 0     ]
+  [ Inserted: uid 0 pid 1 State Creations: 0     ]
+@60 block drop in log quick on em4 inet from 192.168.40.0/24 to 192.168.10.20 label "bbbb0003"
+  [ Evaluations: 50        Packets: 3         Bytes: 180         States: 0     ]
+  [ Inserted: uid 0 pid 1 State Creations: 0     ]
+@99 pass in quick on em1 inet from 192.168.90.5 to any keep state label "ffffffff"
+  [ Evaluations: 5         Packets: 5         Bytes: 500         States: 1     ]
+  [ Inserted: uid 0 pid 1 State Creations: 1     ]

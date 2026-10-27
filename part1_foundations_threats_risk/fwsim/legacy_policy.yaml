@@ -1,0 +1,13 @@
+# The hospital's ORIGINAL rule base (case brief, Section 2), written in
+# the same format as the new policy so both can be replayed through the
+# simulator. It sits on a stateless filter at the internet edge only:
+# traffic between internal hosts never reaches it.
+defaults: {log: no, review: none}
+rules:
+  - {id: L-1, src: internet, dst: H_PORTAL, svc: S_HTTPS, action: permit, owner: unknown, req: "Internet to the web servers"}
+  - {id: L-2, src: any, dst: H_DNS, svc: S_DNS, action: permit, owner: unknown, req: "DNS to internal resolvers"}
+  - {id: L-3, src: Z_HIS, dst: H_EMR_DB, svc: S_MSSQL, action: permit, owner: unknown, req: "HIS hosts to the database"}
+  - {id: L-4, src: Z_VENDOR_WIFI, dst: any, svc: any, action: permit, owner: unknown, req: "Vendor firmware session (never removed)"}
+  # Not written in the brief, but implied by "no egress restriction": the
+  # old filter let internal hosts out to the internet.
+  - {id: L-5, src: N_RFC1918, dst: internet, svc: any, action: permit, owner: unknown, req: "Implied outbound access"}

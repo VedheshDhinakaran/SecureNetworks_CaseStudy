@@ -1,0 +1,113 @@
+# =====================================================================
+#  Sanjivani Multi-Speciality Hospital -- network object model
+#  Owner: Part II (architecture). Report: Ch. 5, Tables 5.2 and 5.3.
+#
+#  This file is the single source of truth for zones, hosts, groups and
+#  services. The rule base (Part III), the firewall simulator (Part I)
+#  and the lab scripts (Part IV) all read it, so change addresses here
+#  and nowhere else.
+#
+#  "brief: true" marks addresses taken from the case brief; everything
+#  else is our own allocation.
+# =====================================================================
+
+zones:
+  Z_HIS:          {vlan: 10,  subnet: 192.168.10.0/24, gateway: 192.168.10.1, trust: high,       owner: Head of IT, brief: true}
+  Z_DMZ:          {vlan: 20,  subnet: 192.168.20.0/24, gateway: 192.168.20.1, trust: low,        owner: Head of IT, brief: true}
+  Z_DEVICES:      {vlan: 30,  subnet: 192.168.30.0/24, gateway: 192.168.30.1, trust: restricted, owner: Biomedical engineering, brief: true}
+  Z_RADIOLOGY:    {vlan: 40,  subnet: 192.168.40.0/24, gateway: 192.168.40.1, trust: medium,     owner: Head of radiology, brief: true}
+  Z_CLINICAL:     {vlan: 50,  subnet: 192.168.50.0/23, gateway: 192.168.50.1, trust: medium,     owner: Nursing director}
+  Z_GUEST:        {vlan: 60,  subnet: 10.60.0.0/22,    gateway: 10.60.0.1,    trust: untrusted,  owner: Facilities}
+  Z_VENDOR_WIFI:  {vlan: 61,  subnet: 10.61.0.0/24,    gateway: 10.61.0.1,    trust: untrusted,  owner: Procurement}
+  Z_RESEARCH:     {vlan: 70,  subnet: 192.168.70.0/24, gateway: 192.168.70.1, trust: medium,     owner: Research director}
+  Z_VENDOR_MAINT: {vlan: 80,  subnet: 192.168.80.0/24, gateway: 192.168.80.1, trust: low,        owner: Biomedical engineering}
+  Z_MGMT:         {vlan: 90,  subnet: 192.168.90.0/24, gateway: 192.168.90.1, trust: highest,    owner: Head of IT security}
+  # VLAN 999 (quarantine) deliberately has no subnet and no gateway.
+
+# Anything that is not RFC1918 is treated as the internet.
+networks:
+  N_RFC1918:   [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16]
+  N_VPN_POOL:  [192.168.80.128/25]
+  N_NET_DEVICES: [192.168.90.64/26]     # switch, AP and controller management IPs
+  N_DR_SITE:   [10.200.0.0/24]
+
+hosts:
+  H_EMR_DB:      {ip: 192.168.10.20,  zone: Z_HIS,          role: "EMR database (MSSQL 1433)", brief: true}
+  H_EMR_APP:     {ip: 192.168.10.21,  zone: Z_HIS,          role: "EMR application (HTTPS 443)"}
+  H_PHARMACY:    {ip: 192.168.10.30,  zone: Z_HIS,          role: "Pharmacy application"}
+  H_BILLING:     {ip: 192.168.10.35,  zone: Z_HIS,          role: "Billing application (PCI DSS scope)"}
+  H_IFENGINE:    {ip: 192.168.10.40,  zone: Z_HIS,          role: "HL7 interface engine (MLLP 2575)", brief: true}
+  H_DNS:         {ip: 192.168.10.53,  zone: Z_HIS,          role: "Internal resolver", brief: true}
+  H_NTP:         {ip: 192.168.10.57,  zone: Z_HIS,          role: "Internal NTP (stratum 2)", brief: true}
+  H_AD:          {ip: 192.168.10.60,  zone: Z_HIS,          role: "Directory (LDAPS 636, Kerberos 88)"}
+  H_DEID:        {ip: 192.168.10.70,  zone: Z_HIS,          role: "De-identification server"}
+  H_PORTAL:      {ip: 192.168.20.10,  zone: Z_DMZ,          role: "Patient portal reverse proxy", brief: true}
+  H_MAILRELAY:   {ip: 192.168.20.25,  zone: Z_DMZ,          role: "Outbound SMTP relay"}
+  H_PROXY:       {ip: 192.168.20.40,  zone: Z_DMZ,          role: "Explicit web proxy for research"}
+  H_PACS:        {ip: 192.168.40.10,  zone: Z_RADIOLOGY,    role: "PACS server"}
+  H_PACS_ARCH:   {ip: 192.168.40.11,  zone: Z_RADIOLOGY,    role: "PACS archive"}
+  H_PACS_BROKER: {ip: 192.168.40.12,  zone: Z_RADIOLOGY,    role: "RIS/PACS broker (HL7 to interface engine)"}
+  H_SFTP_DROP:   {ip: 192.168.70.250, zone: Z_RESEARCH,     role: "Research SFTP drop"}
+  H_JUMP:        {ip: 192.168.80.10,  zone: Z_VENDOR_MAINT, role: "Vendor jump host (recorded)"}
+  H_FW_MGMT:     {ip: 192.168.90.1,   zone: Z_MGMT,         role: "Firewall management interface"}
+  H_BASTION:     {ip: 192.168.90.5,   zone: Z_MGMT,         role: "Administrator bastion"}
+  H_SIEM:        {ip: 192.168.90.10,  zone: Z_MGMT,         role: "SIEM / syslog-TLS collector"}
+  H_BACKUP:      {ip: 192.168.90.20,  zone: Z_MGMT,         role: "Backup server"}
+  H_NMS:         {ip: 192.168.90.30,  zone: Z_MGMT,         role: "Network monitoring (SNMPv3)"}
+  H_DR_BACKUP:   {ip: 10.200.0.10,    zone: DR,             role: "Off-site backup target"}
+
+groups:
+  G_CORE: [H_DNS, H_NTP, H_AD]
+  G_HIS_SERVERS: [H_EMR_DB, H_EMR_APP, H_PHARMACY, H_BILLING, H_IFENGINE, H_DNS, H_NTP, H_AD, H_DEID]
+  G_MGMT_TARGETS: [H_FW_MGMT, N_NET_DEVICES]
+
+# External names. Partner hostnames are placeholders until the hospital
+# signs the contracts; the NTP names are the NIC servers that CERT-In
+# directions point to (confirm before go-live).
+fqdns:
+  F_EPRESCRIBE:  eprescribe.partner.example
+  F_LABPARTNER:  lab.partner.example
+  F_TELERAD:     pacs.telerad.partner.example
+  F_NTP_UPSTREAM: [samay1.nic.in, samay2.nic.in]
+
+services:
+  S_DNS:        [udp/53, tcp/53]
+  S_DOT:        [tcp/853]
+  S_NTP:        [udp/123]
+  S_KERBEROS:   [tcp/88, udp/88]
+  S_LDAPS:      [tcp/636]
+  S_CORE:       [udp/53, tcp/53, udp/123, tcp/88, udp/88, tcp/636]
+  S_CORE_MIN:   [udp/53, tcp/53, udp/123]
+  S_HTTPS:      [tcp/443]
+  S_WEB:        [tcp/443, tcp/80, udp/443]
+  S_SSH:        [tcp/22]
+  S_RDP:        [tcp/3389]
+  S_SNMP:       [udp/161]
+  S_SYSLOG_TLS: [tcp/6514]
+  S_BACKUP:     [tcp/8400]      # placeholder: set to the backup product's agent port
+  S_SMTP:       [tcp/25]
+  S_MLLP:       [tcp/2575]
+  S_DICOM:      [tcp/104]
+  S_DICOM_TLS:  [tcp/2762]
+  S_IKE:        [udp/500, udp/4500]
+  S_PROXY:      [tcp/3128]
+  S_MSSQL:      [tcp/1433]
+
+# Objects whose contents are filled at run time on the firewall
+# (feeds, ticket templates, the edge's own public address).
+dynamic:
+  G_THREAT_FEEDS: "URL-table alias fed by threat-intelligence and geo-IP block lists"
+  EDGE_IPSEC:     "Public address of the edge firewall's IPsec service"
+  TICKET_DEVICE:  "Device IP named in a vendor maintenance ticket"
+  TICKET_PORT:    "Vendor service port named in a vendor maintenance ticket"
+
+# Addresses used ONLY by the simulator and the unit tests, so that
+# external objects can be matched. They come from the documentation
+# ranges in RFC 5737 and never appear on a real firewall.
+simulation_addresses:
+  F_EPRESCRIBE:   203.0.113.10
+  F_LABPARTNER:   203.0.113.11
+  F_TELERAD:      203.0.113.12
+  F_NTP_UPSTREAM: 203.0.113.13
+  EDGE_IPSEC:     203.0.113.1
+  G_THREAT_FEEDS: 198.51.100.0/24

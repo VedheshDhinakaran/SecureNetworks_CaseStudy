@@ -1,0 +1,49 @@
+# =====================================================================
+#  Sanjivani local Suricata rules (report Section 8.5.4 IPS profiles, E6, E7)
+#  Owner: Part IV. SID range 9000100-9000199 is reserved for this file.
+#
+#  Written as "alert". On OPNsense set the ruleset to Drop under
+#  Services > Intrusion Detection > Policy, so the same file works in
+#  IDS mode (lab baseline) and IPS mode.
+#
+#  Addresses are literal because OPNsense only defines $HOME_NET and
+#  $EXTERNAL_NET for its Suricata instance. Keep them in step with
+#  part2_architecture_protocols/network/objects.yaml.
+#    EMR app       192.168.10.21      EMR DB   192.168.10.20
+#    IF engine     192.168.10.40      HIS net  192.168.10.0/24
+#    DEVICES net   192.168.30.0/24    RADIOLOGY 192.168.40.0/24
+#
+#  Validate before loading:  suricata -T -S sjv-custom.rules -c /etc/suricata/suricata.yaml
+# =====================================================================
+
+# ---------- Web attacks on a PERMITTED port (E6, matrix test 9) ----------
+alert http any any -> [192.168.10.21,192.168.20.10] any (msg:"SJV-LOCAL SQL injection tautology to EMR/portal"; flow:established,to_server; http.uri; content:"/portal/"; startswith; pcre:"/(%27|')\s*(%20|\s|\+)*(or|and)(%20|\s|\+)+(%27|')?\w*(%27|')?\s*(=|%3D)/Ui"; classtype:web-application-attack; sid:9000101; rev:2; metadata:policy sjv, report E6;)
+
+alert http any any -> [192.168.10.21,192.168.20.10] any (msg:"SJV-LOCAL SQL UNION SELECT to EMR/portal"; flow:established,to_server; http.uri; content:"UNION"; nocase; content:"SELECT"; nocase; distance:0; classtype:web-application-attack; sid:9000102; rev:1; metadata:policy sjv, report E6;)
+
+alert http any any -> [192.168.10.21,192.168.20.10] any (msg:"SJV-LOCAL scanner user-agent to EMR/portal"; flow:established,to_server; http.user_agent; content:"sqlmap"; nocase; classtype:web-application-attack; sid:9000103; rev:1; metadata:policy sjv, report E6;)
+
+alert http any any -> [192.168.20.10] any (msg:"SJV-LOCAL admin path requested on public portal"; flow:established,to_server; http.uri; content:"/admin"; startswith; nocase; classtype:policy-violation; sid:9000104; rev:1; metadata:policy sjv, rule D-01;)
+
+# ---------- Wrong application on an allowed port (E7, matrix test 8) ----------
+alert ssh any any -> any 443 (msg:"SJV-LOCAL SSH session on TCP 443"; flow:established,to_server; classtype:policy-violation; sid:9000110; rev:1; metadata:policy sjv, report E7;)
+
+alert tcp any any -> any 443 (msg:"SJV-LOCAL SSH banner on TCP 443 (signature fallback)"; flow:established; content:"SSH-2.0-"; depth:8; classtype:policy-violation; sid:9000111; rev:1; metadata:policy sjv, report E7;)
+
+# ---------- Clinical protocols (DV-03, R-02, H-05) ----------
+alert tcp [192.168.30.0/24,192.168.40.12] any -> 192.168.10.40 2575 (msg:"SJV-LOCAL non-MLLP payload to HL7 interface engine"; flow:established,to_server; dsize:>0; content:!"|0B|"; depth:1; classtype:protocol-command-decode; sid:9000120; rev:1; metadata:policy sjv, rule DV-03;)
+
+alert tcp [192.168.30.0/24,192.168.40.12] any -> 192.168.10.40 2575 (msg:"SJV-LOCAL MLLP frame without MSH header"; flow:established,to_server; content:"|0B|"; depth:1; content:!"MSH|7C|"; within:4; classtype:protocol-command-decode; sid:9000121; rev:1; metadata:policy sjv, rule DV-03;)
+
+alert tcp [192.168.30.0/24] any -> 192.168.10.40 2575 (msg:"SJV-LOCAL oversized HL7 message from device zone"; flow:established,to_server; dsize:>16000; classtype:protocol-command-decode; sid:9000122; rev:1; metadata:policy sjv, rule DV-03;)
+
+# ---------- EMR database touched from outside HIS (UC-02, incident F2) ----------
+alert tcp ![192.168.10.0/24,192.168.90.5,192.168.90.30] any -> 192.168.10.20 1433 (msg:"SJV-LOCAL connection attempt to EMR database from outside HIS"; flow:to_server; flags:S,12; classtype:attempted-recon; sid:9000130; rev:1; metadata:policy sjv, rule G-03;)
+
+# ---------- Device zone behaviour (UC-03, PB-4) ----------
+alert dns 192.168.30.0/24 any -> any any (msg:"SJV-LOCAL long DNS query from device zone (possible tunnel)"; dns.query; bsize:>60; classtype:bad-unknown; sid:9000140; rev:1; metadata:policy sjv, usecase UC-03;)
+
+alert tcp 192.168.30.0/24 any -> !192.168.0.0/16 any (msg:"SJV-LOCAL device zone attempted connection outside private ranges"; flow:to_server; flags:S,12; threshold:type limit, track by_src, count 1, seconds 300; classtype:policy-violation; sid:9000141; rev:1; metadata:policy sjv, rule DV-05;)
+
+# ---------- Lateral movement probes (UC-01) ----------
+alert tcp [10.60.0.0/22,10.61.0.0/24] any -> [192.168.0.0/16] [22,445,1433,2575,3389] (msg:"SJV-LOCAL Wi-Fi client probing internal admin/clinical ports"; flow:to_server; flags:S,12; threshold:type both, track by_src, count 10, seconds 60; classtype:attempted-recon; sid:9000150; rev:1; metadata:policy sjv, rule VW-01;)

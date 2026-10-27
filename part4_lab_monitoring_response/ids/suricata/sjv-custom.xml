@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+  OPNsense ruleset metadata for sjv-custom.rules.
+  Copy to the firewall:
+    scp sjv-custom.xml root@192.168.90.1:/usr/local/opnsense/scripts/suricata/metadata/rules/
+  Serve sjv-custom.rules from the bastion (lab only):
+    cd part4_lab_monitoring_response/ids/suricata && python3 -m http.server 8000 --bind 192.168.90.5
+  Then Services > Intrusion Detection > Download: enable "sjv/sjv-custom", Download & Update Rules.
+  Check the path and format against the OPNsense version you run; this
+  follows the layout of the bundled ET Open metadata files.
+-->
+<ruleset documentation_url="https://docs.opnsense.org/manual/ips.html">
+    <location url="http://192.168.90.5:8000/" prefix="sjv"/>
+    <files>
+        <file description="Sanjivani local rules (CS07)">sjv-custom.rules</file>
+    </files>
+</ruleset>

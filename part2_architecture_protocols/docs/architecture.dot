@@ -1,0 +1,29 @@
+digraph sjv {
+  rankdir=TB; node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];
+  internet [label="Internet", shape=ellipse, fillcolor="#F2F2F2"];
+  dr [label="DR site\n10.200.0.0/24", shape=ellipse, fillcolor="#F2F2F2"];
+  edge [label="Edge NGFW HA pair\nIPS, URL, TLS inspection, NAT, IPsec", fillcolor="#FFF4D6"];
+  isfw [label="Internal segmentation NGFW HA pair\ngateway of every internal zone", fillcolor="#FFF4D6"];
+  internet -> edge; dr -> edge [style=dashed, label=IPsec]; edge -> isfw [label=transit];
+  Z_HIS [label="Z_HIS\nVLAN 10  192.168.10.0/24", fillcolor="#E7F1FB"];
+  isfw -> Z_HIS;
+  Z_DMZ [label="Z_DMZ\nVLAN 20  192.168.20.0/24", fillcolor="#F9ECE7"];
+  edge -> Z_DMZ;
+  Z_DEVICES [label="Z_DEVICES\nVLAN 30  192.168.30.0/24", fillcolor="#F9ECE7"];
+  isfw -> Z_DEVICES;
+  Z_RADIOLOGY [label="Z_RADIOLOGY\nVLAN 40  192.168.40.0/24", fillcolor="#E7F1FB"];
+  isfw -> Z_RADIOLOGY;
+  Z_CLINICAL [label="Z_CLINICAL\nVLAN 50  192.168.50.0/23", fillcolor="#E7F1FB"];
+  isfw -> Z_CLINICAL;
+  Z_GUEST [label="Z_GUEST\nVLAN 60  10.60.0.0/22", fillcolor="#FBEBEB"];
+  isfw -> Z_GUEST;
+  Z_VENDOR_WIFI [label="Z_VENDOR_WIFI\nVLAN 61  10.61.0.0/24", fillcolor="#FBEBEB"];
+  isfw -> Z_VENDOR_WIFI;
+  Z_RESEARCH [label="Z_RESEARCH\nVLAN 70  192.168.70.0/24", fillcolor="#E7F1FB"];
+  isfw -> Z_RESEARCH;
+  Z_VENDOR_MAINT [label="Z_VENDOR_MAINT\nVLAN 80  192.168.80.0/24", fillcolor="#F9ECE7"];
+  edge -> Z_VENDOR_MAINT;
+  Z_MGMT [label="Z_MGMT\nVLAN 90  192.168.90.0/24", fillcolor="#E5F4E4"];
+  isfw -> Z_MGMT;
+  quarantine [label="QUARANTINE VLAN 999\nno route", style="dashed,rounded"];
+}

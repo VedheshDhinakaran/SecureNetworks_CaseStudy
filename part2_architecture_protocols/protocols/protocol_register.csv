@@ -1,0 +1,18 @@
+function,protocol,ports,where_allowed,policy_consequence,rules
+Imaging,DICOM upper layer,tcp/104,inside Z_RADIOLOGY only,clear text so it never crosses a zone boundary,-
+Imaging,DICOM over TLS,tcp/2762,PACS to DR and teleradiology,required for any DICOM leaving radiology,R-04 R-05
+Imaging,DICOMweb,tcp/443,clinicians to PACS viewer,HTTPS only,C-05 R-05
+Clinical messaging,HL7 v2 over MLLP,tcp/2575,devices and PACS broker to interface engine,no built-in security; scoped to two hosts per flow; 24 h state timeout,DV-03 R-02 H-05
+Web and portal,HTTPS (TLS 1.2/1.3),tcp/443,clinical to EMR; internet to portal,HTTP removed; TLS 1.0/1.1 and CBC suites disabled,C-02 D-02
+Directory,LDAPS,tcp/636,zones to H_AD,clear-text LDAP bind blocked,R-01 C-01
+Directory,Kerberos,tcp/88 udp/88,zones to H_AD,-,R-01 C-01
+Name resolution,DNS (DNSSEC validating),udp/53 tcp/53,all zones to H_DNS only,outbound DNS/DoT/DoH from other hosts blocked,G-04 DV-01 H-07
+Time,NTP (symmetric key or NTS),udp/123 tcp/4460,all zones to H_NTP; H_NTP to NIC/NPL,devices sync only internally,DV-02 H-06
+Monitoring,SNMPv3 authPriv (SHA-256/AES-128),udp/161,H_NMS to servers,no v1/v2c,M-03
+Logging,Syslog over TLS,tcp/6514,servers and firewalls to H_SIEM,logs confidential and tamper-evident in transit,M-04
+Administration,SSH v2 (keys),tcp/22,H_BASTION only,password login disabled,M-01 M-02
+Vendor access,IPsec IKEv2 (AES-GCM-256; DH 19/20),udp/500 udp/4500,vendor tunnel to VENDOR-MAINT,rules target the tunnel pool,D-06 VM-01
+Backup,IPsec IKEv2 site-to-site,udp/500 udp/4500,edge to DR site,backup encrypted in transit,D-06 M-05
+File transfer,SFTP,tcp/22,H_DEID to research drop,FTP removed,H-04
+Mail,SMTP + STARTTLS,tcp/25,H_MAILRELAY to internet,only the relay sends on 25,D-04 H-03
+Retired,Telnet / FTP / HTTP / SNMPv1-2c / LDAP bind / SMBv1 / RDP from user zones,23 21 80 161 389 445 3389,nowhere,replaced as listed in report Section 6.2,-

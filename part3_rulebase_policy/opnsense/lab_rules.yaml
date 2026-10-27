@@ -1,0 +1,70 @@
+# =====================================================================
+#  Lab subset of the rule base, as entered in OPNsense (report Table 11.1)
+#  Owner: Part III. Used by tools/opnsense_load.py and checked against
+#  rulebase/policy.yaml by tools/check_lab_subset.py.
+#
+#  Interfaces follow the lab build (report Section 11.4):
+#    em1 LAN = MGMT, em2 OPT1 = HIS, em3 OPT2 = DEVICES,
+#    em4 OPT3 = RADIOLOGY, em5 OPT4 = VENDOR
+#  OPNsense evaluates rules on the interface where traffic ENTERS,
+#  top to bottom, first match wins. Order below is the order loaded.
+#
+#  "policy_id" links each lab rule to the production rule it stands for.
+#  "lab_only: true" marks rules that exist only because of the lab
+#  (e.g. the bastion shortcut) and must never be copied to production.
+# =====================================================================
+
+interfaces:
+  MGMT:      {opnsense_id: lan,  device: em1, subnet: 192.168.90.0/24}
+  HIS:       {opnsense_id: opt1, device: em2, subnet: 192.168.10.0/24}
+  DEVICES:   {opnsense_id: opt2, device: em3, subnet: 192.168.30.0/24}
+  RADIOLOGY: {opnsense_id: opt3, device: em4, subnet: 192.168.40.0/24}
+  VENDOR:    {opnsense_id: opt4, device: em5, subnet: 10.61.0.0/24, dhcp: [10.61.0.50, 10.61.0.99]}
+
+# Aliases are copied from part2_architecture_protocols/network/objects.yaml
+# by name, so the addresses can never drift from the design.
+aliases:
+  hosts:    [H_EMR_DB, H_EMR_APP, H_IFENGINE, H_DNS, H_NTP, H_PACS_BROKER]
+  networks: [N_RFC1918]
+  ports:    [S_MLLP]
+
+# src/dst may be: an alias name, "<IFACE> net", "any", "(self)" (this firewall),
+# or a single address. "not: true" negates the destination.
+# proto: TCP, UDP, TCP/UDP or any. port: number, alias name or "a,b" list.
+rules:
+  # ---------------------------------------------------------------- DEVICES
+  - {iface: DEVICES,   policy_id: DV-01, action: pass,  src: DEVICES net,   dst: H_DNS,         proto: TCP/UDP, port: 53,     descr: "DV-01 DNS"}
+  - {iface: DEVICES,   policy_id: DV-02, action: pass,  src: DEVICES net,   dst: H_NTP,         proto: UDP,     port: 123,    descr: "DV-02 NTP"}
+  - {iface: DEVICES,   policy_id: DV-03, action: pass,  src: DEVICES net,   dst: H_IFENGINE,    proto: TCP,     port: S_MLLP, descr: "DV-03 HL7 MLLP"}
+  - {iface: DEVICES,   policy_id: DV-05, action: block, src: DEVICES net,   dst: any,           proto: any,                   descr: "DV-05 strict egress"}
+  # -------------------------------------------------------------- RADIOLOGY
+  - {iface: RADIOLOGY, policy_id: G-03,  action: block, src: RADIOLOGY net, dst: H_EMR_DB,      proto: any,                   descr: "G-03 no EMR DB"}
+  - {iface: RADIOLOGY, policy_id: R-02,  action: pass,  src: H_PACS_BROKER, dst: H_IFENGINE,    proto: TCP,     port: S_MLLP, descr: "R-02 broker HL7"}
+  - {iface: RADIOLOGY, policy_id: R-03,  action: pass,  src: RADIOLOGY net, dst: H_EMR_APP,     proto: TCP,     port: 443,    descr: "R-03 EMR app",
+     broader: "lab has no user identity; production also requires GRP_RADIOLOGISTS and App-ID emr-web"}
+  - {iface: RADIOLOGY, policy_id: R-01,  action: pass,  src: RADIOLOGY net, dst: H_DNS,         proto: TCP/UDP, port: 53,     descr: "R-01 core DNS"}
+  - {iface: RADIOLOGY, policy_id: R-01,  action: pass,  src: RADIOLOGY net, dst: H_NTP,         proto: UDP,     port: 123,    descr: "R-01 core NTP"}
+  - {iface: RADIOLOGY, policy_id: R-06,  action: block, src: RADIOLOGY net, dst: any,           proto: any,                   descr: "R-06 default deny"}
+  # ----------------------------------------------------------------- VENDOR
+  - {iface: VENDOR,    policy_id: VW-02, action: pass,  src: VENDOR net,    dst: (self),        proto: TCP/UDP, port: 53,     descr: "Local resolver", lab_only: true}
+  - {iface: VENDOR,    policy_id: VW-01, action: block, src: VENDOR net,    dst: N_RFC1918,     proto: any,                   descr: "VW-01 no internal"}
+  - {iface: VENDOR,    policy_id: VW-02, action: pass,  src: VENDOR net,    dst: N_RFC1918, not: true, proto: TCP,  port: "80,443", descr: "VW-02 internet only"}
+  - {iface: VENDOR,    policy_id: VW-03, action: block, src: VENDOR net,    dst: any,           proto: any,                   descr: "VW-03 default deny"}
+  # -------------------------------------------------------------------- HIS
+  - {iface: HIS,       policy_id: H-07,  action: pass,  src: H_DNS,         dst: any,           proto: TCP/UDP, port: 53,     descr: "H-07 recursion"}
+  - {iface: HIS,       policy_id: H-06,  action: pass,  src: H_NTP,         dst: any,           proto: UDP,     port: 123,    descr: "H-06 upstream time",
+     broader: "lab allows any NTP server; production pins F_NTP_UPSTREAM"}
+  - {iface: HIS,       policy_id: H-08,  action: block, src: HIS net,       dst: any,           proto: any,                   descr: "H-08 default deny"}
+  # ------------------------------------------------------------------- MGMT
+  - {iface: MGMT,      policy_id: M-01,  action: pass,  src: 192.168.90.5,  dst: any,           proto: any,                   descr: "M-01/02 bastion (lab only)", lab_only: true}
+
+# Temporary rules used only while installing packages on the zone VMs
+# (opnsense_load.py --setup-mode on/off). They are tagged so they can
+# be found and removed; E1-E8 must never run with them present.
+setup_mode:
+  tag: "SETUP-TEMP"
+  rules:
+    - {iface: HIS,       action: pass, src: HIS net,       dst: any, proto: any}
+    - {iface: DEVICES,   action: pass, src: DEVICES net,   dst: any, proto: any}
+    - {iface: RADIOLOGY, action: pass, src: RADIOLOGY net, dst: any, proto: any}
+    - {iface: VENDOR,    action: pass, src: VENDOR net,    dst: any, proto: any}

@@ -1,0 +1,50 @@
+# STRIDE threats per zone (report Table 3.3)
+Z_HIS:
+  spoofing: Stolen service account used against SQL
+  tampering: Altered prescriptions
+  repudiation: Shared DB logins hide who changed a record
+  information_disclosure: Bulk record theft
+  denial_of_service: Ransomware encrypts the database
+  elevation_of_privilege: SQL injection to OS shell
+Z_DEVICES:
+  spoofing: Rogue host claims a pump's IP
+  tampering: Modified HL7 dose message
+  repudiation: Devices keep no audit log
+  information_disclosure: Patient data in clear-text HL7
+  denial_of_service: Broadcast storm drops monitors
+  elevation_of_privilege: Default vendor passwords
+Z_RADIOLOGY:
+  spoofing: Fake modality sends to PACS
+  tampering: Altered images
+  repudiation: Shared workstation logins
+  information_disclosure: DICOM in clear text
+  denial_of_service: PACS storage filled
+  elevation_of_privilege: Old Windows on modalities
+Z_CLINICAL:
+  spoofing: Phished clinician credentials
+  tampering: Malware edits local files
+  repudiation: Generic ward logins
+  information_disclosure: Screen and print leakage
+  denial_of_service: Ransomware on PCs
+  elevation_of_privilege: Local admin rights
+Z_GUEST_AND_VENDOR:
+  spoofing: Evil-twin SSID
+  tampering: Traffic manipulation on open Wi-Fi
+  repudiation: Anonymous guests
+  information_disclosure: Sniffing other guests
+  denial_of_service: Bandwidth exhaustion
+  elevation_of_privilege: Pivot through any-any
+Z_RESEARCH:
+  spoofing: Collaborator accounts reused
+  tampering: Altered trial data
+  repudiation: Shared compute accounts
+  information_disclosure: Genomic data exfiltration
+  denial_of_service: Crypto-mining on compute
+  elevation_of_privilege: Unpatched instrument PCs
+Z_MGMT:
+  spoofing: Admin credential theft
+  tampering: Rule-base tampering
+  repudiation: Changes without operator identity
+  information_disclosure: Config backups leaked
+  denial_of_service: Firewall DoS
+  elevation_of_privilege: Web GUI exploit

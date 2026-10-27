@@ -1,0 +1,15 @@
+id,zone_pair,threat,likelihood,impact,control,residual_likelihood,residual_impact,related_rules
+R1,Vendor Wi-Fi -> clinical,Lateral movement on the old any-any path,5,4,Rule deleted; default deny; internet-only vendor SSID; deny-rate alert,1,4,VW-01 VW-03
+R2,Radiology -> HIS,Workstation reaches EMR on 1433,4,5,No radiology host to 1433; PACS broker to MLLP only; IPS,1,4,G-03 R-02 R-06
+R3,Device -> internet,Pump joins botnet or phones home,3,4,Three named flows only; deny all egress; DNS inspection,1,3,DV-01 DV-02 DV-03 DV-05
+R4,Rogue host -> device,Unauthorised laptop on device port,5,4,802.1X/MAB; quarantine VLAN; new-MAC alert,1,4,DV-04 (access layer)
+R5,Guest Wi-Fi -> internal,Rogue device reaching clinical services,4,3,No route; client isolation; denies logged,1,2,GW-01 GW-03
+R6,Research -> HIS,Research traffic reaching clinical data,3,4,Separate zone; no permit to HIS; de-identified extracts via SFTP,1,3,RS-03 H-04
+R7,Device <-> device,Compromised device attacks peers,2,5,Private VLAN isolation; peer-to-peer deny,1,5,DV-04 (PVLAN)
+R8,Clinical -> internet,Bulk exfiltration over TLS,3,4,TLS inspection; App-ID; per-zone volume baseline,2,3,C-07
+R9,Internet -> DMZ,Attack on portal via 443,4,4,IPS; URL path rules; WAF profile,2,3,D-01 D-02
+R10,Clinical -> HIS,Ransomware spreads via SMB/RDP,4,5,Only HTTPS to EMR app; no SMB/RDP to servers; IPS,2,4,C-02 C-08
+R11,Any -> management,Firewall GUI compromised,2,5,Management only from bastion; MFA; separate interface,1,3,G-02 M-01
+R12,NGFW itself,TLS CA key stolen,2,5,HSM key store; access audit; CA rotation,1,4,(governance)
+R13,Edge,State-table exhaustion DoS,3,4,Per-source session limits; SYN cookies; HA pair,2,3,(platform)
+R14,Rule base,Drift back to any-any,4,4,Quarterly any-any search; expiring exceptions; change control,1,4,lint_policy.py E2

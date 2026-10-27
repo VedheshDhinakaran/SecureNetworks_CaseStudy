@@ -1,0 +1,11 @@
+threat,current_failure,attack_technique,technique_name,controls
+Vendor Wi-Fi lateral movement into clinical systems,any-any rule is no barrier,T1133; T1021,External Remote Services; Remote Services,VW-01 VW-03 vendor access process
+Compromised imaging workstation reaching the EMR on 1433,flat subnet; east-west never reaches the firewall,T1210; T1078,Exploitation of Remote Services; Valid Accounts,G-03 R-02 R-06 UC-02
+Unauthorised laptop browsing the device VLAN,access ports not controlled; firewall off-path,T1200; T1046,Hardware Additions; Network Service Discovery,802.1X/MAB PVLAN DV-04 PB-3
+Compromised pump joining a botnet,no egress restriction; device cannot run an agent,T1071,Application Layer Protocol,DV-05 UC-03 PB-4
+Bulk exfiltration over TLS,stateless filter judges only the 5-tuple,T1048; T1041,Exfiltration Over Alternative Protocol; Exfiltration Over C2 Channel,C-07 TLS inspection PB-5
+Application attack on a permitted port,no layer-7 inspection,T1190,Exploit Public-Facing Application,D-01 D-02 IPS
+Ransomware over SMB and RDP,flat network,T1021.001; T1021.002; T1486,RDP; SMB/Admin Shares; Data Encrypted for Impact,C-08 H-08 IPS
+Firewall management compromise,GUI reachable from user zones,T1190,Exploit Public-Facing Application,G-02 M-01
+DNS tunnelling,DNS permitted by port only,T1071.004,Application Layer Protocol: DNS,G-04 DV-01 Suricata sid 9000006
+State-table DoS,single edge device,T1499,Endpoint Denial of Service,session limits HA

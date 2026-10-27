@@ -1,0 +1,17 @@
+test,requirement,design_response,test_command,expected_result,rules,tested_in,observed_in_lab
+1,Stop vendor-to-clinical movement,Default deny; vendor Wi-Fi to internet only,"vendor-vm$ nmap -sS -Pn -p 1433,2575,3389 192.168.10.20",filtered,VW-01 (G-03 for 1433),sim+lab(E2),TO FILL
+2,Close the flat-network hole,Device VLAN reachable only via firewall,clinical$ nmap -sS -Pn 192.168.30.0/24,all filtered,"C-08, G-03",sim,TO FILL (not in lab topology)
+3,Radiology cannot reach EMR DB (F2),G-03,rad-vm$ nmap -sS -Pn -p 1433 192.168.10.20,filtered; deny log shows G-03,G-03,sim+lab(E2),TO FILL
+4,Restrict the device zone,Three named flows,opnsense# pfctl -vvsr (hit_counter_review.py --only DV-0),only DV-01..03 and returns increase,DV-01..05,sim+lab(E3),TO FILL
+5,Device cannot reach internet,DV-05,pump-vm$ curl -m 5 https://example.com,times out; DV-05 counter increments,DV-05,sim+lab(E3),TO FILL
+6,Rogue laptop is quarantined (F1),802.1X/MAB,Unknown MAC on a device port,VLAN 999 address or none; SIEM alert,access layer,design (no 802.1X in VirtualBox),N/A in lab
+7,Device peer isolation,PVLAN,pump A$ ping pump B; arping pump B,no reply,DV-04,sim+design,N/A in lab
+8,See past port numbers,App-ID,ssh -p 443 from clinical/radiology,classified as SSH and blocked,C-07,sim+lab(E7),TO FILL
+9,Detect malicious request on permitted port,IPS on portal,SQLi string to /portal/,blocked; IPS alert logged,D-02,lab(E6),TO FILL
+10,Admin path not public,URL path rule,GET /admin/ from internet,block page,D-01,sim,TO FILL (not in lab topology)
+11,Management unreachable,G-02,"every zone$ nmap -p 22,443 192.168.90.0/24",filtered,G-02,sim,TO FILL
+12,Guest is internet only,GW-01,guest$ nmap internal ranges; curl https://example.com,internal filtered; internet works,GW-01/02,sim (vendor-vm stands in for guest in E2),TO FILL
+13,Research egress inspected,Proxy only,research$ curl without and with proxy,direct fails; via proxy succeeds and is logged with user,"RS-02, D-05",sim,TO FILL (not in lab topology)
+14,Keep the campus running,Log-only then enforce; HA,Two weeks log-only; HA failover during MLLP session,zero clinical tickets; no MLLP session dropped,--,design (production rollout),N/A in lab
+15,Be auditable,Exported policy with per-rule records,Rebuild F2 and F3 from logs (timeline.py),both reconstructed,all,lab(E8),TO FILL
+16,No rule drift,Quarterly any-any search,lint_policy.py (E2 check) on the exported policy,no permit with src and dst both any,all,tool,lint_policy.py exit code 0

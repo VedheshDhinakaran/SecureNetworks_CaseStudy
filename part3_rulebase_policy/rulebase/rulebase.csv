@@ -1,0 +1,61 @@
+section,id,source,destination,service,action,log,owner,requirement,review,ngfw_controls,enabled
+Section 0 - Global protections,G-01,G_THREAT_FEEDS,any,any,deny,A,SEC,Drop known-bad sources and destinations before any permit,Q,,yes
+Section 0 - Global protections,G-02,any except Z_MGMT,"Z_MGMT except H_SIEM, H_BACKUP",any,deny,A,SEC,Management plane unreachable from user zones,Q,,yes
+Section 0 - Global protections,G-03,"any except Z_HIS, H_BASTION, H_NMS",H_EMR_DB,any,deny,A,IT,No zone outside HIS ever reaches the EMR database (incident F2),Q,,yes
+Section 0 - Global protections,G-04,"any except H_DNS, H_PROXY, Z_GUEST, Z_VENDOR_WIFI",internet,"S_DNS, S_DOT",deny,A,SEC,Stop DNS bypass and DNS tunnelling,Q,app=dns-over-https,yes
+Section 1 - MGMT,M-01,H_BASTION,G_MGMT_TARGETS,"S_SSH, S_HTTPS",permit,Y,SEC,Administration only from the bastion,Q,,yes
+Section 1 - MGMT,M-02,H_BASTION,"Z_HIS, Z_DMZ, Z_RESEARCH","S_SSH, S_RDP",permit,Y,IT,Server administration,Q,,yes
+Section 1 - MGMT,M-03,H_NMS,"Z_HIS, Z_DMZ",S_SNMP,permit,Y,IT,Health monitoring with SNMPv3,Q,,yes
+Section 1 - MGMT,M-04,"Z_HIS, Z_DMZ, Z_RESEARCH, H_JUMP",H_SIEM,S_SYSLOG_TLS,permit,Y,SEC,Central logging,Q,,yes
+Section 1 - MGMT,M-05,H_BACKUP,H_DR_BACKUP,S_BACKUP,permit,Y,IT,Off-site backup copy over the DR IPsec tunnel,Q,,yes
+Section 1 - MGMT,M-06,"H_BASTION, H_SIEM",internet,S_HTTPS,permit,Y,SEC,Patches and signature updates,Q,url_category=software-updates,yes
+Section 1 - MGMT,M-07,Z_MGMT,any,any,deny,A,SEC,MGMT default deny,Q,,yes
+Section 2 - HIS,H-01,G_HIS_SERVERS,H_BACKUP,S_BACKUP,permit,Y,IT,Backup out (brief),Q,,yes
+Section 2 - HIS,H-02,"H_EMR_APP, H_IFENGINE","F_EPRESCRIBE, F_LABPARTNER",S_HTTPS,permit,Y,IT,E-prescribing and external lab results,Q,app=ssl,yes
+Section 2 - HIS,H-03,G_HIS_SERVERS,H_MAILRELAY,S_SMTP,permit,Y,IT,Application notifications,Q,,yes
+Section 2 - HIS,H-04,H_DEID,H_SFTP_DROP,S_SSH,permit,Y,RES,De-identified extracts pushed to research,Q,,yes
+Section 2 - HIS,H-05,H_IFENGINE,H_PACS_BROKER,S_MLLP,permit,Y,RAD,Orders sent to radiology,Q,app=hl7,yes
+Section 2 - HIS,H-06,H_NTP,F_NTP_UPSTREAM,S_NTP,permit,Y,IT,Upstream time traceable to IST (CERT-In),Q,,yes
+Section 2 - HIS,H-07,H_DNS,internet,S_DNS,permit,Y,IT,Recursive resolution,Q,,yes
+Section 2 - HIS,H-08,Z_HIS,any,any,deny,A,IT,HIS default deny,Q,,yes
+Section 3 - DMZ (outbound),D-01,internet,H_PORTAL,S_HTTPS,deny,A,IT,Admin path never public,Q,url_path=/admin/*,yes
+Section 3 - DMZ (outbound),D-02,internet,H_PORTAL,S_HTTPS,permit,Y,IT,Patient portal,Q,url_path=/portal/*; ips=strict,yes
+Section 3 - DMZ (outbound),D-03,H_PORTAL,H_EMR_APP,S_HTTPS,permit,Y,IT,Portal back end,Q,,yes
+Section 3 - DMZ (outbound),D-04,H_MAILRELAY,internet,S_SMTP,permit,Y,IT,Outbound mail,Q,,yes
+Section 3 - DMZ (outbound),D-05,H_PROXY,internet,S_WEB,permit,Y,RES,Research inspected egress,Q,"profiles=file,dlp; tls_inspect=True",yes
+Section 3 - DMZ (outbound),D-06,internet,EDGE_IPSEC,S_IKE,permit,Y,SEC,Vendor and DR tunnels,Q,,yes
+Section 3 - DMZ (outbound),D-07,Z_DMZ,any,any,deny,A,IT,DMZ default deny,Q,,yes
+Section 3b - Inbound from internet,D-08,internet,any,any,deny,Y,SEC,Inbound default deny,Q,,yes
+Section 4 - DEVICES,DV-01,Z_DEVICES,H_DNS,S_DNS,permit,Y,BIO,Name resolution,M,,yes
+Section 4 - DEVICES,DV-02,Z_DEVICES,H_NTP,S_NTP,permit,Y,BIO,Time,M,,yes
+Section 4 - DEVICES,DV-03,Z_DEVICES,H_IFENGINE,S_MLLP,permit,Y,BIO,Device data to EMR,M,app=hl7; ips=medical,yes
+Section 4 - DEVICES,DV-04,Z_DEVICES,Z_DEVICES,any,deny,A,BIO,No peer traffic (with PVLAN),M,,yes
+Section 4 - DEVICES,DV-05,Z_DEVICES,any,any,deny,A,BIO,Strict egress default,M,,yes
+Section 5 - RADIOLOGY,R-01,Z_RADIOLOGY,G_CORE,S_CORE,permit,Y,RAD,"DNS, time, logon",Q,,yes
+Section 5 - RADIOLOGY,R-02,H_PACS_BROKER,H_IFENGINE,S_MLLP,permit,Y,RAD,Results and status to EMR,Q,app=hl7,yes
+Section 5 - RADIOLOGY,R-03,Z_RADIOLOGY (user group GRP_RADIOLOGISTS),H_EMR_APP,S_HTTPS,permit,Y,RAD,Clinical context while reporting,Q,app=emr-web; user=GRP_RADIOLOGISTS,yes
+Section 5 - RADIOLOGY,R-04,H_PACS_ARCH,H_DR_BACKUP,S_DICOM_TLS,permit,Y,RAD,Off-site image copy,Q,,yes
+Section 5 - RADIOLOGY,R-05,H_PACS,F_TELERAD,"S_DICOM_TLS, S_HTTPS",permit,Y,RAD,Teleradiology,Q,,yes
+Section 5 - RADIOLOGY,R-06,Z_RADIOLOGY,any,any,deny,A,RAD,Radiology default deny (incl. internet),Q,,yes
+Section 6 - CLINICAL,C-01,Z_CLINICAL,G_CORE,S_CORE,permit,Y,NUR,"DNS, time, logon",Q,,yes
+Section 6 - CLINICAL,C-02,Z_CLINICAL (user group GRP_CLINICIANS),H_EMR_APP,S_HTTPS,permit,Y,NUR,EMR access,Q,app=emr-web; user=GRP_CLINICIANS; ips=strict,yes
+Section 6 - CLINICAL,C-03,Z_CLINICAL (user group GRP_PHARMACISTS),H_PHARMACY,S_HTTPS,permit,Y,NUR,Pharmacy system,Q,user=GRP_PHARMACISTS,yes
+Section 6 - CLINICAL,C-04,Z_CLINICAL (user group GRP_BILLING),H_BILLING,S_HTTPS,permit,Y,FIN,Billing (PCI scope),Q,user=GRP_BILLING,yes
+Section 6 - CLINICAL,C-05,Z_CLINICAL (user group GRP_CLINICIANS),H_PACS,S_HTTPS,permit,Y,RAD,Images at the bedside,Q,app=dicomweb; user=GRP_CLINICIANS,yes
+Section 6 - CLINICAL,C-06,Z_CLINICAL (user group GRP_BIOMED),H_JUMP,S_RDP,permit,Y,BIO,Device maintenance via jump host,Q,user=GRP_BIOMED,yes
+Section 6 - CLINICAL,C-07,Z_CLINICAL,internet,S_WEB,permit,Y,NUR,Internet (brief),Q,"app_block=ssh,openvpn,tor,remote-access; profiles=url,file,ips; tls_inspect=True",yes
+Section 6 - CLINICAL,C-08,Z_CLINICAL,any,any,deny,A,NUR,Clinical default deny,Q,,yes
+Section 7 - GUEST,GW-01,Z_GUEST,N_RFC1918,any,deny,Y,FAC,No internal reach,Q,,yes
+Section 7 - GUEST,GW-02,Z_GUEST,internet,"S_WEB, S_DNS",permit,Y,FAC,Internet only (brief),Q,app_block=tor; profiles=url; shaper=5Mbit/client,yes
+Section 7 - GUEST,GW-03,Z_GUEST,any,any,deny,Y,FAC,Guest default deny,Q,,yes
+Section 8 - VENDOR-WIFI,VW-01,Z_VENDOR_WIFI,N_RFC1918,any,deny,A,SEC,Replaces the old any-any (incident F3),Q,,yes
+Section 8 - VENDOR-WIFI,VW-02,Z_VENDOR_WIFI,internet,"S_WEB, S_DNS, S_IKE",permit,Y,SEC,Internet only (brief),Q,profiles=url,yes
+Section 8 - VENDOR-WIFI,VW-03,Z_VENDOR_WIFI,any,any,deny,A,SEC,Vendor Wi-Fi default deny,Q,,yes
+Section 9 - RESEARCH,RS-01,Z_RESEARCH,"H_DNS, H_NTP",S_CORE_MIN,permit,Y,RES,DNS and time,Q,,yes
+Section 9 - RESEARCH,RS-02,Z_RESEARCH,H_PROXY,S_PROXY,permit,Y,RES,Inspected egress via proxy (brief),Q,,yes
+Section 9 - RESEARCH,RS-03,Z_RESEARCH,Z_HIS,any,deny,A,RES,Research never reaches clinical data,Q,,yes
+Section 9 - RESEARCH,RS-04,Z_RESEARCH,any,any,deny,A,RES,Research default deny,Q,,yes
+Section 10 - VENDOR-MAINT,VM-01,N_VPN_POOL,H_JUMP,"S_RDP, S_SSH",permit,Y,BIO,Vendor reaches jump host only during ticket window,T,schedule=per-ticket,yes
+Section 10 - VENDOR-MAINT,VM-02,H_JUMP,TICKET_DEVICE,TICKET_PORT,permit,A,BIO,"Template: created per ticket, disabled otherwise",T,schedule=per-ticket,no (template)
+Section 10 - VENDOR-MAINT,VM-03,Z_VENDOR_MAINT,any,any,deny,A,BIO,Vendor default deny,Q,,yes
+Section 11 - Final deny,X-99,any,any,any,deny,A,SEC,Global default deny; any hit means a zone section is incomplete,Q,,yes

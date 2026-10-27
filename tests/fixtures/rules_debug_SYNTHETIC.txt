@@ -1,0 +1,10 @@
+# SYNTHETIC TEST FIXTURE - not lab output. Shape follows OPNsense /tmp/rules.debug.
+pass in log quick on em3 inet proto tcp from {192.168.30.0/24} to {192.168.10.53} port {53} keep state label "aaaa0001" # [cs07] DV-01 DNS
+pass in log quick on em3 inet proto udp from {192.168.30.0/24} to {192.168.10.53} port {53} keep state label "aaaa0001" # [cs07] DV-01 DNS
+pass in log quick on em3 inet proto udp from {192.168.30.0/24} to {192.168.10.57} port {123} keep state label "aaaa0002" # [cs07] DV-02 NTP
+pass in log quick on em3 inet proto tcp from {192.168.30.0/24} to {192.168.10.40} port {2575} keep state label "aaaa0003" # [cs07] DV-03 HL7 MLLP
+block in log quick on em3 inet from {192.168.30.0/24} to {any} label "aaaa0005" # [cs07] DV-05 strict egress
+block in log quick on em4 inet from {192.168.40.0/24} to {192.168.10.20} label "bbbb0003" # [cs07] G-03 no EMR DB
+block in log quick on em5 inet from {10.61.0.0/24} to {$N_RFC1918} label "cccc0001" # [cs07] VW-01 no internal
+block in log quick on em5 inet from {10.61.0.0/24} to {192.168.90.0/24} label "cccc0002" # [cs07] G-02 mgmt (synthetic)
+pass in log quick on em5 inet proto tcp from {10.61.0.0/24} to {! $N_RFC1918} port {80 443} keep state label "cccc0003" # [cs07] VW-02 internet only

@@ -1,0 +1,24 @@
+title: UC-02 EMR database touched from outside HIS (incident F2)
+id: c2f6f3df-3f83-4d43-923e-a414506f0de9
+status: experimental
+description: |
+  Any packet that hit G-03. By design nothing outside HIS (plus the bastion
+  and NMS) ever has a reason to reach H_EMR_DB, so a single hit is critical.
+author: CS07 Team (Part IV)
+date: 2026-10-27
+references:
+  - CS07 report, Section 12.2 (UC-02), playbook PB-2
+logsource:
+  product: opnsense
+  service: filterlog
+detection:
+  selection:
+    rule_id: G-03
+  condition: selection
+fields: [src_ip, dst_ip, dst_port, interface]
+falsepositives:
+  - None expected. A new application needing the database must come through a change ticket first.
+level: critical
+tags:
+  - attack.collection
+  - attack.t1213

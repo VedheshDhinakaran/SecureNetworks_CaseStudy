@@ -1,0 +1,63 @@
+# =====================================================================
+#  Simulator probes for the verification matrix (report Table 10.1)
+#  Run with: python3 tools/verify_matrix.py
+#
+#  Each probe is one packet pushed through the PRODUCTION policy in the
+#  simulator (common/sjvnet). A pass here shows that the rule base as
+#  written meets the test. It is NOT lab evidence: the lab results for
+#  the same tests come from Part IV experiments E1-E8.
+# =====================================================================
+
+addresses:
+  vendor_laptop:  10.61.0.50
+  guest_phone:    10.60.0.50
+  clinical_pc:    192.168.50.100
+  reading_ws:     192.168.40.100
+  pump_a:         192.168.30.10
+  pump_b:         192.168.30.11
+  research_pc:    192.168.70.100
+  internet_host:  8.8.8.8
+  internet_attacker: 198.18.0.66
+
+probes:
+  # T1 vendor -> clinical
+  - {test: 1,  src: vendor_laptop, dst: H_EMR_DB,     proto: tcp, dport: 1433, expect: deny,   rule: G-03, note: "G-03 sits above VW-01 and catches the DB first"}
+  - {test: 1,  src: vendor_laptop, dst: H_IFENGINE,   proto: tcp, dport: 2575, expect: deny,   rule: VW-01}
+  - {test: 1,  src: vendor_laptop, dst: H_EMR_APP,    proto: tcp, dport: 3389, expect: deny,   rule: VW-01}
+  - {test: 1,  src: vendor_laptop, dst: internet_host, proto: tcp, dport: 443, expect: permit, rule: VW-02}
+  # T2 clinical -> devices
+  - {test: 2,  src: clinical_pc,   dst: pump_a,       proto: tcp, dport: 80,   expect: deny,   rule: C-08}
+  - {test: 2,  src: clinical_pc,   dst: H_EMR_DB,     proto: tcp, dport: 1433, expect: deny,   rule: G-03}
+  # T3 incident F2
+  - {test: 3,  src: reading_ws,    dst: H_EMR_DB,     proto: tcp, dport: 1433, expect: deny,   rule: G-03}
+  # T4 device zone: the three named flows work
+  - {test: 4,  src: pump_a,        dst: H_DNS,        proto: udp, dport: 53,   expect: permit, rule: DV-01}
+  - {test: 4,  src: pump_a,        dst: H_DNS,        proto: tcp, dport: 53,   expect: permit, rule: DV-01}
+  - {test: 4,  src: pump_a,        dst: H_NTP,        proto: udp, dport: 123,  expect: permit, rule: DV-02}
+  - {test: 4,  src: pump_a,        dst: H_IFENGINE,   proto: tcp, dport: 2575, expect: permit, rule: DV-03, app: hl7}
+  - {test: 4,  src: pump_a,        dst: H_EMR_DB,     proto: tcp, dport: 1433, expect: deny,   rule: G-03}
+  - {test: 4,  src: pump_a,        dst: H_PACS,       proto: tcp, dport: 104,  expect: deny,   rule: DV-05}
+  # T5 device to internet
+  - {test: 5,  src: pump_a,        dst: internet_host, proto: tcp, dport: 443, expect: deny,   rule: DV-05}
+  # T7 peer isolation (through the firewall; PVLAN stops it at layer 2 first)
+  - {test: 7,  src: pump_a,        dst: pump_b,       proto: tcp, dport: 22,   expect: deny,   rule: DV-04}
+  # T8 App-ID: SSH on 443 from clinical
+  - {test: 8,  src: clinical_pc,   dst: internet_host, proto: tcp, dport: 443, expect: deny,   rule: C-07, app: ssh, ngfw: true, note: "permitted port, wrong application"}
+  - {test: 8,  src: clinical_pc,   dst: internet_host, proto: tcp, dport: 443, expect: permit, rule: C-07, ngfw: false, note: "stateful-only firewall lets it through"}
+  # T10 admin path
+  - {test: 10, src: internet_attacker, dst: H_PORTAL, proto: tcp, dport: 443, url_path: /admin/login, expect: deny,   rule: D-01}
+  - {test: 10, src: internet_attacker, dst: H_PORTAL, proto: tcp, dport: 443, url_path: /portal/home, expect: permit, rule: D-02}
+  # T11 management plane
+  - {test: 11, src: clinical_pc,   dst: H_BASTION,    proto: tcp, dport: 22,   expect: deny,   rule: G-02}
+  - {test: 11, src: reading_ws,    dst: H_FW_MGMT,    proto: tcp, dport: 443,  expect: deny,   rule: G-02}
+  - {test: 11, src: pump_a,        dst: H_NMS,        proto: tcp, dport: 22,   expect: deny,   rule: G-02}
+  - {test: 11, src: vendor_laptop, dst: H_FW_MGMT,    proto: tcp, dport: 443,  expect: deny,   rule: G-02}
+  - {test: 11, src: guest_phone,   dst: H_BASTION,    proto: tcp, dport: 22,   expect: deny,   rule: G-02}
+  # T12 guest
+  - {test: 12, src: guest_phone,   dst: H_EMR_APP,    proto: tcp, dport: 443,  expect: deny,   rule: GW-01}
+  - {test: 12, src: guest_phone,   dst: internet_host, proto: tcp, dport: 443, expect: permit, rule: GW-02}
+  # T13 research
+  - {test: 13, src: research_pc,   dst: internet_host, proto: tcp, dport: 443, expect: deny,   rule: RS-04}
+  - {test: 13, src: research_pc,   dst: H_PROXY,      proto: tcp, dport: 3128, expect: permit, rule: RS-02}
+  - {test: 13, src: H_PROXY,       dst: internet_host, proto: tcp, dport: 443, expect: permit, rule: D-05}
+  - {test: 13, src: research_pc,   dst: H_EMR_APP,    proto: tcp, dport: 443,  expect: deny,   rule: RS-03}

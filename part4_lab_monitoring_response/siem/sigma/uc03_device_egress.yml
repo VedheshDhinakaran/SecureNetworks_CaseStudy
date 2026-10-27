@@ -1,0 +1,44 @@
+title: SJV device zone egress deny (base rule)
+id: e49fc480-e086-49c3-9e9b-27cf8e8fb566
+name: sjv_dv05_internet
+status: experimental
+description: DV-05 deny where the destination is outside RFC1918.
+author: CS07 Team (Part IV)
+date: 2026-10-27
+logsource:
+  product: opnsense
+  service: filterlog
+detection:
+  selection:
+    rule_id: DV-05
+  internal:
+    dst_ip|cidr:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+  condition: selection and not internal
+level: low
+---
+title: UC-03 Device zone egress attempts (botnet / phone home)
+id: c0b85248-db1e-4142-863d-5ad3b68aac3e
+status: experimental
+description: Five or more internet-bound denies from one medical device in 10 minutes.
+author: CS07 Team (Part IV)
+date: 2026-10-27
+references:
+  - CS07 report, Section 12.2 (UC-03), playbook PB-4
+correlation:
+  type: event_count
+  rules:
+    - sjv_dv05_internet
+  group-by:
+    - src_ip
+  timespan: 10m
+  condition:
+    gte: 5
+falsepositives:
+  - Device firmware with a hard-coded vendor cloud or NTP server (record in the device's MDS2 notes)
+level: high
+tags:
+  - attack.command-and-control
+  - attack.t1071

@@ -1,0 +1,5 @@
+# Python 3.10 or newer
+pyyaml>=6.0
+matplotlib>=3.7     # risk heat maps (Part I); optional, heatmap.py --text works without it
+requests>=2.31      # OPNsense API loader (Part III); only needed with --apply
+pytest>=7.4         # test suite

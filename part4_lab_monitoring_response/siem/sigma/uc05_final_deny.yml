@@ -1,0 +1,19 @@
+title: UC-05 Final deny hit (policy gap)
+id: 9deaa23a-2092-44db-ae7f-654b11c48378
+status: experimental
+description: |
+  Traffic reached X-99. Every zone section ends in its own default deny, so
+  X-99 should only see traffic from an address that is in no zone. That is
+  either a mis-addressed host or a missing zone section: open a ticket.
+author: CS07 Team (Part IV)
+date: 2026-10-27
+logsource:
+  product: opnsense
+  service: filterlog
+detection:
+  selection:
+    rule_id: X-99
+  condition: selection
+falsepositives:
+  - Spoofed or bogon sources on the WAN
+level: low

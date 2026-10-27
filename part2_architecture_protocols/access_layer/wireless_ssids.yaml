@@ -1,0 +1,22 @@
+# SSID to zone mapping (report Section 5.7)
+ssids:
+  SJV-STAFF:
+    security: WPA3-Enterprise
+    eap: EAP-TLS (machine certificate)
+    vlan: assigned by RADIUS role (default 50 CLINICAL)
+    client_isolation: false
+  SJV-MED:
+    security: WPA2-Enterprise or per-device PSK
+    vlan: 30 (DEVICES)
+    mac_allow_list: from the biomedical asset register
+    client_isolation: true
+  SJV-GUEST:
+    security: open + captive portal (SMS one-time password)
+    vlan: 60 (GUEST)
+    client_isolation: true
+    rate_limit: 5 Mbit/s per client
+  SJV-VENDOR:
+    security: WPA3-Personal, key rotated monthly, portal registration
+    vlan: 61 (VENDOR-WIFI)
+    client_isolation: true
+    note: internet only; maintenance happens only through the IPsec + jump host process

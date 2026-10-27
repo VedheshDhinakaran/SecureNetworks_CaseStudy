@@ -1,0 +1,8 @@
+cadence,activity,owner,tool_in_repo
+Daily,Review critical alerts (UC-02 UC-03); confirm log ingestion from both firewall tiers,SOC,siem/sigma/;tools/correlate.py
+Weekly,Baseline per-rule hit counters; review X-99 hits; check TLS-inspection failure rate,SOC,monitoring/snapshot_firewall.sh;part3 tools/hit_counter_review.py
+Monthly,Hit-counter hygiene review; retire dead rules and expired exceptions; patch firewall signatures,Network + SEC,part3 tools/hit_counter_review.py;compliance/metrics.py
+Quarterly,Search for any; justify each survivor; re-run verification matrix; review every Q rule,SEC,part3 tools/lint_policy.py;part3 tools/verify_matrix.py
+Half-yearly,Formal rule-base review with business owners (PCI DSS 1.2.7),CISO,part3 tools/gen_acl.py --format md
+Annually,Segmentation penetration test (PCI DSS 11.4.5); risk register refresh; IR tabletop,CISO,part1 risk/;ir/playbooks/
+On change,Re-baseline flows after every device refresh,Biomed + Network,part3 change_control/

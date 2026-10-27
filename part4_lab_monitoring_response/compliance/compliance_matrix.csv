@@ -1,0 +1,24 @@
+framework,clause,requirement,design_element,evidence_in_repo,report_ref
+HIPAA,164.308(a)(1)(ii)(A),Risk analysis,"Asset register, STRIDE, risk register",part1_foundations_threats_risk/risk/;part1_foundations_threats_risk/threat_model/,Ch. 3-4
+HIPAA,164.308(a)(1)(ii)(B),Risk management,Residual risk and controls; continuous monitoring calendar,part1_foundations_threats_risk/risk/risk_register.csv;compliance/monitoring_calendar.csv,Ch. 4 / 14
+HIPAA,164.308(a)(1)(ii)(D),Information system activity review,Telemetry and SIEM use cases,monitoring/telemetry.yaml;siem/sigma/,Ch. 12
+HIPAA,164.308(a)(5)(ii)(B),Protection from malicious software,"IPS, file blocking, URL filtering",ids/suricata/sjv-custom.rules;part3 policy.yaml (profiles),Ch. 8
+HIPAA,164.308(a)(6),Security incident procedures,Playbooks PB-1 to PB-5,ir/playbooks/,Ch. 13
+HIPAA,164.308(a)(7),Contingency plan,"HA pairs, failure modes, off-site backup",part3 policy.yaml M-05 R-04,Ch. 5 / 7
+HIPAA,164.312(a)(1),Access control,"Zones, default deny, identity-based rules",part2 objects.yaml;part3 policy.yaml,Ch. 5 / 8
+HIPAA,164.312(b),Audit controls,Logging of every decision; exported policy diffs,monitoring/rsyslog-opnsense.conf;part3 generated/,Ch. 12
+HIPAA,164.312(c)(1),Integrity,Default deny plus IPS; DAI and DHCP snooping,part2 access_layer/access_switch_hardening.ios,Ch. 5 / 7
+HIPAA,164.312(d),Person or entity authentication,"802.1X, MFA on bastion and vendor IPsec",part2 access_layer/,Ch. 5
+HIPAA,164.312(e)(1),Transmission security,"Protocol register: TLS, IPsec, SNMPv3, syslog-TLS",part2 protocols/protocol_register.csv,Ch. 6
+PCI DSS v4.0,"1.2.1, 1.2.2",Configuration standards and change control for NSCs,"Rule metadata, change control, lint gate",part3 tools/lint_policy.py;part3 change_control/,Ch. 10
+PCI DSS v4.0,1.2.5,All allowed services and ports identified and approved,Protocol register; every rule has requirement and owner,part2 protocols/protocol_register.csv;part3 rulebase/rulebase.csv,Ch. 6 / 8
+PCI DSS v4.0,1.2.7,NSC configurations reviewed at least every six months,Half-yearly review,compliance/monitoring_calendar.csv,Ch. 14
+PCI DSS v4.0,"1.3.1, 1.3.2",Inbound and outbound CDE traffic restricted,C-04 only (billing group to H_BILLING); H-08,part3 policy.yaml C-04 H-08,Ch. 8
+PCI DSS v4.0,1.3.3,Controls between wireless networks and the CDE,"GW-01, VW-01; no wireless route to HIS",part3 verification/probes.yaml (T1 T12),Ch. 8
+PCI DSS v4.0,"10.2, 10.4.1",Audit logs; daily review,Logging; daily SOC review,monitoring/;compliance/monitoring_calendar.csv,Ch. 12 / 14
+PCI DSS v4.0,11.4.5,Segmentation controls tested,Verification matrix; annual segmentation test,part3 verification/;evidence/E2,Ch. 10 / 11
+PCI DSS v4.0,11.5.1,Intrusion detection / prevention,Suricata/NGFW IPS profiles,ids/suricata/;evidence/E6,Ch. 8 / 11
+DPDP Act 2023,s.8(5) s.8(6),Reasonable security safeguards; breach intimation,Whole design; PB-5 notification step,ir/playbooks/PB-5_bulk_exfiltration_tls.md,Ch. 13 / 14
+CERT-In 2022,Directions (ii) (iv) (i),"Report incidents within 6 h; keep ICT logs 180 days in India; sync clocks to NIC/NPL NTP","IR process, 180-day retention, H-06",monitoring/logrotate-opnsense;part3 policy.yaml H-06,Ch. 13 / 14
+IEC 80001-1:2021,-,Risk management for IT networks with medical devices,"Device zone design, biomed ownership, PB-4",part3 policy.yaml DV-01..05;ir/playbooks/PB-4_compromised_medical_device.md,Ch. 5 / 13
+NIST SP 800-41r1,-,Default-deny firewall policy; policy management and testing,Rule-base disciplines,part3 tools/lint_policy.py;part3 tools/verify_matrix.py,Ch. 8 / 10

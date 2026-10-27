@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# never commit real credentials or an unsanitised firewall config
+apikey.txt
+*.key
+config-*.xml
+!part4_lab_monitoring_response/evidence/lab_config/config-sanitised.xml
+part4_lab_monitoring_response/ir/cases/
+part4_lab_monitoring_response/ids/suricata/offline_out/
+part4_lab_monitoring_response/monitoring/snapshots/
+part1_foundations_threats_risk/risk/figures/

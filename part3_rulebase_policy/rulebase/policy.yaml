@@ -1,0 +1,137 @@
+# =====================================================================
+#  Sanjivani NGFW rule base -- machine-readable form of report Table 8.2
+#  Owner: Part III (rule base). Objects come from
+#  part2_architecture_protocols/network/objects.yaml
+#
+#  Evaluation is top to bottom, first match wins.
+#  Address fields accept: an object name, a list of names, "any",
+#  "internet" (= any address outside RFC1918), or {not: [names]}.
+#  Every permit is a forward rule; replies are admitted by the state
+#  table (report Section 8.4).
+#
+#  log:    yes  -> log every match
+#          alert -> log and raise a SIEM alert
+#  review: Q quarterly, M monthly, T expires with its change ticket
+# =====================================================================
+
+defaults:
+  log: yes
+  review: Q
+
+rules:
+  # ---------------- Section 0: global protections ----------------
+  - {id: G-01, section: global, global_block: true, src: G_THREAT_FEEDS, dst: any, svc: any, action: deny, log: alert, owner: SEC,
+     req: "Drop known-bad sources and destinations before any permit", note: "Threat-intel / geo-IP feed alias; destination side handled by a mirror rule on the feed"}
+  - {id: G-02, section: global, src: {not: [Z_MGMT]}, dst: {zone: Z_MGMT, except: [H_SIEM, H_BACKUP]}, svc: any, action: deny, log: alert, owner: SEC,
+     req: "Management plane unreachable from user zones", note: "SIEM and backup collectors are excepted so M-04 and H-01 are not shadowed (found by lint_policy.py)"}
+  - {id: G-03, section: global, src: {not: [Z_HIS, H_BASTION, H_NMS]}, dst: H_EMR_DB, svc: any, action: deny, log: alert, owner: IT,
+     req: "No zone outside HIS ever reaches the EMR database (incident F2)", note: "Bastion and NMS excepted so M-02/M-03 can manage the DB host (found by lint_policy.py)"}
+  - {id: G-04, section: global, src: {not: [H_DNS, H_PROXY, Z_GUEST, Z_VENDOR_WIFI]}, dst: internet, svc: [S_DNS, S_DOT], app: [dns-over-https],
+     action: deny, log: alert, owner: SEC, req: "Stop DNS bypass and DNS tunnelling"}
+
+  # ---------------- Section 1: management ----------------
+  - {id: M-01, section: mgmt, src: H_BASTION, dst: G_MGMT_TARGETS, svc: [S_SSH, S_HTTPS], action: permit, owner: SEC,
+     req: "Administration only from the bastion"}
+  - {id: M-02, section: mgmt, src: H_BASTION, dst: [Z_HIS, Z_DMZ, Z_RESEARCH], svc: [S_SSH, S_RDP], action: permit, owner: IT,
+     req: "Server administration"}
+  - {id: M-03, section: mgmt, src: H_NMS, dst: [Z_HIS, Z_DMZ], svc: S_SNMP, action: permit, owner: IT,
+     req: "Health monitoring with SNMPv3"}
+  - {id: M-04, section: mgmt, src: [Z_HIS, Z_DMZ, Z_RESEARCH, H_JUMP], dst: H_SIEM, svc: S_SYSLOG_TLS, action: permit, owner: SEC,
+     req: "Central logging"}
+  - {id: M-05, section: mgmt, src: H_BACKUP, dst: H_DR_BACKUP, svc: S_BACKUP, action: permit, owner: IT,
+     req: "Off-site backup copy over the DR IPsec tunnel"}
+  - {id: M-06, section: mgmt, src: [H_BASTION, H_SIEM], dst: internet, svc: S_HTTPS, url_category: [software-updates],
+     action: permit, owner: SEC, req: "Patches and signature updates"}
+  - {id: M-07, section: mgmt, src: Z_MGMT, dst: any, svc: any, action: deny, log: alert, owner: SEC, req: "MGMT default deny"}
+
+  # ---------------- Section 2: HIS ----------------
+  - {id: H-01, section: his, src: G_HIS_SERVERS, dst: H_BACKUP, svc: S_BACKUP, action: permit, owner: IT, req: "Backup out (brief)"}
+  - {id: H-02, section: his, src: [H_EMR_APP, H_IFENGINE], dst: [F_EPRESCRIBE, F_LABPARTNER], svc: S_HTTPS, app: [ssl],
+     action: permit, owner: IT, req: "E-prescribing and external lab results"}
+  - {id: H-03, section: his, src: G_HIS_SERVERS, dst: H_MAILRELAY, svc: S_SMTP, action: permit, owner: IT, req: "Application notifications"}
+  - {id: H-04, section: his, src: H_DEID, dst: H_SFTP_DROP, svc: S_SSH, action: permit, owner: RES,
+     req: "De-identified extracts pushed to research"}
+  - {id: H-05, section: his, src: H_IFENGINE, dst: H_PACS_BROKER, svc: S_MLLP, app: [hl7], action: permit, owner: RAD,
+     req: "Orders sent to radiology"}
+  - {id: H-06, section: his, src: H_NTP, dst: F_NTP_UPSTREAM, svc: S_NTP, action: permit, owner: IT,
+     req: "Upstream time traceable to IST (CERT-In)"}
+  - {id: H-07, section: his, src: H_DNS, dst: internet, svc: S_DNS, action: permit, owner: IT, req: "Recursive resolution"}
+  - {id: H-08, section: his, src: Z_HIS, dst: any, svc: any, action: deny, log: alert, owner: IT, req: "HIS default deny"}
+
+  # ---------------- Section 3: DMZ and internet inbound ----------------
+  - {id: D-01, section: dmz, src: internet, dst: H_PORTAL, svc: S_HTTPS, url_path: "/admin/*", action: deny, log: alert, owner: IT,
+     req: "Admin path never public"}
+  - {id: D-02, section: dmz, src: internet, dst: H_PORTAL, svc: S_HTTPS, url_path: "/portal/*", ips: strict, action: permit, owner: IT,
+     req: "Patient portal"}
+  - {id: D-03, section: dmz, src: H_PORTAL, dst: H_EMR_APP, svc: S_HTTPS, action: permit, owner: IT, req: "Portal back end"}
+  - {id: D-04, section: dmz, src: H_MAILRELAY, dst: internet, svc: S_SMTP, action: permit, owner: IT, req: "Outbound mail"}
+  - {id: D-05, section: dmz, src: H_PROXY, dst: internet, svc: S_WEB, tls_inspect: true, profiles: [file, dlp], action: permit, owner: RES,
+     req: "Research inspected egress"}
+  - {id: D-06, section: dmz, src: internet, dst: EDGE_IPSEC, svc: S_IKE, action: permit, owner: SEC, req: "Vendor and DR tunnels",
+     note: "EDGE_IPSEC is the edge firewall's own public address"}
+  - {id: D-07, section: dmz, src: Z_DMZ, dst: any, svc: any, action: deny, log: alert, owner: IT, req: "DMZ default deny"}
+  - {id: D-08, section: inbound, src: internet, dst: any, svc: any, action: deny, owner: SEC, req: "Inbound default deny"}
+
+  # ---------------- Section 4: medical devices ----------------
+  - {id: DV-01, section: devices, src: Z_DEVICES, dst: H_DNS, svc: S_DNS, action: permit, owner: BIO, review: M, req: "Name resolution"}
+  - {id: DV-02, section: devices, src: Z_DEVICES, dst: H_NTP, svc: S_NTP, action: permit, owner: BIO, review: M, req: "Time"}
+  - {id: DV-03, section: devices, src: Z_DEVICES, dst: H_IFENGINE, svc: S_MLLP, app: [hl7], ips: medical, action: permit, owner: BIO, review: M,
+     req: "Device data to EMR"}
+  - {id: DV-04, section: devices, src: Z_DEVICES, dst: Z_DEVICES, svc: any, action: deny, log: alert, owner: BIO, review: M,
+     req: "No peer traffic (with PVLAN)"}
+  - {id: DV-05, section: devices, src: Z_DEVICES, dst: any, svc: any, action: deny, log: alert, owner: BIO, review: M,
+     req: "Strict egress default"}
+
+  # ---------------- Section 5: radiology ----------------
+  - {id: R-01, section: radiology, src: Z_RADIOLOGY, dst: G_CORE, svc: S_CORE, action: permit, owner: RAD, req: "DNS, time, logon"}
+  - {id: R-02, section: radiology, src: H_PACS_BROKER, dst: H_IFENGINE, svc: S_MLLP, app: [hl7], action: permit, owner: RAD,
+     req: "Results and status to EMR"}
+  - {id: R-03, section: radiology, src: Z_RADIOLOGY, user: GRP_RADIOLOGISTS, dst: H_EMR_APP, svc: S_HTTPS, app: [emr-web], action: permit, owner: RAD,
+     req: "Clinical context while reporting"}
+  - {id: R-04, section: radiology, src: H_PACS_ARCH, dst: H_DR_BACKUP, svc: S_DICOM_TLS, action: permit, owner: RAD, req: "Off-site image copy"}
+  - {id: R-05, section: radiology, src: H_PACS, dst: F_TELERAD, svc: [S_DICOM_TLS, S_HTTPS], action: permit, owner: RAD, req: "Teleradiology"}
+  - {id: R-06, section: radiology, src: Z_RADIOLOGY, dst: any, svc: any, action: deny, log: alert, owner: RAD,
+     req: "Radiology default deny (incl. internet)"}
+
+  # ---------------- Section 6: clinical and admin ----------------
+  - {id: C-01, section: clinical, src: Z_CLINICAL, dst: G_CORE, svc: S_CORE, action: permit, owner: NUR, req: "DNS, time, logon"}
+  - {id: C-02, section: clinical, src: Z_CLINICAL, user: GRP_CLINICIANS, dst: H_EMR_APP, svc: S_HTTPS, app: [emr-web], ips: strict,
+     action: permit, owner: NUR, req: "EMR access"}
+  - {id: C-03, section: clinical, src: Z_CLINICAL, user: GRP_PHARMACISTS, dst: H_PHARMACY, svc: S_HTTPS, action: permit, owner: NUR, req: "Pharmacy system"}
+  - {id: C-04, section: clinical, src: Z_CLINICAL, user: GRP_BILLING, dst: H_BILLING, svc: S_HTTPS, action: permit, owner: FIN, req: "Billing (PCI scope)"}
+  - {id: C-05, section: clinical, src: Z_CLINICAL, user: GRP_CLINICIANS, dst: H_PACS, svc: S_HTTPS, app: [dicomweb], action: permit, owner: RAD,
+     req: "Images at the bedside"}
+  - {id: C-06, section: clinical, src: Z_CLINICAL, user: GRP_BIOMED, dst: H_JUMP, svc: S_RDP, action: permit, owner: BIO,
+     req: "Device maintenance via jump host"}
+  - {id: C-07, section: clinical, src: Z_CLINICAL, dst: internet, svc: S_WEB, tls_inspect: true, profiles: [url, file, ips],
+     app_block: [ssh, openvpn, tor, remote-access], 
+     action: permit, owner: NUR, req: "Internet (brief)"}
+  - {id: C-08, section: clinical, src: Z_CLINICAL, dst: any, svc: any, action: deny, log: alert, owner: NUR, req: "Clinical default deny"}
+
+  # ---------------- Section 7: guest and vendor Wi-Fi ----------------
+  - {id: GW-01, section: guest, src: Z_GUEST, dst: N_RFC1918, svc: any, action: deny, owner: FAC, req: "No internal reach"}
+  - {id: GW-02, section: guest, src: Z_GUEST, dst: internet, svc: [S_WEB, S_DNS], profiles: [url], app_block: [tor], shaper: "5Mbit/client",
+     action: permit, owner: FAC, req: "Internet only (brief)"}
+  - {id: GW-03, section: guest, src: Z_GUEST, dst: any, svc: any, action: deny, owner: FAC, req: "Guest default deny"}
+  - {id: VW-01, section: vendor_wifi, src: Z_VENDOR_WIFI, dst: N_RFC1918, svc: any, action: deny, log: alert, owner: SEC,
+     req: "Replaces the old any-any (incident F3)"}
+  - {id: VW-02, section: vendor_wifi, src: Z_VENDOR_WIFI, dst: internet, svc: [S_WEB, S_DNS, S_IKE], profiles: [url],
+     action: permit, owner: SEC, req: "Internet only (brief)"}
+  - {id: VW-03, section: vendor_wifi, src: Z_VENDOR_WIFI, dst: any, svc: any, action: deny, log: alert, owner: SEC, req: "Vendor Wi-Fi default deny"}
+
+  # ---------------- Section 8: research ----------------
+  - {id: RS-01, section: research, src: Z_RESEARCH, dst: [H_DNS, H_NTP], svc: S_CORE_MIN, action: permit, owner: RES, req: "DNS and time"}
+  - {id: RS-02, section: research, src: Z_RESEARCH, dst: H_PROXY, svc: S_PROXY, action: permit, owner: RES, req: "Inspected egress via proxy (brief)"}
+  - {id: RS-03, section: research, src: Z_RESEARCH, dst: Z_HIS, svc: any, action: deny, log: alert, owner: RES, req: "Research never reaches clinical data"}
+  - {id: RS-04, section: research, src: Z_RESEARCH, dst: any, svc: any, action: deny, log: alert, owner: RES, req: "Research default deny"}
+
+  # ---------------- Section 9: vendor maintenance ----------------
+  - {id: VM-01, section: vendor_maint, src: N_VPN_POOL, dst: H_JUMP, svc: [S_RDP, S_SSH], schedule: per-ticket, action: permit, owner: BIO, review: T,
+     req: "Vendor reaches jump host only during ticket window"}
+  - {id: VM-02, section: vendor_maint, src: H_JUMP, dst: TICKET_DEVICE, svc: TICKET_PORT, schedule: per-ticket, enabled: false,
+     action: permit, log: alert, owner: BIO, review: T, req: "Template: created per ticket, disabled otherwise"}
+  - {id: VM-03, section: vendor_maint, src: Z_VENDOR_MAINT, dst: any, svc: any, action: deny, log: alert, owner: BIO, req: "Vendor default deny"}
+
+  # ---------------- Final rule ----------------
+  - {id: X-99, section: final, src: any, dst: any, svc: any, action: deny, log: alert, owner: SEC,
+     req: "Global default deny; any hit means a zone section is incomplete"}

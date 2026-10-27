@@ -1,0 +1,7 @@
+activity,SOC,Network,Biomed,CISO,Clinical lead
+Triage alert,R,C,I,I,-
+Isolate workstation / port,C,R,-,A,I
+Isolate medical device,C,R,R,A,C
+Evidence preservation,R,C,C,A,-
+Regulatory notification,C,-,-,R/A,I
+Lessons learned,R,R,C,A,C

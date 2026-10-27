@@ -1,0 +1,14 @@
+# /etc/logrotate.d/opnsense - keep 180 days (CERT-In 2022), compress, never truncate in place
+/var/log/opnsense.log /var/log/opnsense/*.log {
+    daily
+    rotate 180
+    compress
+    delaycompress
+    missingok
+    notifempty
+    dateext
+    create 0640 syslog adm
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}

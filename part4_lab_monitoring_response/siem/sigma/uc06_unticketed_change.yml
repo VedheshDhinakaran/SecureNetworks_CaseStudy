@@ -1,0 +1,26 @@
+title: UC-06 Firewall configuration change without a ticket reference
+id: 1076a3e0-2955-49eb-b27a-97a396320d29
+status: experimental
+description: |
+  OPNsense writes every configuration save to the audit log with the
+  change description. Change control (report Ch. 10) requires a ticket
+  number of the form CHG<digits> in that description.
+author: CS07 Team (Part IV)
+date: 2026-10-27
+references:
+  - CS07 report, Section 12.2 (UC-06), PCI DSS v4.0 1.2.2
+logsource:
+  product: opnsense
+  service: audit
+detection:
+  selection:
+    event: config_change
+  ticketed:
+    description|re: 'CHG[0-9]+'
+  condition: selection and not ticketed
+falsepositives:
+  - Automatic saves by the firmware updater (filter by user "root" and source "updater")
+level: high
+tags:
+  - attack.defense-evasion
+  - attack.t1562.004

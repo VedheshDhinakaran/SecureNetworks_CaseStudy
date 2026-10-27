@@ -1,0 +1,39 @@
+title: SJV vendor Wi-Fi internal deny (base rule)
+id: bd68d6bd-50c7-48a2-b917-c819469a5013
+name: sjv_vw01_deny
+status: experimental
+description: Vendor Wi-Fi client denied by VW-01 (internal ranges).
+author: CS07 Team (Part IV)
+date: 2026-10-27
+logsource:
+  product: opnsense
+  service: filterlog
+detection:
+  selection:
+    rule_id: VW-01
+  condition: selection
+level: low
+---
+title: UC-04 Vendor Wi-Fi reaching for internal ranges (incident F3)
+id: 1afb9442-320e-4419-9a94-64ffdc7c9a56
+status: experimental
+description: Twenty or more VW-01 denies from one vendor laptop in five minutes.
+author: CS07 Team (Part IV)
+date: 2026-10-27
+references:
+  - CS07 report, Section 12.2 (UC-04), playbook PB-1
+correlation:
+  type: event_count
+  rules:
+    - sjv_vw01_deny
+  group-by:
+    - src_ip
+  timespan: 5m
+  condition:
+    gte: 20
+falsepositives:
+  - Laptop with a stale mapped drive or proxy setting from its home network
+level: medium
+tags:
+  - attack.discovery
+  - attack.t1046
