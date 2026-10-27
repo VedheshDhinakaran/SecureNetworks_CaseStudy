@@ -8,6 +8,7 @@ from sjvnet.policy import Decision, Packet, Policy
 # Idle timeouts in seconds (typical defaults; report Section 2.5)
 TCP_ESTABLISHED_TIMEOUT = 3600
 TCP_HANDSHAKE_TIMEOUT = 30
+TCP_CLOSING_TIMEOUT = 30
 UDP_TIMEOUT = 60
 ICMP_TIMEOUT = 10
 
@@ -54,13 +55,18 @@ class StatefulFirewall:
         return (p.proto, ends[0], ends[1])
 
     def _expire(self, now: float) -> None:
-        for k in [k for k, e in self.table.items() if e.expires < now]:
+        for k in [k for k, e in self.table.items() if e.expires <= now]:
             del self.table[k]
 
     def process(self, p: Packet, now: float = 0.0) -> Decision:
         self._expire(now)
         entry = self.table.get(self._key(p))
         if entry:
+            if self.ngfw and p.app is not None:
+                rule = self.policy.get(entry.rule_id)
+                if not rule.app_allows(p):
+                    del self.table[self._key(p)]
+                    return Decision("deny", rule, f"App-ID saw '{p.app}', not allowed by {rule.id}")
             return self._check_existing(entry, p, now)
 
         # No entry: only a packet that can START a conversation may be evaluated.
@@ -84,7 +90,7 @@ class StatefulFirewall:
                     e.state, e.expires = "SYN_RCVD", now + TCP_HANDSHAKE_TIMEOUT
                     return Decision("permit", None, f"reply matches state entry (rule {e.rule_id})")
                 return Decision("deny", None, "invalid flags for SYN_SENT state")
-            if e.state == "SYN_RCVD" and from_initiator and "A" in p.flags:
+            if e.state == "SYN_RCVD" and from_initiator and "A" in p.flags and "S" not in p.flags:
                 e.state, e.expires = "ESTABLISHED", now + TCP_ESTABLISHED_TIMEOUT
                 return Decision("permit", None, f"handshake complete (rule {e.rule_id})")
             if e.state == "ESTABLISHED":
@@ -92,12 +98,15 @@ class StatefulFirewall:
                     return Decision("deny", None, "SYN inside an established session")
                 if "F" in p.flags or "R" in p.flags:
                     e.state = "CLOSING"
-                e.expires = now + TCP_ESTABLISHED_TIMEOUT
+                e.expires = now + (TCP_CLOSING_TIMEOUT if e.state == "CLOSING" else TCP_ESTABLISHED_TIMEOUT)
                 return Decision("permit", None, f"established session (rule {e.rule_id})")
             if e.state == "CLOSING":
+                if "S" in p.flags or not any(flag in p.flags for flag in "AFR"):
+                    return Decision("deny", None, "invalid flags for closing session")
+                e.expires = now + TCP_CLOSING_TIMEOUT
                 return Decision("permit", None, "closing session")
             return Decision("deny", None, f"unexpected TCP [{p.flags}] in state {e.state}")
-        # UDP / ICMP pseudo-state: only the responder's replies refresh it
+        # UDP / ICMP pseudo-state: matching packets refresh the idle timeout.
         e.expires = now + (UDP_TIMEOUT if p.proto == "udp" else ICMP_TIMEOUT)
         return Decision("permit", None, f"pseudo-state entry (rule {e.rule_id})")
 

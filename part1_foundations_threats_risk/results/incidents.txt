@@ -1,0 +1,21 @@
+﻿ref   scenario                                         OLD design                               NEW design                 check
+F1    Rogue laptop on device port -> pump web UI       permit (flat network, never inspected)   not tested access layer    N/A
+F1    Rogue laptop on device port -> EMR database      permit (flat network, never inspected)   deny G-03                  OK
+F2    Radiology workstation -> EMR SQL 1433            permit (flat network, never inspected)   deny G-03                  OK
+F2    PACS broker -> interface engine MLLP             permit (flat network, never inspected)   permit R-02                OK
+F2    Reading workstation -> interface engine MLLP     permit (flat network, never inspected)   deny R-06                  OK
+F3    Vendor laptop -> nurse PC SMB                    permit (flat network, never inspected)   deny VW-01                 OK
+F3    Vendor laptop -> EMR database                    permit (flat network, never inspected)   deny G-03                  OK
+F3    Vendor laptop -> internet HTTPS                  permit (L-4)                             permit VW-02               OK
+R3    Pump -> internet (botnet C2)                     permit (L-5)                             deny DV-05                 OK
+R3    Pump -> interface engine MLLP                    permit (flat network, never inspected)   permit DV-03               OK
+R3    Pump -> DNS over TCP (large answer)              permit (flat network, never inspected)   permit DV-01               OK
+R5    Guest phone -> nurse PC                          permit (flat network, never inspected)   deny GW-01                 OK
+R6    Research host -> EMR app                         permit (flat network, never inspected)   deny RS-03                 OK
+R10   Nurse PC -> EMR app (clinician)                  permit (flat network, never inspected)   permit C-02                OK
+R10   Nurse PC -> EMR server RDP (ransomware spread)   permit (flat network, never inspected)   deny C-08                  OK
+R11   Nurse PC -> firewall GUI                         permit (flat network, never inspected)   deny G-02                  OK
+D-01  Internet -> portal /admin/                       permit (L-1)                             deny D-01                  OK
+D-02  Internet -> portal /portal/                      permit (L-1)                             permit D-02                OK
+
+17/17 firewall-path cases behave as the design intends; 1 same-VLAN case requires access-layer verification.

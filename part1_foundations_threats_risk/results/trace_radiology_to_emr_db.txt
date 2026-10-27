@@ -1,0 +1,2 @@
+﻿tcp 192.168.40.100:50000 -> 192.168.10.20:1433 [S]
+  -> DENY   by G-03   (No zone outside HIS ever reaches the EMR database (incident F2))

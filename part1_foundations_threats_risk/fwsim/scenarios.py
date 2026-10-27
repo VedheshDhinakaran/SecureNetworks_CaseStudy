@@ -95,7 +95,7 @@ def translation() -> dict:
     pub = pat.outbound(NURSE_PC, 51514, "93.184.216.34", 443)
     back = pat.inbound(pub[1], "93.184.216.34", 443)
     unsolicited = pat.inbound(pub[1] + 7, ATTACKER, 443)
-    print(f"stateless filter: {NURSE_PC}:51514 leaves unchanged (directly addressable from outside)")
+    print(f"stateless filter: {NURSE_PC}:51514 leaves unchanged (private source has no public return route)")
     print(f"stateful PAT: {NURSE_PC}:51514 -> {pub[0]}:{pub[1]}; reply maps back to {back}; "
           f"unsolicited packet to port {pub[1] + 7} maps to {unsolicited}")
     return {"reply": back, "unsolicited": unsolicited}
@@ -114,9 +114,14 @@ def udp_pseudo_state(model: ObjectModel) -> dict:
 def app_id(model: ObjectModel) -> dict:
     """Generation 4: SSH tunnelled to a permitted :443 (lab experiment E7)."""
     pol = Policy.load(model=model)
-    pkt = Packet(RAD_WS, EMR_APP, "tcp", 443, 52000, "S", user_groups=("GRP_RADIOLOGISTS",), app="ssh")
+    syn = Packet(RAD_WS, EMR_APP, "tcp", 443, 52000, "S", user_groups=("GRP_RADIOLOGISTS",))
+    ack = Packet(RAD_WS, EMR_APP, "tcp", 443, 52000, "A", user_groups=("GRP_RADIOLOGISTS",))
+    payload = Packet(RAD_WS, EMR_APP, "tcp", 443, 52000, "PA", user_groups=("GRP_RADIOLOGISTS",), app="ssh")
     return _run("App-ID - SSH on port 443 from radiology (rule R-03 allows emr-web only)",
-                [("SSH session to EMR app :443", pkt)],
+                [("TCP SYN to EMR app :443 (app unknown)", syn),
+                 ("EMR SYN-ACK", syn.reply("SA")),
+                 ("radiology ACK", ack),
+                 ("payload classified as SSH", payload)],
                 [StatelessFilter(pol), StatefulFirewall(pol), StatefulFirewall(pol, ngfw=True, name="ngfw")])
 
 

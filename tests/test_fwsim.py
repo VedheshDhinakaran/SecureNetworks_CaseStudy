@@ -46,6 +46,16 @@ def test_reverse_rule_abuse_stateless_vs_stateful():
     assert StatefulFirewall(mini(R03_ONLY)).process(syn_from_server).action == "deny"
 
 
+def test_new_syn_cannot_reuse_closing_session():
+    fw = StatefulFirewall(mini(R03_ONLY))
+    syn = Packet("192.168.40.100", "192.168.10.21", "tcp", 443, sport=40000)
+    assert fw.process(syn, 0).action == "permit"
+    assert fw.process(syn.reply("SA"), 1).action == "permit"
+    assert fw.process(Packet(syn.src, syn.dst, "tcp", syn.dport, syn.sport, "A"), 2).action == "permit"
+    assert fw.process(Packet(syn.src, syn.dst, "tcp", syn.dport, syn.sport, "FA"), 3).action == "permit"
+    assert fw.process(syn, 4).action == "deny"
+
+
 def test_udp_pseudo_state_expires():
     rules = [{"id": "DV-01", "src": "Z_DEVICES", "dst": "H_DNS", "svc": "S_DNS", "action": "permit", "owner": "BIO", "req": "x"},
              R03_ONLY[1]]
@@ -58,9 +68,20 @@ def test_udp_pseudo_state_expires():
 
 def test_app_id_blocks_ssh_on_443():
     pol = Policy.load(model=MODEL)
-    ssh = Packet("192.168.40.100", "192.168.10.21", "tcp", 443, user_groups=("GRP_RADIOLOGISTS",), app="ssh")
-    assert pol.evaluate(ssh, ngfw=False).action == "permit"
-    assert pol.evaluate(ssh, ngfw=True).action == "deny"
+    syn = Packet("192.168.40.100", "192.168.10.21", "tcp", 443, sport=40000,
+                 user_groups=("GRP_RADIOLOGISTS",))
+    ssh = Packet("192.168.40.100", "192.168.10.21", "tcp", 443, sport=40000,
+                 flags="PA", user_groups=("GRP_RADIOLOGISTS",), app="ssh")
+    stateful = StatefulFirewall(pol)
+    ngfw = StatefulFirewall(pol, ngfw=True)
+    for fw in (stateful, ngfw):
+        assert fw.process(syn, 0).action == "permit"
+        assert fw.process(syn.reply("SA"), 1).action == "permit"
+        assert fw.process(Packet(syn.src, syn.dst, "tcp", syn.dport, syn.sport, "A"), 2).action == "permit"
+    assert stateful.process(ssh, 3).action == "permit"
+    denied = ngfw.process(ssh, 3)
+    assert denied.action == "deny" and denied.rule.id == "R-03"
+    assert not ngfw.table
 
 
 def test_pat_maps_reply_and_rejects_unsolicited():
@@ -73,4 +94,10 @@ def test_pat_maps_reply_and_rejects_unsolicited():
 
 def test_every_incident_case_behaves_as_designed():
     rows = incidents.run(verbose=False)
-    assert rows and all(r[-1] for r in rows), [r for r in rows if not r[-1]]
+    checked = [r for r in rows if r[-1] is not None]
+    bypassed = [r for r in rows if r[-1] is None]
+    assert len(checked) == 17 and all(r[-1] for r in checked), [r for r in checked if not r[-1]]
+    assert len(bypassed) == 1 and bypassed[0][0] == "F1"
+    assert bypassed[0][3:5] == ("not tested", "access layer")
+    case = next(c for c in incidents.CASES if c.ref == "F1" and not c.crosses_firewall)
+    assert MODEL.zone_of(case.pkt.src) == MODEL.zone_of(case.pkt.dst) == "Z_DEVICES"

@@ -35,7 +35,7 @@ def main(argv=None) -> int:
         scenarios.run_all()
     elif args.cmd == "incidents":
         rows = incidents.run()
-        return 0 if all(r[-1] for r in rows) else 1
+        return 0 if all(r[-1] is not False for r in rows) else 1
     else:
         return trace(args)
     return 0

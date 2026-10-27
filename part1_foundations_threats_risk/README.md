@@ -13,7 +13,7 @@ old and the new design.
 |---|---|---|
 | `fwsim/engines.py` | `StatelessFilter` and `StatefulFirewall` (TCP state machine, UDP/ICMP pseudo-state, timeouts). `ngfw=True` adds the App-ID check | 2.3, 2.5, 2.6 |
 | `fwsim/nat.py` | Port address translation table kept next to the state table | 2.5 |
-| `fwsim/scenarios.py` | The five stateless failures (direction, intent, spoofing, translation, UDP), App-ID and rule order, each run through stateless vs stateful vs NGFW | Table 2.1, Listing 2.1 |
+| `fwsim/scenarios.py` | The five stateless failures (direction, sequencing, intent, spoofing, translation), UDP pseudo-state, App-ID and rule order | Table 2.1, Listing 2.1 |
 | `fwsim/incidents.py` | 18 cases from F1–F3 and the risk register replayed through the old flat design and the new policy | Table 3.4 |
 | `fwsim/legacy_policy.yaml` | The brief's original edge filter (L-1 … L-5) | 1, 9 |
 | `threat_model/stride.yaml` | STRIDE per zone | Table 3.3 |
@@ -41,3 +41,8 @@ and `--app ssh` so any single packet can be checked against the real policy.
 The simulator models the packet filter, the state table and the App-ID
 decision. IPS, URL filtering and TLS inspection are shown only as rule
 fields; their behaviour is tested in the lab (Part IV, E6 and E7).
+
+The F1 laptop-to-pump flow stays within the device VLAN, so the incident
+replay marks it as **not tested by the firewall**. Its prevention depends on
+access-port admission and private VLAN isolation. The rule DV-04 applies only
+if device-to-device traffic is actually routed through the firewall.

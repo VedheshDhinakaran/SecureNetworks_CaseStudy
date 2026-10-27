@@ -1,0 +1,38 @@
+﻿
+=== Failure 1 - direction (forward rule only) ===
+step                                                                          stateless                           stateful
+nurse SYN to EMR :443                                                     PERMIT CL-WEB                      PERMIT CL-WEB
+EMR SYN-ACK back to nurse                                               DENY (no state)               PERMIT (state table)
+nurse ACK                                                                 PERMIT CL-WEB               PERMIT (state table)
+
+=== Failures 2 and 3 - sequencing and intent (stateless needs a reverse rule) ===
+step                                                                          stateless                           stateful
+nurse SYN to EMR :443                                                     PERMIT CL-WEB                      PERMIT CL-WEB
+EMR SYN-ACK                                                               PERMIT CL-REV               PERMIT (state table)
+compromised EMR host: new SYN to nurse :3389                              PERMIT CL-REV                    DENY (no state)
+ACK-scan probe from EMR host to nurse :445                                PERMIT CL-REV                    DENY (no state)
+
+=== Failure 4 - spoofing (packet arrives on the INTERNET interface) ===
+stateless filter, legacy rule L-3: PERMIT (it only reads the forged header)
+zone-based NGFW: source claims Z_HIS but arrived from INTERNET: DENY (reverse-path check)
+
+=== Failure 5 - translation ===
+stateless filter: 192.168.50.25:51514 leaves unchanged (private source has no public return route)
+stateful PAT: 192.168.50.25:51514 -> 203.0.113.1:61000; reply maps back to ('192.168.50.25', 51514); unsolicited packet to port 61007 maps to None
+
+=== UDP pseudo-state (pump DNS query, DV-01) ===
+step                                                                           stateful
+pump DNS query                                                             PERMIT DV-01
+resolver reply after 0.2 s                                         PERMIT (state table)
+stray reply after 90 s (entry expired)                                        DENY H-08
+
+=== App-ID - SSH on port 443 from radiology (rule R-03 allows emr-web only) ===
+step                                                                          stateless                           stateful                               ngfw
+TCP SYN to EMR app :443 (app unknown)                                       PERMIT R-03                        PERMIT R-03                        PERMIT R-03
+EMR SYN-ACK                                                                   DENY H-08               PERMIT (state table)               PERMIT (state table)
+radiology ACK                                                               PERMIT R-03               PERMIT (state table)               PERMIT (state table)
+payload classified as SSH                                                   PERMIT R-03               PERMIT (state table)                          DENY R-03
+
+=== Rule order - vendor laptop to EMR app :443 ===
+step                                                                 broad permit first                         deny first
+vendor SYN to EMR :443                                                   PERMIT BAD-443                         DENY VW-01

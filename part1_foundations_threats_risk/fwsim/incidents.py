@@ -25,10 +25,11 @@ class Case:
     pkt: Packet
     expect_new: str     # what the redesign must do
     expect_rule: str | None = None
+    crosses_firewall: bool = True
 
 
 CASES = [
-    Case("F1", "Rogue laptop on device port -> pump web UI", Packet("192.168.30.200", "192.168.30.10", "tcp", 80), "deny", "DV-04"),
+    Case("F1", "Rogue laptop on device port -> pump web UI", Packet("192.168.30.200", "192.168.30.10", "tcp", 80), "deny", crosses_firewall=False),
     Case("F1", "Rogue laptop on device port -> EMR database", Packet("192.168.30.200", "192.168.10.20", "tcp", 1433), "deny", "G-03"),
     Case("F2", "Radiology workstation -> EMR SQL 1433", Packet("192.168.40.100", "192.168.10.20", "tcp", 1433), "deny", "G-03"),
     Case("F2", "PACS broker -> interface engine MLLP", Packet("192.168.40.12", "192.168.10.40", "tcp", 2575, app="hl7"), "permit", "R-02"),
@@ -64,17 +65,26 @@ def run(verbose: bool = True) -> list[tuple]:
     new = Policy.load(model=model)
     rows = []
     if verbose:
-        print(f"{'ref':5} {'scenario':48} {'OLD design':40} {'NEW design':22} check")
+        print(f"{'ref':5} {'scenario':48} {'OLD design':40} {'NEW design':26} check")
     for c in CASES:
-        fw = StatefulFirewall(new, ngfw=True)
-        d = fw.process(c.pkt)
-        rid = d.rule.id if d.rule else "-"
-        ok = d.action == c.expect_new and (c.expect_rule is None or rid == c.expect_rule)
         old = legacy_verdict(model, legacy, c.pkt)
-        rows.append((c.ref, c.text, old, d.action, rid, ok))
+        if c.crosses_firewall:
+            fw = StatefulFirewall(new, ngfw=True)
+            d = fw.process(c.pkt)
+            action = d.action
+            rid = d.rule.id if d.rule else "-"
+            ok = action == c.expect_new and (c.expect_rule is None or rid == c.expect_rule)
+        else:
+            # Peers on the same VLAN switch directly. The firewall's DV-04
+            # cannot enforce this case; access-port admission and PVLANs must.
+            action, rid, ok = "not tested", "access layer", None
+        rows.append((c.ref, c.text, old, action, rid, ok))
         if verbose:
-            print(f"{c.ref:5} {c.text:48} {old:40} {d.action + ' ' + rid:22} {'OK' if ok else 'MISMATCH'}")
+            verdict = "N/A" if ok is None else ("OK" if ok else "MISMATCH")
+            print(f"{c.ref:5} {c.text:48} {old:40} {action + ' ' + rid:26} {verdict}")
     if verbose:
-        bad = [r for r in rows if not r[-1]]
-        print(f"\n{len(rows) - len(bad)}/{len(rows)} cases behave as the design intends.")
+        checked = [r for r in rows if r[-1] is not None]
+        bad = [r for r in checked if not r[-1]]
+        print(f"\n{len(checked) - len(bad)}/{len(checked)} firewall-path cases behave as the design intends; "
+              f"{len(rows) - len(checked)} same-VLAN case requires access-layer verification.")
     return rows
