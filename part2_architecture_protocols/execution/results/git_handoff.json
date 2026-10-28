@@ -1,49 +1,60 @@
 {
-  "recorded_at": "2026-10-27T17:46:11.796381+00:00",
+  "recorded_at": "2026-10-28T03:50:27.220969+00:00",
+  "baseline_commit": "8ec9f4657003269f628e8225696b7d65f2834837",
+  "reviewed_head_commit": "72510c7cb6e0d1812da402f8cc388fcfe9a768bc",
   "original_source_files_checked": 129,
   "original_source_files_changed": [],
-  "eligible_new_files": 87,
-  "eligible_new_bytes": 1297022,
-  "largest_new_files": [
+  "committed_source_updates_since_baseline": [
+    "part1_foundations_threats_risk/README.md",
+    "part1_foundations_threats_risk/fwsim/__main__.py",
+    "part1_foundations_threats_risk/fwsim/engines.py",
+    "part1_foundations_threats_risk/fwsim/incidents.py",
+    "part1_foundations_threats_risk/fwsim/scenarios.py",
+    "tests/test_fwsim.py"
+  ],
+  "source_audit_basis": "Historical hashes retained; committed team updates recorded separately; uncommitted original-source edits fail",
+  "eligible_pending_files": 12,
+  "eligible_pending_bytes": 82235,
+  "largest_pending_files": [
     {
-      "path": "SecureNetworks_CaseStudy_Report.pdf",
-      "bytes": 754776
+      "path": "part2_architecture_protocols/execution/appliance/README.md",
+      "bytes": 22476
     },
     {
-      "path": "part2_architecture_protocols/execution/results/firewall_policy/deduplicate_20261027T192840.json",
-      "bytes": 44866
+      "path": "part2_architecture_protocols/execution/appliance/export_lab_appliance.py",
+      "bytes": 21522
     },
     {
-      "path": "part2_architecture_protocols/execution/report/part2_implementation_record.docx",
-      "bytes": 41274
+      "path": "part2_architecture_protocols/execution/README.md",
+      "bytes": 12880
     },
     {
-      "path": "part2_architecture_protocols/execution/results/firewall_policy/audit_20261027T222348.json",
-      "bytes": 36380
+      "path": "part2_architecture_protocols/execution/prepare_git_handoff.py",
+      "bytes": 5983
     },
     {
-      "path": "part2_architecture_protocols/execution/results/readiness_20261027T222816/firewall_rules.json",
-      "bytes": 33442
+      "path": "part2_architecture_protocols/execution/appliance/configure_imported_lab_windows.ps1",
+      "bytes": 4946
     },
     {
-      "path": "part2_architecture_protocols/execution/results/alpine_cache_manifest.json",
-      "bytes": 29022
+      "path": "part2_architecture_protocols/execution/run_offline_checks.py",
+      "bytes": 3631
     },
     {
-      "path": "part2_architecture_protocols/execution/build_part2_report.py",
-      "bytes": 27795
+      "path": "part2_architecture_protocols/execution/results/appliance_export.json",
+      "bytes": 3370
     },
     {
-      "path": "part2_architecture_protocols/execution/results/readiness_20261027T222816/firewall_packet_log.txt",
-      "bytes": 25118
+      "path": "part2_architecture_protocols/execution/appliance/collect_syslog_windows.py",
+      "bytes": 2343
     },
     {
-      "path": "part2_architecture_protocols/execution/results/vm_installation/vendor-vm_vendor_dhcp_20261027T193326.png",
-      "bytes": 23764
+      "path": "part2_architecture_protocols/execution/appliance/prepare_bastion_runtime.py",
+      "bytes": 1880
     },
     {
-      "path": "part2_architecture_protocols/execution/results/readiness_20261027T222816/firewall.pcap",
-      "bytes": 22523
+      "path": "part2_architecture_protocols/execution/results/git_handoff.json",
+      "bytes": 1583
     }
   ],
   "files_over_10_mib": [],
@@ -59,6 +70,14 @@
     },
     {
       "path": "part2_architecture_protocols/execution/.local/media/OPNsense-25.7-dvd-amd64.iso",
+      "ignored": true
+    },
+    {
+      "path": "part2_architecture_protocols/execution/.local/appliance/CS07_Hospital_Lab.ova",
+      "ignored": true
+    },
+    {
+      "path": "part2_architecture_protocols/execution/.local/appliance/CS07_Lab_Access_PRIVATE.zip",
       "ignored": true
     }
   ],

@@ -18,8 +18,10 @@ are preserved. `baseline_sha256.json` records the original tracked files.
 | `run_firewall_loader.py` | Calls the original Part III loader with interface-search compatibility for OPNsense 25.7 |
 | `verify_lab_readiness.py`, `run_lab_readiness.py` | Check real guest/services/allowed and blocked flows; retain bounded PF evidence |
 | `setup/` | Interface, installer and source-binding helpers; recovery steps for failures actually encountered |
+| `appliance/` | Teammate import/run guide, guarded Windows network setup, lab log receiver and five-VM export helper |
 | `build_part2_report.py` | Builds a detailed validation record and places a concise Section 7.5 inside Part II of the supplied report |
 | `prepare_git_handoff.py` | Verifies source hashes, size, scope and private exclusions; archives redundant debug output with `--tidy` |
+| `source_audit.py` | Retains historical hashes, records committed team updates and flags uncommitted edits to original source |
 | `results/` | Dated output, exit codes and manifests from checks actually run |
 | `report/` | Part II implementation record; includes measured results and explicitly pending lab work |
 | `.local/` | Ignored downloads, temporary test directories and local working files |
@@ -51,7 +53,8 @@ The builder defaults to `<your user profile>\VirtualBox VMs\CS07`; teammates
 can set `-VmDirectory` to any suitable local drive. No global VirtualBox
 storage preference is changed. Share the source, sanitised configuration,
 results and report through Git. VM disks and ISO downloads are local working
-data. A separately shared OVA can be used if a teammate wants prebuilt VMs.
+data. The prebuilt OVA and private access ZIP are shared separately from
+ignored `.local/appliance/`; follow [the teammate import/run guide](appliance/README.md).
 
 Part II owns the lab foundation and Chapters 5–7 plus Sections 11.2–11.4.
 Firewall rules remain owned by Part III. E1–E8 and their observed-results
@@ -168,7 +171,10 @@ The API adaptations are confined to this Part II execution layer. In
 OPNsense 25.7, a missing alias returns `[]`, comma-separated destination
 ports require a port alias, and rule searches require an interface to see
 per-interface rules. The wrapper handles these without changing Part III.
-All 129 original tracked files retain their baseline SHA256 hashes.
+The Part II implementation preserved the 129 original tracked source files.
+The historical hashes remain in `baseline_sha256.json`. Subsequent committed
+teammate updates, including the Part I review, are recorded separately by the
+source audit; uncommitted edits to original source still fail its check.
 
 ## Updating the report and preparing Git
 
@@ -187,9 +193,10 @@ Part IV experiments remain separate from these readiness results.
 For a fresh Python environment install `requirements-report.txt` into
 `execution/.local/python` with pip's `--target` option.
 
-`results/git_handoff.json` records actual Git-eligible size, original hashes,
-scope and private exclusions. ISO/installer downloads, VM disks, package
+`results/git_handoff.json` records pending added/modified file sizes, historical
+hashes, committed team updates, scope and private exclusions. ISO/installer downloads, VM disks, package
 caches, private keys, API credentials and redundant debug screenshots are
 excluded. The script also checks that actual secret values do not appear
 in eligible files. It does not stage, commit or push anything. Share these
-scripts, compact evidence and the report; teammates rebuild their local VMs.
+scripts, compact evidence and the report. Teammates can import the prepared
+five-VM appliance using `appliance/README.md` rather than reinstalling the guests.

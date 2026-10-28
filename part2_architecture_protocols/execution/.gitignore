@@ -1,2 +1,10 @@
 .local/
 __pycache__/
+# VM/media and private handoff archives stay local even if copied outside .local.
+*.ova
+*.vdi
+*.vmdk
+*.iso
+*.iso.bz2
+CS07_Lab_Handoff*.zip
+CS07_Lab_Access_PRIVATE*.zip

@@ -1,0 +1,119 @@
+{
+  "recorded_at": "2026-10-27T18:25:30.536915+00:00",
+  "appliance": "part2_architecture_protocols/execution/.local/appliance/CS07_Hospital_Lab.ova",
+  "appliance_bytes": 1757725184,
+  "appliance_sha256": "dddbdf69538c59b4c8d9f49d1661eae476e0544b091bf61fe311355c10033d34",
+  "access_bundle": "part2_architecture_protocols/execution/.local/appliance/CS07_Lab_Access_PRIVATE.zip",
+  "access_bundle_bytes": 2628,
+  "access_bundle_sha256": "4840cc967dde40127b06f7ba3ec03246af27fadb13464fe0f9a925f20bd4e608",
+  "virtualbox_version": "7.2.22r175245",
+  "vm_names": [
+    "opnsense",
+    "his-vm",
+    "pump-vm",
+    "rad-vm",
+    "vendor-vm"
+  ],
+  "virtual_system_count": 5,
+  "disk_count": 5,
+  "manifest_members_verified": [
+    "his-vm-disk002.vmdk",
+    "pump-vm-disk003.vmdk",
+    "CS07_Hospital_Lab.ovf",
+    "vendor-vm-disk005.vmdk",
+    "opnsense-disk001.vmdk",
+    "rad-vm-disk004.vmdk"
+  ],
+  "virtualbox_import_dry_run_passed": true,
+  "exported_network_adapters": {
+    "opnsense": [
+      {
+        "slot": 0,
+        "attachment": "NAT",
+        "network": null,
+        "mac": "08002702F853"
+      },
+      {
+        "slot": 1,
+        "attachment": "HostOnlyInterface",
+        "network": "VirtualBox Host-Only Ethernet Adapter #2",
+        "mac": "080027BA20B1"
+      },
+      {
+        "slot": 2,
+        "attachment": "InternalNetwork",
+        "network": "sjv-his",
+        "mac": "080027E5FEFD"
+      },
+      {
+        "slot": 3,
+        "attachment": "InternalNetwork",
+        "network": "sjv-devices",
+        "mac": "080027C0AB85"
+      },
+      {
+        "slot": 4,
+        "attachment": "InternalNetwork",
+        "network": "sjv-radiology",
+        "mac": "0800270F73D8"
+      },
+      {
+        "slot": 5,
+        "attachment": "InternalNetwork",
+        "network": "sjv-vendor",
+        "mac": "080027F6BFD6"
+      }
+    ],
+    "his-vm": [
+      {
+        "slot": 0,
+        "attachment": "InternalNetwork",
+        "network": "sjv-his",
+        "mac": "080027FC008C"
+      }
+    ],
+    "pump-vm": [
+      {
+        "slot": 0,
+        "attachment": "InternalNetwork",
+        "network": "sjv-devices",
+        "mac": "080027D58E79"
+      }
+    ],
+    "rad-vm": [
+      {
+        "slot": 0,
+        "attachment": "InternalNetwork",
+        "network": "sjv-radiology",
+        "mac": "080027A41649"
+      }
+    ],
+    "vendor-vm": [
+      {
+        "slot": 0,
+        "attachment": "InternalNetwork",
+        "network": "sjv-vendor",
+        "mac": "08002735011F"
+      }
+    ]
+  },
+  "source_vm_directory": "C:\\Users\\debap\\VirtualBox VMs\\CS07",
+  "source_git_commit": "fcc014db4a4ce5cf99f29c1f05a6e5a1b3d95457",
+  "policy_rule_count": 18,
+  "temporary_setup_rules": 0,
+  "dedicated_team_ssh_key_verified_on_five_guests": true,
+  "original_part4_files_staged": 51,
+  "shell_copy_change": "CRLF to LF only",
+  "source_readiness": "readiness_20261027T222816",
+  "source_readiness_checks": 35,
+  "originally_running": [
+    "opnsense",
+    "his-vm",
+    "pump-vm",
+    "rad-vm",
+    "vendor-vm"
+  ],
+  "recipient_boot_and_readiness": "Must be verified on the recipient's hardware after import",
+  "source_post_export_team_ssh_verified": true,
+  "source_post_export_team_ssh_verified_at": "2026-10-27T18:27:25.170154+00:00"
+}

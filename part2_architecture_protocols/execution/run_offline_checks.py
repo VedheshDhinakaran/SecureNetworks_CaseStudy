@@ -14,6 +14,8 @@ import subprocess
 import sys
 import uuid
 
+from source_audit import audit_sources
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
@@ -53,21 +55,20 @@ def main() -> int:
                         "transcript": name + ".txt", "started_at": started})
         print(name + ": " + ("PASS" if proc.returncode == 0 else "FAIL"), flush=True)
     baseline = json.loads((HERE / "baseline_sha256.json").read_text(encoding="utf-8"))
-    changed = [p for p, sha in baseline["source_files"].items()
-               if not (ROOT / p).is_file()
-               or hashlib.sha256((ROOT / p).read_bytes()).hexdigest() != sha]
+    source_audit = audit_sources(ROOT, baseline)
+    changed = source_audit["original_source_files_changed"]
     report = {
         "recorded_at": dt.datetime.now(IST).isoformat(), "kind": "offline_only",
         "firewall_lab_verified": False, "python_version": sys.version,
-        "git_commit": baseline["git_commit"], "checks": records,
-        "existing_source_files_changed": changed,
+        "git_commit": source_audit["reviewed_head_commit"], "checks": records,
+        "existing_source_files_changed": changed, "source_audit": source_audit,
     }
     (out / "summary.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     hashes = [hashlib.sha256(p.read_bytes()).hexdigest() + "  " + p.name
               for p in sorted(out.iterdir()) if p.is_file()]
     (out / "SHA256SUMS").write_text("\n".join(hashes) + "\n", encoding="utf-8")
     print("Saved: " + str(out))
-    print("Existing source files changed: " + str(len(changed)))
+    print("Unexpected original-source changes: " + str(len(changed)))
     return int(bool(changed) or any(r["exit_code"] for r in records))
 
 
